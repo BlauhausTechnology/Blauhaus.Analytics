@@ -1,12 +1,17 @@
 ﻿using System;
+using System.Threading.Tasks;
+using Blauhaus.AppInsights.Test.Tests;
 
 namespace Blauhaus.AppInsights.Test
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            await new ClientTests().Run();
+            
+            //await new ServerTests().Run();
         }
+
     }
 }

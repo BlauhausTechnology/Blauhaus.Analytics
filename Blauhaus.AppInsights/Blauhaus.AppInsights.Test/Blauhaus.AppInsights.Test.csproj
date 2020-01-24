@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Blauhaus.AppInsights.Client\Blauhaus.AppInsights.Client.csproj" />
+    <ProjectReference Include="..\Blauhaus.AppInsights.Server\Blauhaus.AppInsights.Server.csproj" />
+  </ItemGroup>
+
+</Project>

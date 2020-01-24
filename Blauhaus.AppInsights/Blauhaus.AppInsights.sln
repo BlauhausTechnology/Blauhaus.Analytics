@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blauhaus.AppInsights.Client
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blauhaus.AppInsights.Server", "Blauhaus.AppInsights.Server\Blauhaus.AppInsights.Server.csproj", "{B64A36EC-E93C-4E45-A886-4FF527FD24AD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blauhaus.AppInsights.Test", "Blauhaus.AppInsights.Test\Blauhaus.AppInsights.Test.csproj", "{A99C4EE0-62E6-4897-BAA9-8378F4CD5D04}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{B64A36EC-E93C-4E45-A886-4FF527FD24AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B64A36EC-E93C-4E45-A886-4FF527FD24AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B64A36EC-E93C-4E45-A886-4FF527FD24AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A99C4EE0-62E6-4897-BAA9-8378F4CD5D04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A99C4EE0-62E6-4897-BAA9-8378F4CD5D04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A99C4EE0-62E6-4897-BAA9-8378F4CD5D04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A99C4EE0-62E6-4897-BAA9-8378F4CD5D04}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

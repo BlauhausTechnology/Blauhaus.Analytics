@@ -2,7 +2,7 @@
 
 namespace Blauhaus.AppInsights.Abstractions.Service
 {
-    public interface IAppInsightsService
+    public interface IAppInsightsServerService : IAppInsightsService
     {
     }
 }

@@ -5,11 +5,9 @@ VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blauhaus.AppInsights.Abstractions", "Blauhaus.AppInsights.Abstractions\Blauhaus.AppInsights.Abstractions.csproj", "{8D5641CB-7191-4A32-BBB9-99A1AAE630F8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blauhaus.AppInsights.Client", "Blauhaus.AppInsights.Client\Blauhaus.AppInsights.Client.csproj", "{739B0DB7-C5DB-47F2-8BD2-A8CAEEAEFEF2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blauhaus.AppInsights.Client", "Blauhaus.AppInsights.Client\Blauhaus.AppInsights.Client.csproj", "{739B0DB7-C5DB-47F2-8BD2-A8CAEEAEFEF2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blauhaus.AppInsights.Server", "Blauhaus.AppInsights.Server\Blauhaus.AppInsights.Server.csproj", "{B64A36EC-E93C-4E45-A886-4FF527FD24AD}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blauhaus.AppInsights.Tests", "Blauhaus.AppInsights.Tests\Blauhaus.AppInsights.Tests.csproj", "{FE14285B-F624-4266-A6D7-7F2A30F2F6EF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blauhaus.AppInsights.Server", "Blauhaus.AppInsights.Server\Blauhaus.AppInsights.Server.csproj", "{B64A36EC-E93C-4E45-A886-4FF527FD24AD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +27,6 @@ Global
 		{B64A36EC-E93C-4E45-A886-4FF527FD24AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B64A36EC-E93C-4E45-A886-4FF527FD24AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B64A36EC-E93C-4E45-A886-4FF527FD24AD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FE14285B-F624-4266-A6D7-7F2A30F2F6EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FE14285B-F624-4266-A6D7-7F2A30F2F6EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FE14285B-F624-4266-A6D7-7F2A30F2F6EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FE14285B-F624-4266-A6D7-7F2A30F2F6EF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

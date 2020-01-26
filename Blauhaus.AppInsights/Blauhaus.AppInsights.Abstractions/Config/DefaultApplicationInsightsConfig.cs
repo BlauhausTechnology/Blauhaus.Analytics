@@ -2,7 +2,7 @@
 {
     public class DefaultApplicationInsightsConfig : BaseApplicationInsightsConfig
     {
-        public DefaultApplicationInsightsConfig() : base("")
+        public DefaultApplicationInsightsConfig() : base("", "")
         {
         }
     }

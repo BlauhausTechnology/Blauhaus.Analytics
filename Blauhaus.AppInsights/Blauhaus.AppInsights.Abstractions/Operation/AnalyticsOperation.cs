@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Threading;
 
 namespace Blauhaus.AppInsights.Abstractions.Operation
 {
@@ -18,10 +17,16 @@ namespace Blauhaus.AppInsights.Abstractions.Operation
             _stopwatch.Start();
         }
 
+        public AnalyticsOperation(string operationName, Action<TimeSpan> onStopAction)
+        {
+            _onStopAction = onStopAction;
+            Id = Guid.NewGuid().ToString();
+            Name = operationName;
+            _stopwatch.Start();
+        }
+
         public string Id { get; }
         public string Name { get; }
-
-
 
         public void Dispose()
         {

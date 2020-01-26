@@ -1,26 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Blauhaus.AppInsights.Abstractions.Config;
+using Blauhaus.AppInsights.Abstractions.ConsoleLoggers;
+using Blauhaus.AppInsights.Abstractions.Operation;
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.DataContracts;
-using Blauhaus.AppInsights.Abstractions.Operation;
-using Blauhaus.AppInsights.Abstractions.ConsoleLoggers;
-using Blauhaus.AppInsights.Abstractions.Config;
+using System.Collections.Generic;
+using Blauhaus.AppInsights.Abstractions.TelemetryClients;
+using Microsoft.ApplicationInsights.Channel;
 
 namespace Blauhaus.AppInsights.Abstractions.Service
 {
     public abstract class BaseAppInsightsService : IAppInsightsService
     {
-        private readonly IApplicationInsightsConfig config;
-        protected IConsoleLogger ConsoleLogger;
+        protected readonly IApplicationInsightsConfig Config;
+        protected readonly IConsoleLogger AppInsightsLogger;
+        protected readonly ITelemetryClientProxy TelemetryClient;
 
-        protected abstract TelemetryClient GetClient();
+        protected abstract TelemetryClient ConstructTelementryClient();
 
-        
-        protected BaseAppInsightsService(IApplicationInsightsConfig config, IConsoleLogger consoleLogger)
+
+        protected BaseAppInsightsService(IApplicationInsightsConfig config, IConsoleLogger appInsightsLogger, ITelemetryClientProxy telemetryClient)
         {
-            this.config = config;
-            ConsoleLogger = consoleLogger;
+            Config = config;
+            AppInsightsLogger = appInsightsLogger;
+            TelemetryClient = telemetryClient;
         }
+
+
+        protected ITelemetryClientProxy GetClient()
+        {
+            TelemetryClient.UpdateOperation(CurrentOperation, CurrentSessionId);
+            return TelemetryClient;
+        }
+
 
 
         public IAnalyticsOperation? CurrentOperation { get; protected set; }
@@ -29,9 +40,7 @@ namespace Blauhaus.AppInsights.Abstractions.Service
 
         public IAnalyticsOperation StartOperation(string operationName)
         {
-            var operationId = Guid.NewGuid().ToString();
-
-            CurrentOperation = new AnalyticsOperation(operationId, operationName, duration =>
+            CurrentOperation = new AnalyticsOperation(operationName, duration =>
             {
                 var client = GetClient();
 
@@ -53,9 +62,7 @@ namespace Blauhaus.AppInsights.Abstractions.Service
         {
             if (CurrentOperation == null)
             {
-                var operationId = Guid.NewGuid().ToString();
-
-                CurrentOperation = new AnalyticsOperation(operationId, operationName, duration =>
+                CurrentOperation = new AnalyticsOperation(operationName, duration =>
                 {
                     var client = GetClient();
 
@@ -87,7 +94,7 @@ namespace Blauhaus.AppInsights.Abstractions.Service
 
                 return tempOperation;
             }
-            
+
             return CurrentOperation;
         }
 
@@ -95,13 +102,14 @@ namespace Blauhaus.AppInsights.Abstractions.Service
         {
             var client = GetClient();
             client.TrackTrace(message, severityLevel, properties);
-            
+            AppInsightsLogger.TrackTrace(message, severityLevel, properties);
         }
 
-        public void LogEvent(string eventName,  Dictionary<string, string> properties = null, Dictionary<string, double> metrics = null)
+        public void LogEvent(string eventName, Dictionary<string, string> properties = null, Dictionary<string, double> metrics = null)
         {
             var client = GetClient();
             client.TrackEvent(eventName, properties, metrics);
+            AppInsightsLogger.TrackEvent(eventName, properties, metrics);
         }
     }
 }

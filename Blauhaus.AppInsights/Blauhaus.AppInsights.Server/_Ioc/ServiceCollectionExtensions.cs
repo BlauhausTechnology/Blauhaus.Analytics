@@ -2,6 +2,7 @@
 using Blauhaus.AppInsights.Abstractions._Ioc;
 using Blauhaus.AppInsights.Abstractions.Config;
 using Blauhaus.AppInsights.Abstractions.Service;
+using Blauhaus.AppInsights.Abstractions.TelemetryClients;
 using Blauhaus.AppInsights.Server.Service;
 using Blauhaus.Ioc.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,6 +21,7 @@ namespace Blauhaus.AppInsights.Server._Ioc
 
             services.AddScoped<IApplicationInsightsConfig, TConfig>();
             services.AddScoped<IAppInsightsServerService, AppInsightsServerService>();
+            services.AddScoped<ITelemetryClientProxy, TelemetryClientProxy>();
             services.AddScoped<IAppInsightsService>(x => x.GetService<IAppInsightsServerService>());
 
             services.RegisterConsoleLogger();

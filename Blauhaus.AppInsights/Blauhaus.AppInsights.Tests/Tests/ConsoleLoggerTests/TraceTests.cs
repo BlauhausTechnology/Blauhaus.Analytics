@@ -12,7 +12,7 @@ using NUnit.Framework;
 
 namespace Blauhaus.AppInsights.Tests.Tests.ConsoleLoggerTests
 {
-    public class TraceTests : BaseUnitTest<ConsoleLogger>
+    public class TraceTests : BaseUnitTest<AppInsightsLogger>
     {
         protected MockBuilder<ITraceProxy> MockTraceProxy;
         protected IBuildConfig CurrentBuildConfig;
@@ -27,9 +27,9 @@ namespace Blauhaus.AppInsights.Tests.Tests.ConsoleLoggerTests
             MockConfig = new MockBuilder<IApplicationInsightsConfig>();
         }
 
-        protected override ConsoleLogger ConstructSut()
+        protected override AppInsightsLogger ConstructSut()
         {
-            return new ConsoleLogger(MockConfig.Object, MockTraceProxy.Object, CurrentBuildConfig);
+            return new AppInsightsLogger(MockConfig.Object, MockTraceProxy.Object, CurrentBuildConfig);
         }
 
         [Test]

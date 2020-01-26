@@ -1,20 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-using Blauhaus.AppInsights.Abstractions.Config;
+﻿using Blauhaus.AppInsights.Abstractions.Config;
 using Blauhaus.Common.ValueObjects.BuildConfigs;
 using Microsoft.ApplicationInsights.DataContracts;
+using System.Collections.Generic;
 
 namespace Blauhaus.AppInsights.Abstractions.ConsoleLoggers
 {
-    public class ConsoleLogger : IConsoleLogger
+    public class AppInsightsLogger : IConsoleLogger
     {
         private readonly IApplicationInsightsConfig _config;
         private readonly ITraceProxy _traceProxy;
         private readonly IBuildConfig _currentBuildConfig;
 
-        public ConsoleLogger(
+        public AppInsightsLogger(
             IApplicationInsightsConfig config,
             ITraceProxy traceProxy,
             IBuildConfig currentBuildConfig)
@@ -24,10 +21,10 @@ namespace Blauhaus.AppInsights.Abstractions.ConsoleLoggers
             _currentBuildConfig = currentBuildConfig;
         }
 
-        public void LogEvent(string eventName, Dictionary<string, string>? properties = null, Dictionary<string, double>? metrics = null)
+        public void TrackEvent(string eventName, Dictionary<string, string>? properties = null, Dictionary<string, double>? metrics = null)
         {
 
-            if(_currentBuildConfig.Value == BuildConfig.Release.Value)
+            if (_currentBuildConfig.Value == BuildConfig.Release.Value)
             {
                 return;
             }
@@ -55,7 +52,7 @@ namespace Blauhaus.AppInsights.Abstractions.ConsoleLoggers
 
         }
 
-        public void Trace(string message, SeverityLevel severityLevel = SeverityLevel.Verbose, Dictionary<string, string>? properties = null)
+        public void TrackTrace(string message, SeverityLevel severityLevel = SeverityLevel.Verbose, Dictionary<string, string>? properties = null)
         {
 
             if (_currentBuildConfig.Value == BuildConfig.Release.Value)

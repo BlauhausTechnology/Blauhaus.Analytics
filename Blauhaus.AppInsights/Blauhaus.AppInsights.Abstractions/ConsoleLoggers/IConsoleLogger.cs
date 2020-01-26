@@ -1,14 +1,12 @@
-﻿using System;
+﻿using Microsoft.ApplicationInsights.DataContracts;
 using System.Collections.Generic;
-using Microsoft.ApplicationInsights.DataContracts;
+using Blauhaus.AppInsights.Abstractions.TelemetryClients;
 
 namespace Blauhaus.AppInsights.Abstractions.ConsoleLoggers
 {
-    public interface IConsoleLogger
+    public interface IConsoleLogger : IAppInsightsLogger
     {
 
-        void Trace(string message, SeverityLevel severityLevel = 0, Dictionary<string, string>? properties = null);
-        void LogEvent(string eventName, Dictionary<string, string>? properties = null, Dictionary<string, double>? metrics = null);
 
     }
 }

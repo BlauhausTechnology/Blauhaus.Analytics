@@ -1,7 +1,5 @@
-﻿using System;
-using Blauhaus.AppInsights.Abstractions.ConsoleLoggers;
+﻿using Blauhaus.AppInsights.Abstractions.ConsoleLoggers;
 using Blauhaus.Ioc.Abstractions;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Blauhaus.AppInsights.Abstractions._Ioc
 {
@@ -10,7 +8,7 @@ namespace Blauhaus.AppInsights.Abstractions._Ioc
         public static IIocService RegisterConsoleLogger(this IIocService services)
         {
             services.RegisterImplementation<ITraceProxy, TraceProxy>();
-            services.RegisterImplementation<IConsoleLogger, ConsoleLogger>();
+            services.RegisterImplementation<IConsoleLogger, AppInsightsLogger>();
 
             return services;
         }

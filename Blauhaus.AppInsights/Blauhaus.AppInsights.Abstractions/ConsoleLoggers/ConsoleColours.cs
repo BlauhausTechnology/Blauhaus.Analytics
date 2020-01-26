@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Microsoft.ApplicationInsights.DataContracts;
+using System;
 using System.Collections.Generic;
-using Microsoft.ApplicationInsights.DataContracts;
 
 namespace Blauhaus.AppInsights.Abstractions.ConsoleLoggers
 {

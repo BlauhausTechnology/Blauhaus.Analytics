@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using Microsoft.ApplicationInsights;
+﻿using Blauhaus.AppInsights.Abstractions.Operation;
 using Microsoft.ApplicationInsights.DataContracts;
-using Blauhaus.AppInsights.Abstractions.Operation;
+using System.Collections.Generic;
 
 namespace Blauhaus.AppInsights.Abstractions.Service
 {

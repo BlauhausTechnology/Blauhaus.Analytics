@@ -20,8 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Tests\" />
     <Folder Include="Tests\ConsoleLoggerTests\" />
+    <Folder Include="Tests\NewFolder\" />
     <Folder Include="Tests\_Base\" />
   </ItemGroup>
 </Project>

@@ -10,8 +10,9 @@ namespace Blauhaus.AppInsights.Client._Ioc
         public static IIocService RegisterAppInsightsClient<TConfig>(this IIocService iocService) 
             where TConfig : class, IApplicationInsightsConfig
         {
-            iocService.RegisterImplementation<IApplicationInsightsConfig, TConfig>();
-            iocService.RegisterImplementation<IAppInsightsService, AppInsightsClientService>();
+            iocService.RegisterImplementation<IApplicationInsightsConfig, TConfig>(IocLifetime.Singleton);
+            iocService.RegisterImplementation<IAppInsightsClientService, AppInsightsClientService>(IocLifetime.Singleton);
+            iocService.RegisterInstance<IAppInsightsService>(iocService.Resolve<IAppInsightsClientService>());
 
             return iocService;
         }

@@ -9,7 +9,7 @@ namespace Blauhaus.AppInsights.Abstractions.Service
     {
         Dictionary<string, string> CurrentOperationProperties { get; }
 
-        IAnalyticsOperation CurrentOperation { get; }
+        IAnalyticsOperation? CurrentOperation { get; }
         IAnalyticsOperation StartOperation(string operationName);
         IAnalyticsOperation StartOrContinueOperation(string operationName);
 

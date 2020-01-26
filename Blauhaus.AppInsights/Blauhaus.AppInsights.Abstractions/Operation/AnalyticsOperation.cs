@@ -2,9 +2,9 @@
 using System.Diagnostics;
 using System.Threading;
 
-namespace Blauhaus.AppInsights.Abstractions.Service
+namespace Blauhaus.AppInsights.Abstractions.Operation
 {
-    public class AnalyticsOperation : IDisposable
+    public class AnalyticsOperation : IAnalyticsOperation
     {
         private readonly Action<TimeSpan> _onStopAction;
 

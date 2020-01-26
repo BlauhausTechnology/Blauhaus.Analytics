@@ -5,6 +5,7 @@ using Blauhaus.AppInsights.Abstractions.Service;
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.DataContracts;
 using Microsoft.ApplicationInsights.Extensibility;
+using Blauhaus.AppInsights.Abstractions.Operation;
 
 namespace Blauhaus.AppInsights.Server.Service
 {
@@ -29,7 +30,7 @@ namespace Blauhaus.AppInsights.Server.Service
             return _telemetryClient;
         }
 
-        public AnalyticsOperation StartRequest(string requestName, string operationId, string operationName, string sessionId)
+        public IAnalyticsOperation StartRequest(string requestName, string operationId, string operationName, string sessionId)
         {
             CurrentOperation = new AnalyticsOperation(operationId, operationName, duration =>
             {

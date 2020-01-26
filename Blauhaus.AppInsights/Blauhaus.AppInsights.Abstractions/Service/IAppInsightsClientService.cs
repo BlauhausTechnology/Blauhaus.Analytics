@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.DataContracts;
+using Blauhaus.AppInsights.Abstractions.Operation;
 
 namespace Blauhaus.AppInsights.Abstractions.Service
 {
     public interface IAppInsightsClientService : IAppInsightsService
     {
-        AnalyticsOperation StartPageView(string viewName);
-
-      
+        IAnalyticsOperation StartPageView(string viewName);
     }
 }

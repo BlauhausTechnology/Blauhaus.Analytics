@@ -5,6 +5,7 @@ using Blauhaus.AppInsights.Abstractions.Service;
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.DataContracts;
 using Microsoft.ApplicationInsights.Extensibility;
+using Blauhaus.AppInsights.Abstractions.Operation;
 
 namespace Blauhaus.AppInsights.Client.Service
 {
@@ -34,7 +35,7 @@ namespace Blauhaus.AppInsights.Client.Service
         }
 
 
-        public AnalyticsOperation StartPageView(string pageName)
+        public IAnalyticsOperation StartPageView(string pageName)
         {
             var operationId = Guid.NewGuid().ToString();
             var operationName = "PageView." + pageName;

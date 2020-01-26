@@ -2,15 +2,19 @@
 using System.Collections.Generic;
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.DataContracts;
+using Blauhaus.AppInsights.Abstractions.Operation;
 
 namespace Blauhaus.AppInsights.Abstractions.Service
 {
     public abstract class BaseAppInsightsService : IAppInsightsService
     {
-        protected AnalyticsOperation CurrentOperation;
         protected abstract TelemetryClient GetClient();
 
-        public AnalyticsOperation StartOperation(string operationName)
+        public Dictionary<string, string> CurrentOperationProperties { get; } = new Dictionary<string, string>();
+
+        public IAnalyticsOperation? CurrentOperation { get; protected set; }
+
+        public IAnalyticsOperation StartOperation(string operationName)
         {
             var operationId = Guid.NewGuid().ToString();
 
@@ -28,17 +32,14 @@ namespace Blauhaus.AppInsights.Abstractions.Service
 
                 CurrentOperation = null;
             });
-            
+
             CurrentOperationProperties["OperationId"] = operationId;
             CurrentOperationProperties["OperationName"] = operationName;
 
             return CurrentOperation;
         }
 
-        public Dictionary<string, string> CurrentOperationProperties { get; } = new Dictionary<string, string>();
-
-
-        public AnalyticsOperation StartOrContinueOperation(string operationName)
+        public IAnalyticsOperation StartOrContinueOperation(string operationName)
         {
             if (CurrentOperation == null)
             {

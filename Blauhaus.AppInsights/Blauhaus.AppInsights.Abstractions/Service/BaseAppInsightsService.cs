@@ -1,0 +1,107 @@
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.DataContracts;
+using Blauhaus.AppInsights.Abstractions.Operation;
+using Blauhaus.AppInsights.Abstractions.ConsoleLoggers;
+using Blauhaus.AppInsights.Abstractions.Config;
+
+namespace Blauhaus.AppInsights.Abstractions.Service
+{
+    public abstract class BaseAppInsightsService : IAppInsightsService
+    {
+        private readonly IApplicationInsightsConfig config;
+        protected IConsoleLogger ConsoleLogger;
+
+        protected abstract TelemetryClient GetClient();
+
+        
+        protected BaseAppInsightsService(IApplicationInsightsConfig config, IConsoleLogger consoleLogger)
+        {
+            this.config = config;
+            ConsoleLogger = consoleLogger;
+        }
+
+
+        public IAnalyticsOperation? CurrentOperation { get; protected set; }
+
+        public string CurrentSessionId { get; protected set; } = string.Empty;
+
+        public IAnalyticsOperation StartOperation(string operationName)
+        {
+            var operationId = Guid.NewGuid().ToString();
+
+            CurrentOperation = new AnalyticsOperation(operationId, operationName, duration =>
+            {
+                var client = GetClient();
+
+                var dependencyTelemetry = new DependencyTelemetry()
+                {
+                    Duration = duration,
+                    Name = operationName
+                };
+                client.TrackDependency(dependencyTelemetry);
+                client.Flush();
+
+                CurrentOperation = null;
+            });
+
+            return CurrentOperation;
+        }
+
+        public IAnalyticsOperation StartOrContinueOperation(string operationName)
+        {
+            if (CurrentOperation == null)
+            {
+                var operationId = Guid.NewGuid().ToString();
+
+                CurrentOperation = new AnalyticsOperation(operationId, operationName, duration =>
+                {
+                    var client = GetClient();
+
+                    var dependencyTelemetry = new DependencyTelemetry()
+                    {
+                        Duration = duration,
+                        Name = operationName
+                    };
+                    client.TrackDependency(dependencyTelemetry);
+                    client.Flush();
+                    CurrentOperation = null;
+                });
+            }
+
+            else
+            {
+                var tempOperation = new AnalyticsOperation(CurrentOperation.Id, CurrentOperation.Name, duration =>
+                {
+                    var client = GetClient();
+
+                    var dependencyTelemetry = new DependencyTelemetry()
+                    {
+                        Duration = duration,
+                        Name = operationName
+                    };
+                    client.TrackDependency(dependencyTelemetry);
+                    client.Flush();
+                });
+
+                return tempOperation;
+            }
+            
+            return CurrentOperation;
+        }
+
+        public void Trace(string message, SeverityLevel severityLevel = SeverityLevel.Verbose, Dictionary<string, string> properties = null)
+        {
+            var client = GetClient();
+            client.TrackTrace(message, severityLevel, properties);
+            
+        }
+
+        public void LogEvent(string eventName,  Dictionary<string, string> properties = null, Dictionary<string, double> metrics = null)
+        {
+            var client = GetClient();
+            client.TrackEvent(eventName, properties, metrics);
+        }
+    }
+}

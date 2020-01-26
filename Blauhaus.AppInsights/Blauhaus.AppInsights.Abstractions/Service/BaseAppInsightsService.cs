@@ -3,12 +3,25 @@ using System.Collections.Generic;
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.DataContracts;
 using Blauhaus.AppInsights.Abstractions.Operation;
+using Blauhaus.AppInsights.Abstractions.ConsoleLoggers;
+using Blauhaus.AppInsights.Abstractions.Config;
 
 namespace Blauhaus.AppInsights.Abstractions.Service
 {
     public abstract class BaseAppInsightsService : IAppInsightsService
     {
+        private readonly IApplicationInsightsConfig config;
+        protected IConsoleLogger ConsoleLogger;
+
         protected abstract TelemetryClient GetClient();
+
+        
+        protected BaseAppInsightsService(IApplicationInsightsConfig config, IConsoleLogger consoleLogger)
+        {
+            this.config = config;
+            ConsoleLogger = consoleLogger;
+        }
+
 
         public IAnalyticsOperation? CurrentOperation { get; protected set; }
 

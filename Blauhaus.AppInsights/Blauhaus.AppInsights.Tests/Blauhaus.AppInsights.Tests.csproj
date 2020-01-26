@@ -19,4 +19,9 @@
     <ProjectReference Include="..\Blauhaus.AppInsights.Server\Blauhaus.AppInsights.Server.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Tests\" />
+    <Folder Include="Tests\ConsoleLoggerTests\" />
+    <Folder Include="Tests\_Base\" />
+  </ItemGroup>
 </Project>

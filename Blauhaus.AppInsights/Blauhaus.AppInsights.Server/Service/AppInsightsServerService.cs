@@ -6,6 +6,7 @@ using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.DataContracts;
 using Microsoft.ApplicationInsights.Extensibility;
 using Blauhaus.AppInsights.Abstractions.Operation;
+using Blauhaus.AppInsights.Abstractions.ConsoleLoggers;
 
 namespace Blauhaus.AppInsights.Server.Service
 {
@@ -13,7 +14,8 @@ namespace Blauhaus.AppInsights.Server.Service
     {
         private readonly TelemetryClient _telemetryClient;
 
-        public AppInsightsServerService(IApplicationInsightsConfig config)
+        public AppInsightsServerService(IApplicationInsightsConfig config, IConsoleLogger consoleLogger)
+            : base(config, consoleLogger)
         {
             _telemetryClient = new TelemetryClient(new TelemetryConfiguration(config.InstrumentationKey));
             _telemetryClient.Context.Device.Type = "Server";

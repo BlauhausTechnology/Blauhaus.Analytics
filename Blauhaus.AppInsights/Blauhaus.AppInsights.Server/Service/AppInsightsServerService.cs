@@ -25,7 +25,7 @@ namespace Blauhaus.AppInsights.Server.Service
 
         public AnalyticsOperation StartRequest(string requestName, string operationId, string operationName, string sessionId)
         {
-            return new AnalyticsOperation(operationId, operationName, duration =>
+            CurrentOperation = new AnalyticsOperation(operationId, operationName, duration =>
             {
                 var client = GetClient();
                 client.Context.Operation.Id = operationId;
@@ -41,6 +41,8 @@ namespace Blauhaus.AppInsights.Server.Service
                 client.Flush();
                 CurrentOperation = null;
             });
+
+            return CurrentOperation;
         }
     }
 }

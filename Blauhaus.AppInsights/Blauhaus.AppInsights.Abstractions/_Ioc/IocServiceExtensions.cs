@@ -8,7 +8,7 @@ namespace Blauhaus.AppInsights.Abstractions._Ioc
         public static IIocService RegisterConsoleLogger(this IIocService services)
         {
             services.RegisterImplementation<ITraceProxy, TraceProxy>();
-            services.RegisterImplementation<IConsoleLogger, AppInsightsLogger>();
+            services.RegisterImplementation<IConsoleLogger, ConsoleLogger>();
 
             return services;
         }

@@ -20,14 +20,8 @@ namespace Blauhaus.AppInsights.Client.Service
             CurrentSessionId = sessionId;
         }
 
-        protected override TelemetryClient ConstructTelementryClient()
-        {
-            var client = new TelemetryClient(new TelemetryConfiguration(Config.InstrumentationKey));
-            client.Context.Device.Type = "Client";
-            return client;
-        }
 
-        public IAnalyticsOperation StartPageView(string pageName)
+        public IAnalyticsOperation StartPageViewOperation(string pageName)
         {
             var operationName = "PageView." + pageName;
 
@@ -40,7 +34,6 @@ namespace Blauhaus.AppInsights.Client.Service
                     Duration = duration
                 };
                 client.TrackPageView(pageViewTelemetry);
-                client.Flush();
                 CurrentOperation = null;
             });
 

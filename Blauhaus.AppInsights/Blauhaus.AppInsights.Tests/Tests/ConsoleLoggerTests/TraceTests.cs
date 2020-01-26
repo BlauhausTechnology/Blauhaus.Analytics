@@ -12,24 +12,12 @@ using NUnit.Framework;
 
 namespace Blauhaus.AppInsights.Tests.Tests.ConsoleLoggerTests
 {
-    public class TraceTests : BaseUnitTest<AppInsightsLogger>
+    public class TraceTests : BaseAppInsightsTest<ConsoleLogger>
     {
-        protected MockBuilder<ITraceProxy> MockTraceProxy;
-        protected IBuildConfig CurrentBuildConfig;
-        protected MockBuilder<IApplicationInsightsConfig> MockConfig;
 
-        [SetUp]
-        public virtual void Setup()
+        protected override ConsoleLogger ConstructSut()
         {
-            Cleanup();
-            MockTraceProxy = new MockBuilder<ITraceProxy>();
-            CurrentBuildConfig = BuildConfig.Debug;
-            MockConfig = new MockBuilder<IApplicationInsightsConfig>();
-        }
-
-        protected override AppInsightsLogger ConstructSut()
-        {
-            return new AppInsightsLogger(MockConfig.Object, MockTraceProxy.Object, CurrentBuildConfig);
+            return new ConsoleLogger(MockConfig.Object, MockTraceProxy.Object, CurrentBuildConfig);
         }
 
         [Test]
@@ -39,7 +27,7 @@ namespace Blauhaus.AppInsights.Tests.Tests.ConsoleLoggerTests
             CurrentBuildConfig = BuildConfig.Release;
 
             //Act
-            Sut.Trace("message", SeverityLevel.Error);
+            Sut.TrackTrace("message", SeverityLevel.Error);
 
             //Assert
             MockTraceProxy.Mock.Verify(x => x.Write(It.IsAny<string>()), Times.Never);
@@ -50,7 +38,7 @@ namespace Blauhaus.AppInsights.Tests.Tests.ConsoleLoggerTests
         public void SHOULD_trace_message_in_nice_colour()
         {
             //Act
-            Sut.Trace("message", SeverityLevel.Error);
+            Sut.TrackTrace("message", SeverityLevel.Error);
 
             //Assert
             MockTraceProxy.Mock.Verify(x => x.SetColour(ConsoleColours.TraceColours[SeverityLevel.Error]));
@@ -62,7 +50,7 @@ namespace Blauhaus.AppInsights.Tests.Tests.ConsoleLoggerTests
         public void IF_properties_are_specified_SHOULD_write_them()
         {
             //Act
-            Sut.Trace("message", SeverityLevel.Error, new Dictionary<string, string>
+            Sut.TrackTrace("message", SeverityLevel.Error, new Dictionary<string, object>
             {
                 {"EventProperty1", "EventValue1" },
                 {"EventProperty2", "EventValue2" },

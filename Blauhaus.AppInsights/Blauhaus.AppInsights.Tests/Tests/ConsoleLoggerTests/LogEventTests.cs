@@ -10,24 +10,13 @@ using NUnit.Framework;
 
 namespace Blauhaus.AppInsights.Tests.Tests.ConsoleLoggerTests
 {
-    public class LogEventTests : BaseUnitTest<AppInsightsLogger>
+    public class LogEventTests : BaseAppInsightsTest<ConsoleLogger>
     {
-        protected MockBuilder<ITraceProxy> MockTraceProxy;
-        protected IBuildConfig CurrentBuildConfig;
-        protected MockBuilder<IApplicationInsightsConfig> MockConfig;
 
-        [SetUp]
-        public virtual void Setup()
-        {
-            Cleanup();
-            MockTraceProxy = new MockBuilder<ITraceProxy>();
-            MockConfig = new MockBuilder<IApplicationInsightsConfig>();
-            CurrentBuildConfig = BuildConfig.Debug;
-        }
 
-        protected override AppInsightsLogger ConstructSut()
+        protected override ConsoleLogger ConstructSut()
         {
-            return new AppInsightsLogger(MockConfig.Object, MockTraceProxy.Object, CurrentBuildConfig);
+            return new ConsoleLogger(MockConfig.Object, MockTraceProxy.Object, CurrentBuildConfig);
         }
 
         [Test]
@@ -37,7 +26,7 @@ namespace Blauhaus.AppInsights.Tests.Tests.ConsoleLoggerTests
             CurrentBuildConfig = BuildConfig.Release;
 
             //Act
-            Sut.LogEvent("EventName");
+            Sut.TrackEvent("EventName");
 
             //Assert
             MockTraceProxy.Mock.Verify(x => x.Write(It.IsAny<string>()), Times.Never);
@@ -48,7 +37,7 @@ namespace Blauhaus.AppInsights.Tests.Tests.ConsoleLoggerTests
         public void SHOULD_trace_event_name_in_nice_colour()
         {
             //Act
-            Sut.LogEvent("EventName");
+            Sut.TrackEvent("EventName");
 
             //Assert
             MockTraceProxy.Mock.Verify(x => x.SetColour(ConsoleColours.EventColour));
@@ -60,7 +49,7 @@ namespace Blauhaus.AppInsights.Tests.Tests.ConsoleLoggerTests
         public void IF_properties_are_specified_SHOULD_write_them()
         {
             //Act
-            Sut.LogEvent("EventName", new Dictionary<string, string>
+            Sut.TrackEvent("EventName", new Dictionary<string, object>
             {
                 {"EventProperty1", "EventValue1" },
                 {"EventProperty2", "EventValue2" },
@@ -71,12 +60,11 @@ namespace Blauhaus.AppInsights.Tests.Tests.ConsoleLoggerTests
             MockTraceProxy.Mock.Verify(x => x.Write(" * EventProperty2: EventValue2"));
         }
 
-
         [Test]
         public void IF_metrics_are_specified_SHOULD_write_them()
         {
             //Act
-            Sut.LogEvent("EventName", null, new Dictionary<string, double>
+            Sut.TrackEvent("EventName", null, new Dictionary<string, double>
             {
                 {"EventMetric1", 1 },
                 {"EventMetric2", 2 }

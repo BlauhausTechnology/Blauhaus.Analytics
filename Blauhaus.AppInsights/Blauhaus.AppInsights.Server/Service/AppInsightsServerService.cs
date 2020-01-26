@@ -34,12 +34,14 @@ namespace Blauhaus.AppInsights.Server.Service
 
         public IAnalyticsOperation StartRequest(string requestName, string operationId, string operationName, string sessionId)
         {
+            CurrentSessionId = sessionId;
+
             CurrentOperation = new AnalyticsOperation(operationId, operationName, duration =>
             {
                 var client = GetClient();
                 client.Context.Operation.Id = operationId;
                 client.Context.Operation.Name = operationName;
-                client.Context.Session.Id = sessionId;
+                client.Context.Session.Id = CurrentSessionId;
 
                 var requestTelemetry = new RequestTelemetry()
                 {

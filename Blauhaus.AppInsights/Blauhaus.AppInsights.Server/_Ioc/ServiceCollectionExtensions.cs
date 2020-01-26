@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Blauhaus.AppInsights.Abstractions._Ioc;
 using Blauhaus.AppInsights.Abstractions.Config;
 using Blauhaus.AppInsights.Abstractions.Service;
 using Blauhaus.AppInsights.Server.Service;
@@ -20,6 +21,8 @@ namespace Blauhaus.AppInsights.Server._Ioc
             services.AddScoped<IApplicationInsightsConfig, TConfig>();
             services.AddScoped<IAppInsightsServerService, AppInsightsServerService>();
             services.AddScoped<IAppInsightsService>(x => x.GetService<IAppInsightsServerService>());
+
+            services.RegisterConsoleLogger();
             
             services.AddApplicationInsightsTelemetry();
 

@@ -8,7 +8,6 @@ namespace Blauhaus.AppInsights.Abstractions.Config
     {
         string InstrumentationKey { get; }
 
-        Dictionary<IBuildConfig, SeverityLevel> MinimumLogToConsoleSeverity { get; }
         Dictionary<IBuildConfig, SeverityLevel> MinimumLogToServerSeverity { get; }
 
 

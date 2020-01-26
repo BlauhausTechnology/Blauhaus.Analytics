@@ -10,12 +10,6 @@ namespace Blauhaus.AppInsights.Abstractions.Config
         {
             InstrumentationKey = instrumentationKey;
 
-            MinimumLogToConsoleSeverity = new Dictionary<IBuildConfig, SeverityLevel>
-            {
-                {BuildConfig.Debug, SeverityLevel.Verbose },
-                {BuildConfig.Release, SeverityLevel.Critical }
-            };
-
             MinimumLogToServerSeverity = new Dictionary<IBuildConfig, SeverityLevel>
             {
                 {BuildConfig.Debug, SeverityLevel.Critical },
@@ -26,7 +20,6 @@ namespace Blauhaus.AppInsights.Abstractions.Config
 
         public string InstrumentationKey { get; }
 
-        public Dictionary<IBuildConfig, SeverityLevel> MinimumLogToConsoleSeverity { get; }
 
         public Dictionary<IBuildConfig, SeverityLevel> MinimumLogToServerSeverity { get; }
     }

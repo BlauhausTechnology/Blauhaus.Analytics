@@ -19,7 +19,13 @@ namespace Blauhaus.AppInsights.Server.Service
         }
 
         protected override TelemetryClient GetClient()
-        {
+        {            
+            if (CurrentOperation != null)
+            {
+                _telemetryClient.Context.Operation.Id = CurrentOperation.Id;
+                _telemetryClient.Context.Operation.Name = CurrentOperation.Name;
+            }
+
             return _telemetryClient;
         }
 

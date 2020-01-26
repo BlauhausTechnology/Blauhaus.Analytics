@@ -7,9 +7,9 @@ namespace Blauhaus.AppInsights.Abstractions.Service
 {
     public interface IAppInsightsService
     {
-        Dictionary<string, string> CurrentOperationProperties { get; }
-
         IAnalyticsOperation? CurrentOperation { get; }
+        string CurrentSessionId { get; }
+
         IAnalyticsOperation StartOperation(string operationName);
         IAnalyticsOperation StartOrContinueOperation(string operationName);
 

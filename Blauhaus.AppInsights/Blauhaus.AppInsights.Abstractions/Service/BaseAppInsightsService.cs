@@ -10,9 +10,9 @@ namespace Blauhaus.AppInsights.Abstractions.Service
     {
         protected abstract TelemetryClient GetClient();
 
-        public Dictionary<string, string> CurrentOperationProperties { get; } = new Dictionary<string, string>();
-
         public IAnalyticsOperation? CurrentOperation { get; protected set; }
+
+        public string CurrentSessionId { get; protected set; } = string.Empty;
 
         public IAnalyticsOperation StartOperation(string operationName)
         {
@@ -32,9 +32,6 @@ namespace Blauhaus.AppInsights.Abstractions.Service
 
                 CurrentOperation = null;
             });
-
-            CurrentOperationProperties["OperationId"] = operationId;
-            CurrentOperationProperties["OperationName"] = operationName;
 
             return CurrentOperation;
         }
@@ -58,9 +55,6 @@ namespace Blauhaus.AppInsights.Abstractions.Service
                     client.Flush();
                     CurrentOperation = null;
                 });
-            
-                CurrentOperationProperties["OperationId"] = operationId;
-                CurrentOperationProperties["OperationName"] = operationName;
             }
 
             else

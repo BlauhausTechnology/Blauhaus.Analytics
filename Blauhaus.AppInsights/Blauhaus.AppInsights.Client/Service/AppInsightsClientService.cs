@@ -19,7 +19,7 @@ namespace Blauhaus.AppInsights.Client.Service
             _telemetryClient = new TelemetryClient(new TelemetryConfiguration(config.InstrumentationKey));
             _telemetryClient.Context.Session.Id = sessionId;
             _telemetryClient.Context.Device.Type = "Client";
-            CurrentOperationProperties["SessionId"] = sessionId;
+            CurrentSessionId = sessionId;
         }
 
         protected override TelemetryClient GetClient()
@@ -52,9 +52,6 @@ namespace Blauhaus.AppInsights.Client.Service
                 client.Flush();
                 CurrentOperation = null;
             });
-
-            CurrentOperationProperties["OperationId"] = operationId;
-            CurrentOperationProperties["OperationName"] = operationName;
 
             return CurrentOperation;
         }

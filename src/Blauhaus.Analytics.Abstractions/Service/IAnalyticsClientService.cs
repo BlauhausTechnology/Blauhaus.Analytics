@@ -2,7 +2,7 @@
 
 namespace Blauhaus.Analytics.Abstractions.Service
 {
-    public interface IAppInsightsClientService : IAppInsightsService
+    public interface IAnalyticsClientService : IAnalyticsService
     {
         IAnalyticsOperation StartPageViewOperation(string viewName);
     }

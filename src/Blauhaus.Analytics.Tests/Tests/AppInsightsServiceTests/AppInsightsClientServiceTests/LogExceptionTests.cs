@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsClientServiceTests
 {
     [TestFixture]
-    public class LogEventTests : BaseLogEventTests<AnalyticsClientService>
+    public class LogExceptionTests : BaseLogExceptionTests<AnalyticsClientService>
     {
         protected override AnalyticsClientService ConstructSut()
         {

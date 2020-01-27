@@ -50,6 +50,38 @@ namespace Blauhaus.Analytics.Console.ConsoleLoggers
 
         }
 
+        public void LogException(Exception exception, Dictionary<string, object> properties, Dictionary<string, double> metrics)
+        {
+            if (_currentBuildConfig.Value == BuildConfig.Release.Value)
+            {
+                return;
+            }
+
+            _traceProxy.SetColour(ConsoleColours.ExceptionColour);
+
+            _traceProxy.Write($"EXCEPTION: {exception.Message}");
+            _traceProxy.Write($"STACKTRACE {exception.StackTrace}");
+
+
+
+            if (properties != null)
+            {
+                foreach (var property in properties)
+                {
+                    _traceProxy.Write($" !*! {property.Key}: {property.Value}");
+                }
+            }
+
+            if (metrics != null)
+            {
+                foreach (var metric in metrics)
+                {
+                    _traceProxy.Write($" !+! {metric.Key}: {metric.Value}");
+                }
+            }
+
+        }
+
         public void LogOperation(string operationName, TimeSpan duration)
         {
             if (_currentBuildConfig.Value == BuildConfig.Release.Value)

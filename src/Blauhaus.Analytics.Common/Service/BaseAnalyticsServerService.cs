@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using Blauhaus.Analytics.Abstractions.Config;
@@ -12,7 +13,7 @@ using Newtonsoft.Json;
 
 namespace Blauhaus.Analytics.Common.Service
 {
-    public abstract class BaseAppInsightsService : IAppInsightsService
+    public abstract class BaseAnalyticsServerService : IAnalyticsService
     {
         protected readonly IApplicationInsightsConfig Config;
         protected readonly IConsoleLogger ConsoleLogger;
@@ -21,7 +22,7 @@ namespace Blauhaus.Analytics.Common.Service
         private readonly ITelemetryClientProxy _telemetryClient;
         protected ITelemetryClientProxy TelemetryClient => _telemetryClient.UpdateOperation(CurrentOperation, CurrentSessionId);
 
-        protected BaseAppInsightsService(
+        protected BaseAnalyticsServerService(
             IApplicationInsightsConfig config, 
             IConsoleLogger appInsightsLogger, 
             ITelemetryClientProxy telemetryClient, 
@@ -155,6 +156,45 @@ namespace Blauhaus.Analytics.Common.Service
             if (CurrentBuildConfig.Equals(BuildConfig.Debug))
             {
                 ConsoleLogger.LogEvent(eventName, properties, metrics);
+            }
+        }
+
+        //todo next
+        public void LogException(Exception exception, Dictionary<string, object> properties = null, Dictionary<string, double> metrics = null)
+        {
+            if (properties == null)
+            {
+                properties = new Dictionary<string, object>();
+            }
+
+            var stringifiedProperties = new Dictionary<string, string>();
+
+            foreach (var property in properties)
+            {
+                if (property.Value != null)
+                {
+                    if(property.Value is string stringValue)
+                    {
+                        stringifiedProperties[property.Key] = stringValue;
+                    }
+
+                    if (double.TryParse(property.Value.ToString(), out var numericValue))
+                    {
+                        stringifiedProperties[property.Key] = numericValue.ToString(CultureInfo.InvariantCulture);
+                    }
+
+                    else
+                    {
+                        stringifiedProperties[property.Key] = JsonConvert.SerializeObject(property.Value);
+                    }
+                }
+            }
+                
+            TelemetryClient.TrackException(exception, stringifiedProperties, metrics);
+
+            if (CurrentBuildConfig.Equals(BuildConfig.Debug))
+            {
+                ConsoleLogger.LogException(exception, properties, metrics);
             }
         }
     }

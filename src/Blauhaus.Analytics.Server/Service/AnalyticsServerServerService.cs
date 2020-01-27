@@ -9,10 +9,10 @@ using Microsoft.ApplicationInsights.DataContracts;
 
 namespace Blauhaus.Analytics.Server.Service
 {
-    public class AppInsightsServerService : BaseAppInsightsService, IAppInsightsServerService
+    public class AnalyticsServerServerService : BaseAnalyticsServerService, IAnalyticsServerService
     {
 
-        public AppInsightsServerService(
+        public AnalyticsServerServerService(
             IApplicationInsightsConfig config, 
             IConsoleLogger appInsightsLogger, 
             ITelemetryClientProxy telemetryClient,

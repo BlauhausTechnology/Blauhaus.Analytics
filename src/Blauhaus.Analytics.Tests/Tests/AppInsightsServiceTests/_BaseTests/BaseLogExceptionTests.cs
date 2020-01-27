@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using Blauhaus.Analytics.Abstractions.Service;
 using Blauhaus.Analytics.Tests.Tests._Base;
@@ -10,7 +11,7 @@ using NUnit.Framework;
 
 namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests._BaseTests
 {
-    public abstract class BaseLogEventTests<TSut> : BaseAppInsightsTest<TSut> where TSut : class, IAnalyticsService
+    public abstract class BaseLogExceptionTests<TSut> : BaseAppInsightsTest<TSut> where TSut : class, IAnalyticsService
     {
         [Test]
         public void SHOULD_log_to_console_and_server()
@@ -18,13 +19,14 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests._BaseTests
             //Arrange
             var properties = new Dictionary<string, object>();
             var metrics = new Dictionary<string, double>{{"Metric", 12}};
+            var exception = new Exception("oops");
 
             //Act
-            Sut.LogEvent("Event Name", properties, metrics);
+            Sut.LogException(exception, properties, metrics);
 
             //Assert
-            MockConsoleLogger.Mock.Verify(x => x.LogEvent("Event Name", properties, metrics));
-            MockTelemetryClient.Mock.Verify(x => x.TrackEvent("Event Name", It.IsAny<Dictionary<string, string>>(), metrics));
+            MockConsoleLogger.Mock.Verify(x => x.LogException(exception, properties, metrics));
+            MockTelemetryClient.Mock.Verify(x => x.TrackException(exception, It.IsAny<Dictionary<string, string>>(), metrics));
         }
 
         [Test]
@@ -41,10 +43,10 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests._BaseTests
             var metrics = new Dictionary<string, double>();
 
             //Act
-            Sut.LogEvent("Event Name", properties, metrics);
+            Sut.LogException(new Exception("oh dear me"), properties, metrics);
 
             //Assert
-            MockTelemetryClient.Mock.Verify(x => x.TrackEvent("Event Name", It.Is<Dictionary<string, string>>(y =>
+            MockTelemetryClient.Mock.Verify(x => x.TrackException(It.Is<Exception>(y => y.Message == "oh dear me"), It.Is<Dictionary<string, string>>(y =>
                 y["Integer"] == "1" &&
                 y["Double"] == 1.2d.ToString(CultureInfo.InvariantCulture) &&
                 y["Decimal"] == 1.2m.ToString(CultureInfo.InvariantCulture) &&
@@ -68,10 +70,10 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests._BaseTests
             var metrics = new Dictionary<string, double>();
 
             //Act
-            Sut.LogEvent("Event Name", properties, metrics);
+            Sut.LogException(new Exception("oh dear me"), properties, metrics);
 
             //Assert
-            MockTelemetryClient.Mock.Verify(x => x.TrackEvent("Event Name", It.Is<Dictionary<string, string>>(y =>
+            MockTelemetryClient.Mock.Verify(x => x.TrackException(It.Is<Exception>(y => y.Message == "oh dear me"), It.Is<Dictionary<string, string>>(y =>
                 y["MyObject"] == JsonConvert.SerializeObject(myObject)), metrics));
         }
 
@@ -84,11 +86,11 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests._BaseTests
             var metrics = new Dictionary<string, double>();
 
             //Act
-            Sut.LogEvent("Event Name", properties, metrics);
+            Sut.LogException(new Exception("oh dear me"), properties, metrics);
 
             //Assert
-            MockConsoleLogger.Mock.Verify(x => x.LogEvent("Event Name", properties, metrics), Times.Never);
-            MockTelemetryClient.Mock.Verify(x => x.TrackEvent("Event Name", It.IsAny<Dictionary<string, string>>(), metrics));
+            MockConsoleLogger.Mock.Verify(x => x.LogException(It.IsAny<Exception>(), properties, metrics), Times.Never);
+            MockTelemetryClient.Mock.Verify(x => x.TrackException(It.Is<Exception>(y => y.Message == "oh dear me"), It.IsAny<Dictionary<string, string>>(), metrics));
         }
         
     }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Blauhaus.Analytics.Abstractions.Config;
 using Blauhaus.Analytics.Abstractions.Operation;
 using Blauhaus.Analytics.Abstractions.Service;
@@ -6,7 +7,7 @@ using Blauhaus.Analytics.Console.ConsoleLoggers;
 
 namespace Blauhaus.Analytics.Console.Service
 {
-    public class ConsoleLoggerService: IAppInsightsClientService, IAppInsightsServerService, IAppInsightsService
+    public class ConsoleLoggerService: IAnalyticsClientService, IAnalyticsServerService, IAnalyticsService
     {
         protected readonly IConsoleLogger ConsoleLogger;
 
@@ -78,5 +79,9 @@ namespace Blauhaus.Analytics.Console.Service
             ConsoleLogger.LogEvent(eventName, properties, metrics);
         }
 
+        public void LogException(Exception exception, Dictionary<string, object> properties = null, Dictionary<string, double> metrics = null)
+        {
+            ConsoleLogger.LogException(exception, properties, metrics);
+        }
     }
 }

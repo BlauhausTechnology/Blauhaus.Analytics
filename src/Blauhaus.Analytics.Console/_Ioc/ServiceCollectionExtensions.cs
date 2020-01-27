@@ -25,8 +25,8 @@ namespace Blauhaus.Analytics.Console._Ioc
         public static IServiceCollection RegisterConsoleLoggerServerService(this IServiceCollection services, TraceListener consoleTraceListener)
         {
             services.RegisterConsoleLogger(consoleTraceListener);
-            services.AddScoped<IAppInsightsServerService, ConsoleLoggerService>();
-            services.AddScoped<IAppInsightsService>(x => x.GetService<IAppInsightsServerService>());
+            services.AddScoped<IAnalyticsServerService, ConsoleLoggerService>();
+            services.AddScoped<IAnalyticsService>(x => x.GetService<IAnalyticsServerService>());
 
             return services;
         }

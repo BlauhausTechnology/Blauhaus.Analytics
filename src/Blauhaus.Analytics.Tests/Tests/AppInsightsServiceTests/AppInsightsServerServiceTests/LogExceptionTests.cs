@@ -1,9 +1,12 @@
-﻿using Blauhaus.Analytics.Server.Service;
+﻿using Blauhaus.Analytics.Client.Service;
+using Blauhaus.Analytics.Server.Service;
 using Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests._BaseTests;
+using NUnit.Framework;
 
 namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsServerServiceTests
 {
-    public class ContinueOperationTests : BaseContinueOperationTests<AnalyticsServerServerService>
+    [TestFixture]
+    public class LogExceptionTests : BaseLogExceptionTests<AnalyticsServerServerService>
     {
         protected override AnalyticsServerServerService ConstructSut()
         {

@@ -5,11 +5,11 @@ using NUnit.Framework;
 namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsClientServiceTests
 {
     [TestFixture]
-    public class StartOperationTests : BaseStartOperationTests<AppInsightsClientService>
+    public class StartOperationTests : BaseStartOperationTests<AnalyticsClientService>
     {
-        protected override AppInsightsClientService ConstructSut()
+        protected override AnalyticsClientService ConstructSut()
         {
-            return new AppInsightsClientService(
+            return new AnalyticsClientService(
                 MockConfig.Object,
                 MockConsoleLogger.Object,
                 MockTelemetryClient.Object,

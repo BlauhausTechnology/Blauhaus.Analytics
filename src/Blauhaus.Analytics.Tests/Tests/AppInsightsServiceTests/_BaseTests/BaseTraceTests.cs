@@ -10,7 +10,7 @@ using NUnit.Framework;
 
 namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests._BaseTests
 {
-    public abstract class BaseTraceTests<TSut> : BaseAppInsightsTest<TSut> where TSut : class, IAppInsightsService
+    public abstract class BaseTraceTests<TSut> : BaseAppInsightsTest<TSut> where TSut : class, IAnalyticsService
     {
         [Test]
         public void SHOULD_log_to_console_and_server()

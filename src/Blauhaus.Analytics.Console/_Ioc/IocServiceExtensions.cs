@@ -20,8 +20,8 @@ namespace Blauhaus.Analytics.Console._Ioc
         public static IIocService RegisterConsoleLoggerClientService(this IIocService iocService)
         {
             iocService.RegisterConsoleLogger();
-            iocService.RegisterImplementation<IAppInsightsClientService, ConsoleLoggerService>(IocLifetime.Singleton);
-            iocService.RegisterInstance<IAppInsightsService>(iocService.Resolve<IAppInsightsClientService>());
+            iocService.RegisterImplementation<IAnalyticsClientService, ConsoleLoggerService>(IocLifetime.Singleton);
+            iocService.RegisterInstance<IAnalyticsService>(iocService.Resolve<IAnalyticsClientService>());
 
             return iocService;
         }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Blauhaus.Analytics.Abstractions.Config;
 using Blauhaus.Analytics.Abstractions.Operation;
 using Blauhaus.Analytics.Abstractions.TelemetryClients;
@@ -28,6 +29,12 @@ namespace Blauhaus.AppInsights.Abstractions.TelemetryClients
             _client.Context.Operation.Name = analyticsOperation.Name;
             _client.Context.Session.Id = sessiondId;
             return this;
+        }
+
+        public void TrackException(Exception exception, Dictionary<string, string> properties, Dictionary<string, double> metrics)
+        {
+            _client.TrackException(exception, properties, metrics);
+            if(_isDebug)_client.Flush();
         }
 
         public void TrackDependency(DependencyTelemetry dependencyTelemetry)

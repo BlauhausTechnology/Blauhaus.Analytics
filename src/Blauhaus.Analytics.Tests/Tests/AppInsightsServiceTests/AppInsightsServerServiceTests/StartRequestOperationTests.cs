@@ -8,11 +8,11 @@ using NUnit.Framework;
 
 namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsServerServiceTests
 {
-    public class StartRequestOperationTests : BaseAppInsightsTest<AppInsightsServerService>
+    public class StartRequestOperationTests : BaseAppInsightsTest<AnalyticsServerServerService>
     {
-        protected override AppInsightsServerService ConstructSut()
+        protected override AnalyticsServerServerService ConstructSut()
         {
-            return new AppInsightsServerService(
+            return new AnalyticsServerServerService(
                 MockConfig.Object,
                 MockConsoleLogger.Object,
                 MockTelemetryClient.Object,

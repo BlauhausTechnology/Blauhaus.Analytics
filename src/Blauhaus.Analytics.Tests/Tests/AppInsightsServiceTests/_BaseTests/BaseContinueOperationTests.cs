@@ -9,7 +9,7 @@ using NUnit.Framework;
 
 namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests._BaseTests
 {
-    public abstract class BaseContinueOperationTests<TSut> : BaseAppInsightsTest<TSut> where TSut : class, IAppInsightsService
+    public abstract class BaseContinueOperationTests<TSut> : BaseAppInsightsTest<TSut> where TSut : class, IAnalyticsService
     {
         [Test]
         public void IF_no_operation_exists_SHOULD_start_new_one()

@@ -21,11 +21,12 @@ namespace Blauhaus.AppInsights.Abstractions.TelemetryClients
         }
 
 
-        public void UpdateOperation(IAnalyticsOperation analyticsOperation, string sessiondId)
+        public ITelemetryClientProxy UpdateOperation(IAnalyticsOperation analyticsOperation, string sessiondId)
         {
             _client.Context.Operation.Id = analyticsOperation.Id;
             _client.Context.Operation.Name = analyticsOperation.Name;
             _client.Context.Session.Id = sessiondId;
+            return this;
         }
 
         public void TrackDependency(DependencyTelemetry dependencyTelemetry)

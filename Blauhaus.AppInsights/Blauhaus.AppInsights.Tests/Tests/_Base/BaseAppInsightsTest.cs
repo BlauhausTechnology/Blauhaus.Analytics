@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using Blauhaus.AppInsights.Abstractions.Config;
 using Blauhaus.AppInsights.Abstractions.ConsoleLoggers;
+using Blauhaus.AppInsights.Abstractions.Operation;
 using Blauhaus.AppInsights.Abstractions.TelemetryClients;
 using Blauhaus.AppInsights.Tests.MockBuilders;
 using Blauhaus.Common.TestHelpers;
 using Blauhaus.Common.ValueObjects.BuildConfigs;
 using Microsoft.ApplicationInsights.DataContracts;
+using Moq;
 using NUnit.Framework;
 
 namespace Blauhaus.AppInsights.Tests.Tests._Base
@@ -37,7 +39,9 @@ namespace Blauhaus.AppInsights.Tests.Tests._Base
 
             MockConsoleLogger = new MockBuilder<IConsoleLogger>();
             MockTelemetryClient = new TelemetryClientMockBuilder();
-            
+            MockTelemetryClient.Mock.Setup(x => x.UpdateOperation(It.IsAny<IAnalyticsOperation>(), It.IsAny<string>()))
+                .Returns(MockTelemetryClient.Object);
+
         }
 
     }

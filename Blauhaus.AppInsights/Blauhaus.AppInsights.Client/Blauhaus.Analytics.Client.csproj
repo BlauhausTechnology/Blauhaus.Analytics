@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Blauhaus.AppInsights.Abstractions\Blauhaus.AppInsights.Abstractions.csproj" />
+    <ProjectReference Include="..\Blauhaus.AppInsights.Abstractions\Blauhaus.Analytics.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>

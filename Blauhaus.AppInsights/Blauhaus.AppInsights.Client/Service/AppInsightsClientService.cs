@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using Blauhaus.AppInsights.Abstractions.Config;
 using Blauhaus.AppInsights.Abstractions.Service;
-using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.DataContracts;
-using Microsoft.ApplicationInsights.Extensibility;
 using Blauhaus.AppInsights.Abstractions.Operation;
 using Blauhaus.AppInsights.Abstractions.ConsoleLoggers;
 using Blauhaus.AppInsights.Abstractions.TelemetryClients;
@@ -23,17 +20,13 @@ namespace Blauhaus.AppInsights.Client.Service
 
         public IAnalyticsOperation StartPageViewOperation(string pageName)
         {
-            var operationName = "PageView." + pageName;
-
-            CurrentOperation = new AnalyticsOperation(operationName, duration =>
+            CurrentOperation = new AnalyticsOperation(pageName, duration =>
             {
-                var client = GetClient();
-
-                var pageViewTelemetry = new PageViewTelemetry(operationName)
+                var pageViewTelemetry = new PageViewTelemetry(pageName)
                 {
                     Duration = duration
                 };
-                client.TrackPageView(pageViewTelemetry);
+                TelemetryClient.TrackPageView(pageViewTelemetry);
                 CurrentOperation = null;
             });
 

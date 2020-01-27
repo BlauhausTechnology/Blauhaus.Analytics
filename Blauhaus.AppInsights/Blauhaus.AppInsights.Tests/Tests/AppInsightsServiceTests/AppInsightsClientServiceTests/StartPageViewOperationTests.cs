@@ -1,0 +1,54 @@
+﻿using System;
+using Blauhaus.AppInsights.Abstractions.Operation;
+using Blauhaus.AppInsights.Client.Service;
+using Blauhaus.AppInsights.Tests.Tests._Base;
+using Blauhaus.AppInsights.Tests.Tests.AppInsightsServiceTests._BaseTests;
+using Microsoft.ApplicationInsights.DataContracts;
+using Moq;
+using NUnit.Framework;
+
+namespace Blauhaus.AppInsights.Tests.Tests.AppInsightsServiceTests.AppInsightsClientServiceTests
+{
+    [TestFixture]
+    public class StartPageViewOperationTests : BaseAppInsightsTest<AppInsightsClientService>
+    {
+        protected override AppInsightsClientService ConstructSut()
+        {
+            return new AppInsightsClientService(
+                MockConfig.Object,
+                MockConsoleLogger.Object,
+                MockTelemetryClient.Object);
+        }
+
+        [Test]
+        public void SHOULD_set_and_return_CurrentOperation()
+        {
+            //Act
+            var operation = Sut.StartPageViewOperation("MyOperation");
+
+            //Assert
+            Assert.That(operation.Name, Is.EqualTo("MyOperation"));
+            Assert.That(Sut.CurrentOperation.Name, Is.EqualTo("MyOperation"));
+            Assert.That(Sut.CurrentOperation.Id.Length, Is.EqualTo(Guid.NewGuid().ToString().Length));
+            Assert.That(operation.Id.Length, Is.EqualTo(Guid.NewGuid().ToString().Length));
+        }
+
+        [Test]
+        public void WHEN_Operation_is_disposed_SHOULD_track_dependency()
+        {
+            //Arrange
+            var operation = Sut.StartPageViewOperation("MyOperation");
+            MockTelemetryClient.Mock.Verify(x => x.TrackPageView(It.IsAny<PageViewTelemetry>()), Times.Never);
+
+            //Act
+            operation.Dispose();
+            
+            //Assert
+            MockTelemetryClient.Mock.Verify(x => x.UpdateOperation(It.Is<IAnalyticsOperation>(y => 
+                y.Id == operation.Id &&
+                y.Name == "MyOperation"), Sut.CurrentSessionId));
+            MockTelemetryClient.Mock.Verify(x => x.TrackPageView(It.Is<PageViewTelemetry>(y => 
+                y.Name == "MyOperation")));
+        }
+    }
+}

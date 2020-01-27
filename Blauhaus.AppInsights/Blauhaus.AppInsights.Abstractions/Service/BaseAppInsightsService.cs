@@ -14,7 +14,9 @@ namespace Blauhaus.AppInsights.Abstractions.Service
     {
         protected readonly IApplicationInsightsConfig Config;
         protected readonly IConsoleLogger ConsoleLogger;
-        protected readonly ITelemetryClientProxy TelemetryClient;
+
+        private readonly ITelemetryClientProxy _telemetryClient;
+        protected ITelemetryClientProxy TelemetryClient => _telemetryClient.UpdateOperation(CurrentOperation, CurrentSessionId);
 
 
         protected BaseAppInsightsService(
@@ -24,14 +26,9 @@ namespace Blauhaus.AppInsights.Abstractions.Service
         {
             Config = config;
             ConsoleLogger = appInsightsLogger;
-            TelemetryClient = telemetryClient;
+            _telemetryClient = telemetryClient;
         }
 
-        protected ITelemetryClientProxy GetClient()
-        {
-            TelemetryClient.UpdateOperation(CurrentOperation, CurrentSessionId);
-            return TelemetryClient;
-        }
 
         public IAnalyticsOperation? CurrentOperation { get; protected set; }
 
@@ -41,16 +38,14 @@ namespace Blauhaus.AppInsights.Abstractions.Service
         {
             CurrentOperation = new AnalyticsOperation(operationName, duration =>
             {
-                TelemetryClient.UpdateOperation(CurrentOperation, CurrentSessionId);
-
                 var dependencyTelemetry = new DependencyTelemetry
                 {
                     Duration = duration,
-                    Name = operationName
+                    Name = operationName,
+                    
                 };
 
                 TelemetryClient.TrackDependency(dependencyTelemetry);
-
                 CurrentOperation = null;
             });
 
@@ -66,8 +61,6 @@ namespace Blauhaus.AppInsights.Abstractions.Service
 
             return new AnalyticsOperation(CurrentOperation.Id, CurrentOperation.Name, duration =>
             {
-                TelemetryClient.UpdateOperation(CurrentOperation, CurrentSessionId);
-
                 var dependencyTelemetry = new DependencyTelemetry()
                 {
                     Duration = duration,
@@ -80,19 +73,18 @@ namespace Blauhaus.AppInsights.Abstractions.Service
         
         //todo next: test request and page view dependencies then logging
 
-        public void Trace(string message, SeverityLevel severityLevel = SeverityLevel.Verbose, Dictionary<string, object> properties = null)
+        public void Trace(string message, Severity severity = Severity.Verbose, Dictionary<string, object> properties = null)
         {
+            var severityLevel = (SeverityLevel) severity;
             //todo convert object into scalar or json 
-            var client = GetClient();
-            client.TrackTrace(message, severityLevel, new Dictionary<string, string>());
+            TelemetryClient.TrackTrace(message, severityLevel, new Dictionary<string, string>());
             ConsoleLogger.TrackTrace(message, severityLevel, properties);
         }
 
         public void LogEvent(string eventName, Dictionary<string, object> properties = null, Dictionary<string, double> metrics = null)
         {
             //todo convert object into scalar or json 
-            var client = GetClient();
-            client.TrackEvent(eventName, new Dictionary<string, string>(), metrics);
+            TelemetryClient.TrackEvent(eventName, new Dictionary<string, string>(), metrics);
             ConsoleLogger.TrackEvent(eventName, properties, metrics);
         }
     }

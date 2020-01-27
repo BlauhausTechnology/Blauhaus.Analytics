@@ -25,9 +25,7 @@ namespace Blauhaus.AppInsights.Server.Service
 
             CurrentOperation = new AnalyticsOperation(operationId, operationName, duration =>
             {
-                TelemetryClient.UpdateOperation(CurrentOperation, CurrentSessionId);
-
-                var requestTelemetry = new RequestTelemetry()
+                var requestTelemetry = new RequestTelemetry
                 {
                     Duration = duration,
                     Name = requestName

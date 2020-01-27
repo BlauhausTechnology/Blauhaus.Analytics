@@ -7,7 +7,7 @@ namespace Blauhaus.AppInsights.Abstractions.TelemetryClients
 {
     public interface ITelemetryClientProxy 
     {
-        void UpdateOperation(IAnalyticsOperation analyticsOperation, string sessiondId);
+        ITelemetryClientProxy UpdateOperation(IAnalyticsOperation analyticsOperation, string sessiondId);
         
         void TrackTrace(string message, SeverityLevel severityLevel, Dictionary<string, string> properties);
         void TrackEvent(string eventName, Dictionary<string, string> properties, Dictionary<string, double> metrics);

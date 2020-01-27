@@ -1,24 +1,73 @@
 ﻿using System.Collections.Generic;
+using Blauhaus.Analytics.Abstractions.Config;
 using Blauhaus.Analytics.Abstractions.Operation;
 using Blauhaus.Analytics.Abstractions.Service;
+using Blauhaus.Analytics.Console.ConsoleLoggers;
 
 namespace Blauhaus.Analytics.Console.Service
 {
-    public class ConsoleLoggerService: IAppInsightsClientService, IAppInsightsServerService
+    public class ConsoleLoggerService: IAppInsightsClientService, IAppInsightsServerService, IAppInsightsService
     {
-        public IAnalyticsOperation CurrentOperation { get; }
-        public string CurrentSessionId { get; }
+        protected readonly IConsoleLogger ConsoleLogger;
+
+        public ConsoleLoggerService(
+            IConsoleLogger consoleLogger)
+        {
+            ConsoleLogger = consoleLogger;
+        }
+
+        public IAnalyticsOperation CurrentOperation { get; private set; }
+        public string CurrentSessionId { get; private set; }
 
         public IAnalyticsOperation StartOperation(string operationName)
         {
-            throw new System.NotImplementedException();
+            CurrentOperation = new AnalyticsOperation(operationName, duration =>
+            {
+                ConsoleLogger.LogOperation(operationName, duration);
+                CurrentOperation = null;
+            });
+
+            return CurrentOperation;
         }
 
         public IAnalyticsOperation ContinueOperation(string operationName)
         {
-            throw new System.NotImplementedException();
+            if (CurrentOperation == null)
+            {
+                return StartOperation(operationName);
+            }
+
+            return new AnalyticsOperation(CurrentOperation.Id, CurrentOperation.Name, duration =>
+            {
+                ConsoleLogger.LogOperation(operationName, duration);
+                CurrentOperation = null;
+            });
         }
 
+        public IAnalyticsOperation StartRequestOperation(string requestName, string operationId, string operationName, string sessionId)
+        {
+            CurrentSessionId = sessionId;
+
+            CurrentOperation = new AnalyticsOperation(operationId, operationName, duration =>
+            {
+                ConsoleLogger.LogOperation(requestName, duration);
+                CurrentOperation = null;
+            });
+
+            return CurrentOperation;
+        }
+
+        public IAnalyticsOperation StartPageViewOperation(string viewName)
+        {
+            CurrentOperation = new AnalyticsOperation(viewName, duration =>
+            {
+                ConsoleLogger.LogOperation(viewName, duration);
+                CurrentOperation = null;
+            });
+
+            return CurrentOperation;
+        }
+        
         public void Trace(string message, LogSeverity logSeverityLevel = LogSeverity.Verbose, Dictionary<string, object> properties = null)
         {
             throw new System.NotImplementedException();
@@ -29,14 +78,5 @@ namespace Blauhaus.Analytics.Console.Service
             throw new System.NotImplementedException();
         }
 
-        public IAnalyticsOperation StartRequestOperation(string requestName, string operationId, string operationName, string sessionId)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public IAnalyticsOperation StartPageViewOperation(string viewName)
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Blauhaus.Analytics.Abstractions.Config;
 using Blauhaus.Analytics.Abstractions.Service;
 using Blauhaus.Common.ValueObjects.BuildConfigs;
@@ -21,7 +22,7 @@ namespace Blauhaus.Analytics.Console.ConsoleLoggers
             _currentBuildConfig = currentBuildConfig;
         }
 
-        public void TrackEvent(string eventName, Dictionary<string, object> properties = null, Dictionary<string, double> metrics = null)
+        public void LogEvent(string eventName, Dictionary<string, object> properties = null, Dictionary<string, double> metrics = null)
         {
 
             if (_currentBuildConfig.Value == BuildConfig.Release.Value)
@@ -52,7 +53,18 @@ namespace Blauhaus.Analytics.Console.ConsoleLoggers
 
         }
 
-        public void TrackTrace(string message, LogSeverity severityLevel = LogSeverity.Verbose, Dictionary<string, object>? properties = null)
+        public void LogOperation(string operationName, TimeSpan duration)
+        {
+            if (_currentBuildConfig.Value == BuildConfig.Release.Value)
+            {
+                return;
+            }
+
+            _traceProxy.SetColour(ConsoleColours.OperationColour);
+            _traceProxy.Write($"OPERATION: {operationName} completed in {Math.Round((double) duration.Milliseconds)} ms");
+        }
+
+        public void LogTrace(string message, LogSeverity severityLevel = LogSeverity.Verbose, Dictionary<string, object>? properties = null)
         {
 
             if (_currentBuildConfig.Value == BuildConfig.Release.Value)
@@ -61,7 +73,6 @@ namespace Blauhaus.Analytics.Console.ConsoleLoggers
             }
 
             _traceProxy.SetColour(ConsoleColours.TraceColours[severityLevel]);
-
             _traceProxy.Write($"TRACE: {message}");
 
             if (properties != null)

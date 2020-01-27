@@ -14,7 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Tests\ConsoleLoggerTests\" />
     <Folder Include="Tests\_Base\" />
   </ItemGroup>
 

@@ -16,7 +16,6 @@ namespace Blauhaus.Analytics.Common.Service
         private readonly ITelemetryClientProxy _telemetryClient;
         protected ITelemetryClientProxy TelemetryClient => _telemetryClient.UpdateOperation(CurrentOperation, CurrentSessionId);
 
-
         protected BaseAppInsightsService(
             IApplicationInsightsConfig config, 
             IConsoleLogger appInsightsLogger, 
@@ -75,14 +74,14 @@ namespace Blauhaus.Analytics.Common.Service
         {
             //todo convert object into scalar or json 
             TelemetryClient.TrackTrace(message, (SeverityLevel) logSeverity, new Dictionary<string, string>());
-            ConsoleLogger.TrackTrace(message, logSeverity, properties);
+            ConsoleLogger.LogTrace(message, logSeverity, properties);
         }
 
         public void LogEvent(string eventName, Dictionary<string, object> properties = null, Dictionary<string, double> metrics = null)
         {
             //todo convert object into scalar or json 
             TelemetryClient.TrackEvent(eventName, new Dictionary<string, string>(), metrics);
-            ConsoleLogger.TrackEvent(eventName, properties, metrics);
+            ConsoleLogger.LogEvent(eventName, properties, metrics);
         }
     }
 }

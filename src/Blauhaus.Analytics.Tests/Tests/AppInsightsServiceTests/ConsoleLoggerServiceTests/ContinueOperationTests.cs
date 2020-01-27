@@ -1,16 +1,23 @@
 ﻿using System;
 using Blauhaus.Analytics.Abstractions.Operation;
-using Blauhaus.Analytics.Abstractions.Service;
-using Blauhaus.Analytics.Common.Service;
+using Blauhaus.Analytics.Console.Service;
+using Blauhaus.Analytics.Server.Service;
 using Blauhaus.Analytics.Tests.Tests._Base;
+using Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests._BaseTests;
 using Microsoft.ApplicationInsights.DataContracts;
 using Moq;
 using NUnit.Framework;
 
-namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests._BaseTests
+namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.ConsoleLoggerServiceTests
 {
-    public abstract class BaseContinueOperationTests<TSut> : BaseAppInsightsTest<TSut> where TSut : class, IAppInsightsService
+    public class ContinueOperationTests : BaseAppInsightsTest<ConsoleLoggerService>
     {
+        protected override ConsoleLoggerService ConstructSut()
+        {
+            return new ConsoleLoggerService(
+                MockConsoleLogger.Object);
+        }
+
         [Test]
         public void IF_no_operation_exists_SHOULD_start_new_one()
         {
@@ -35,11 +42,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests._BaseTests
             operation.Dispose();
             
             //Assert
-            MockTelemetryClient.Mock.Verify(x => x.UpdateOperation(It.Is<IAnalyticsOperation>(y => 
-                y.Id == operation.Id &&
-                y.Name == "MyOperation"), Sut.CurrentSessionId));
-            MockTelemetryClient.Mock.Verify(x => x.TrackDependency(It.Is<DependencyTelemetry>(y => 
-                y.Name == "MyOperation")));
+            MockConsoleLogger.Mock.Verify(x => x.LogOperation("MyOperation", It.IsAny<TimeSpan>()));
         }
 
         [Test]
@@ -70,13 +73,8 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests._BaseTests
             result.Dispose();
 
             //Assert
-            MockTelemetryClient.Mock.Verify(x => x.UpdateOperation(It.Is<IAnalyticsOperation>(y => 
-                y.Id == firstOperation.Id &&
-                y.Name == "MyFirstOperation"), Sut.CurrentSessionId));
-            MockTelemetryClient.Mock.Verify(x => x.TrackDependency(It.Is<DependencyTelemetry>(y => 
-                y.Name == "MySecondOperation")));
+            MockConsoleLogger.Mock.Verify(x => x.LogOperation("MySecondOperation", It.IsAny<TimeSpan>()));
         }
-
 
     }
 }

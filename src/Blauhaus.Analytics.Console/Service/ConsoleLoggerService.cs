@@ -70,12 +70,12 @@ namespace Blauhaus.Analytics.Console.Service
         
         public void Trace(string message, LogSeverity logSeverityLevel = LogSeverity.Verbose, Dictionary<string, object> properties = null)
         {
-            throw new System.NotImplementedException();
+            ConsoleLogger.LogTrace(message, logSeverityLevel, properties);
         }
 
         public void LogEvent(string eventName, Dictionary<string, object> properties = null, Dictionary<string, double> metrics = null)
         {
-            throw new System.NotImplementedException();
+            ConsoleLogger.LogEvent(eventName, properties, metrics);
         }
 
     }

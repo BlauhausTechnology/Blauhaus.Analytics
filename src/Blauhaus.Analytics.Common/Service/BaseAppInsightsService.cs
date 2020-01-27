@@ -1,10 +1,14 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
+using System.Runtime.InteropServices;
 using Blauhaus.Analytics.Abstractions.Config;
 using Blauhaus.Analytics.Abstractions.Operation;
 using Blauhaus.Analytics.Abstractions.Service;
 using Blauhaus.Analytics.Abstractions.TelemetryClients;
 using Blauhaus.Analytics.Console.ConsoleLoggers;
+using Blauhaus.Common.ValueObjects.BuildConfigs;
 using Microsoft.ApplicationInsights.DataContracts;
+using Newtonsoft.Json;
 
 namespace Blauhaus.Analytics.Common.Service
 {
@@ -12,6 +16,7 @@ namespace Blauhaus.Analytics.Common.Service
     {
         protected readonly IApplicationInsightsConfig Config;
         protected readonly IConsoleLogger ConsoleLogger;
+        protected readonly IBuildConfig CurrentBuildConfig;
 
         private readonly ITelemetryClientProxy _telemetryClient;
         protected ITelemetryClientProxy TelemetryClient => _telemetryClient.UpdateOperation(CurrentOperation, CurrentSessionId);
@@ -19,11 +24,13 @@ namespace Blauhaus.Analytics.Common.Service
         protected BaseAppInsightsService(
             IApplicationInsightsConfig config, 
             IConsoleLogger appInsightsLogger, 
-            ITelemetryClientProxy telemetryClient)
+            ITelemetryClientProxy telemetryClient, 
+            IBuildConfig currentBuildConfig)
         {
             Config = config;
             ConsoleLogger = appInsightsLogger;
             _telemetryClient = telemetryClient;
+            CurrentBuildConfig = currentBuildConfig;
         }
 
 
@@ -68,20 +75,84 @@ namespace Blauhaus.Analytics.Common.Service
 
         }
         
-        //todo next: test request and page view dependencies then logging
-
         public void Trace(string message, LogSeverity logSeverity = LogSeverity.Verbose, Dictionary<string, object> properties = null)
         {
-            //todo convert object into scalar or json 
-            TelemetryClient.TrackTrace(message, (SeverityLevel) logSeverity, new Dictionary<string, string>());
-            ConsoleLogger.LogTrace(message, logSeverity, properties);
-        }
+            if (Config.MinimumLogToServerSeverity.TryGetValue(CurrentBuildConfig, out var minumumSeverityToLogToServer))
+            {
+                if (logSeverity >= minumumSeverityToLogToServer)
+                {
+
+                    var stringifiedProperties = new Dictionary<string, string>();
+
+                    if (properties != null)
+                    {
+                        foreach (var property in properties)
+                        {
+                            if (property.Value != null)
+                            {
+                                if(property.Value is string stringValue)
+                                {
+                                    stringifiedProperties[property.Key] = stringValue;
+                                }
+
+                                if (double.TryParse(property.Value.ToString(), out var numericValue))
+                                {
+                                    stringifiedProperties[property.Key] = numericValue.ToString(CultureInfo.InvariantCulture);
+                                }
+
+                                else
+                                {
+                                    stringifiedProperties[property.Key] = JsonConvert.SerializeObject(property.Value);
+                                }
+                            }
+                        }
+                    }
+                    
+                    TelemetryClient.TrackTrace(message, (SeverityLevel) logSeverity, stringifiedProperties);
+                }
+            }
+
+            if (CurrentBuildConfig.Equals(BuildConfig.Debug))
+            {
+                ConsoleLogger.LogTrace(message, logSeverity, properties);
+            }
+        }   
 
         public void LogEvent(string eventName, Dictionary<string, object> properties = null, Dictionary<string, double> metrics = null)
         {
-            //todo convert object into scalar or json 
-            TelemetryClient.TrackEvent(eventName, new Dictionary<string, string>(), metrics);
-            ConsoleLogger.LogEvent(eventName, properties, metrics);
+
+            var stringifiedProperties = new Dictionary<string, string>();
+
+            if (properties != null)
+            {
+                foreach (var property in properties)
+                {
+                    if (property.Value != null)
+                    {
+                        if(property.Value is string stringValue)
+                        {
+                            stringifiedProperties[property.Key] = stringValue;
+                        }
+
+                        if (double.TryParse(property.Value.ToString(), out var numericValue))
+                        {
+                            stringifiedProperties[property.Key] = numericValue.ToString(CultureInfo.InvariantCulture);
+                        }
+
+                        else
+                        {
+                            stringifiedProperties[property.Key] = JsonConvert.SerializeObject(property.Value);
+                        }
+                    }
+                }
+                
+                TelemetryClient.TrackEvent(eventName, stringifiedProperties, metrics);
+            }
+
+            if (CurrentBuildConfig.Equals(BuildConfig.Debug))
+            {
+                ConsoleLogger.LogEvent(eventName, properties, metrics);
+            }
         }
     }
 }

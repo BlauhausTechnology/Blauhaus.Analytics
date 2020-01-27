@@ -15,7 +15,8 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsServ
             return new AppInsightsServerService(
                 MockConfig.Object,
                 MockConsoleLogger.Object,
-                MockTelemetryClient.Object);
+                MockTelemetryClient.Object,
+                CurrentBuildConfig);
         }
 
         [Test]

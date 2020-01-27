@@ -5,14 +5,19 @@ using Blauhaus.Analytics.Abstractions.Service;
 using Blauhaus.Analytics.Abstractions.TelemetryClients;
 using Blauhaus.Analytics.Common.Service;
 using Blauhaus.Analytics.Console.ConsoleLoggers;
+using Blauhaus.Common.ValueObjects.BuildConfigs;
 using Microsoft.ApplicationInsights.DataContracts;
 
 namespace Blauhaus.Analytics.Client.Service
 {
     public class AppInsightsClientService : BaseAppInsightsService, IAppInsightsClientService
     {
-        public AppInsightsClientService(IApplicationInsightsConfig config, IConsoleLogger appInsightsLogger, ITelemetryClientProxy telemetryClient)
-            : base(config, appInsightsLogger, telemetryClient)
+        public AppInsightsClientService(
+            IApplicationInsightsConfig config, 
+            IConsoleLogger appInsightsLogger, 
+            ITelemetryClientProxy telemetryClient,
+            IBuildConfig currentBuildConfig)
+            : base(config, appInsightsLogger, telemetryClient, currentBuildConfig)
         {
             var sessionId = Guid.NewGuid().ToString();
             CurrentSessionId = sessionId;

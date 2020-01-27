@@ -32,8 +32,8 @@ namespace Blauhaus.Analytics.Tests.Tests._Base
                 .With(x => x.ClientName, "TestClientName")
                 .With(x => x.MinimumLogToServerSeverity, new Dictionary<IBuildConfig, LogSeverity>
                 {
-                    {BuildConfig.Debug, LogSeverity.Information },
-                    {BuildConfig.Release, LogSeverity.Information }
+                    {BuildConfig.Debug, LogSeverity.Verbose },
+                    {BuildConfig.Release, LogSeverity.Verbose }
                 });
 
             MockConsoleLogger = new MockBuilder<IConsoleLogger>();

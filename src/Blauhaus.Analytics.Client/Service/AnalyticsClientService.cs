@@ -32,7 +32,10 @@ namespace Blauhaus.Analytics.Client.Service
                 {
                     Duration = duration
                 };
+
                 TelemetryClient.TrackPageView(pageViewTelemetry);
+                ConsoleLogger.LogOperation(pageName, duration);
+                
                 CurrentOperation = null;
             });
 

@@ -50,6 +50,8 @@ namespace Blauhaus.Analytics.Common.Service
                 };
 
                 TelemetryClient.TrackDependency(dependencyTelemetry);
+                ConsoleLogger.LogOperation(operationName, duration);
+
                 CurrentOperation = null;
             });
 
@@ -65,12 +67,14 @@ namespace Blauhaus.Analytics.Common.Service
 
             return new AnalyticsOperation(CurrentOperation, duration =>
             {
-                var dependencyTelemetry = new DependencyTelemetry()
+                var dependencyTelemetry = new DependencyTelemetry
                 {
                     Duration = duration,
                     Name = operationName
                 };
+
                 TelemetryClient.TrackDependency(dependencyTelemetry);
+                ConsoleLogger.LogOperation(operationName, duration);
             });
 
         }

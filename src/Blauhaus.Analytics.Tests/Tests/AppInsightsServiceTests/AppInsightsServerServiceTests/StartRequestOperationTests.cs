@@ -55,6 +55,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsServ
                 y.Name == "MyOperation"), Sut.CurrentSessionId));
             MockTelemetryClient.Mock.Verify(x => x.TrackRequest(It.Is<RequestTelemetry>(y => 
                 y.Name == "RequestName")));
+            MockConsoleLogger.Mock.Verify(x => x.LogOperation("RequestName", It.IsAny<TimeSpan>()));
         }
     }
 }

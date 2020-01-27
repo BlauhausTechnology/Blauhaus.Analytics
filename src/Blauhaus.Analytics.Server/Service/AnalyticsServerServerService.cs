@@ -32,7 +32,10 @@ namespace Blauhaus.Analytics.Server.Service
                     Duration = duration,
                     Name = requestName
                 };
+                
                 TelemetryClient.TrackRequest(requestTelemetry);
+                ConsoleLogger.LogOperation(requestName, duration);
+
                 CurrentOperation = null;
             });
 

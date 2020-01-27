@@ -7,8 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Blauhaus.Ioc.Abstractions" Version="0.6.3" />
     <PackageReference Include="Microsoft.ApplicationInsights" Version="2.12.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Blauhaus.Analytics.Abstractions\Blauhaus.Analytics.Abstractions.csproj" />
+    <ProjectReference Include="..\Blauhaus.Analytics.Console\Blauhaus.Analytics.Console.csproj" />
+  </ItemGroup>
 </Project>

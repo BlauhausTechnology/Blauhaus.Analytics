@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29709.97
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blauhaus.Analytics.Abstractions", "Blauhaus.Analytics.Abstractions\Blauhaus.Analytics.Abstractions.csproj", "{8D5641CB-7191-4A32-BBB9-99A1AAE630F8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blauhaus.Analytics.Client", "Blauhaus.Analytics.Client\Blauhaus.Analytics.Client.csproj", "{739B0DB7-C5DB-47F2-8BD2-A8CAEEAEFEF2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blauhaus.Analytics.Server", "Blauhaus.Analytics.Server\Blauhaus.Analytics.Server.csproj", "{B64A36EC-E93C-4E45-A886-4FF527FD24AD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blauhaus.Analytics.Tests", "Blauhaus.Analytics.Tests\Blauhaus.Analytics.Tests.csproj", "{4667D1C5-BC5F-42B4-B1D6-C2D6A89FF293}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blauhaus.Analytics.Console", "Blauhaus.Analytics.Console\Blauhaus.Analytics.Console.csproj", "{FA30529B-BAB0-46E2-B050-AD6C025E14CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blauhaus.Analytics.Common", "Blauhaus.Analytics.Common\Blauhaus.Analytics.Common.csproj", "{1C6094CB-EFA2-46F8-B79C-ADAF7716B213}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8D5641CB-7191-4A32-BBB9-99A1AAE630F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D5641CB-7191-4A32-BBB9-99A1AAE630F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D5641CB-7191-4A32-BBB9-99A1AAE630F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D5641CB-7191-4A32-BBB9-99A1AAE630F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{739B0DB7-C5DB-47F2-8BD2-A8CAEEAEFEF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{739B0DB7-C5DB-47F2-8BD2-A8CAEEAEFEF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{739B0DB7-C5DB-47F2-8BD2-A8CAEEAEFEF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{739B0DB7-C5DB-47F2-8BD2-A8CAEEAEFEF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B64A36EC-E93C-4E45-A886-4FF527FD24AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B64A36EC-E93C-4E45-A886-4FF527FD24AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B64A36EC-E93C-4E45-A886-4FF527FD24AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B64A36EC-E93C-4E45-A886-4FF527FD24AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4667D1C5-BC5F-42B4-B1D6-C2D6A89FF293}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4667D1C5-BC5F-42B4-B1D6-C2D6A89FF293}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4667D1C5-BC5F-42B4-B1D6-C2D6A89FF293}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4667D1C5-BC5F-42B4-B1D6-C2D6A89FF293}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA30529B-BAB0-46E2-B050-AD6C025E14CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA30529B-BAB0-46E2-B050-AD6C025E14CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA30529B-BAB0-46E2-B050-AD6C025E14CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA30529B-BAB0-46E2-B050-AD6C025E14CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C6094CB-EFA2-46F8-B79C-ADAF7716B213}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C6094CB-EFA2-46F8-B79C-ADAF7716B213}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C6094CB-EFA2-46F8-B79C-ADAF7716B213}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C6094CB-EFA2-46F8-B79C-ADAF7716B213}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DEE4AADC-41AD-4EAB-BB99-8E65FE0699AF}
+	EndGlobalSection
+EndGlobal

@@ -43,7 +43,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsServ
             //Arrange
             var operationId = Guid.NewGuid().ToString();
             var sessionId = Guid.NewGuid().ToString();
-            var operation = Sut.StartRequestOperation("RequestName", operationId, "MyOperation", sessionId);
+            var operation = Sut.StartRequestOperation("RequestName", operationId, "MyOperation",sessionId);
             MockTelemetryClient.Mock.Verify(x => x.TrackRequest(It.IsAny<RequestTelemetry>()), Times.Never);
 
             //Act

@@ -46,7 +46,6 @@ namespace Blauhaus.Analytics.Common.Service
                 {
                     Duration = duration,
                     Name = operationName,
-                    
                 };
 
                 TelemetryClient.TrackDependency(dependencyTelemetry);
@@ -63,7 +62,7 @@ namespace Blauhaus.Analytics.Common.Service
                 return StartOperation(operationName);
             }
 
-            return new AnalyticsOperation(CurrentOperation.Id, CurrentOperation.Name, duration =>
+            return new AnalyticsOperation(CurrentOperation, duration =>
             {
                 var dependencyTelemetry = new DependencyTelemetry()
                 {
@@ -77,33 +76,36 @@ namespace Blauhaus.Analytics.Common.Service
         
         public void Trace(string message, LogSeverity logSeverity = LogSeverity.Verbose, Dictionary<string, object> properties = null)
         {
+
+            if (properties == null)
+            {
+                properties = new Dictionary<string, object>();
+            }
+
             if (Config.MinimumLogToServerSeverity.TryGetValue(CurrentBuildConfig, out var minumumSeverityToLogToServer))
             {
                 if (logSeverity >= minumumSeverityToLogToServer)
                 {
 
-                    var stringifiedProperties = new Dictionary<string, string>();
+                    var stringifiedProperties = new Dictionary<string, string> ();
 
-                    if (properties != null)
+                    foreach (var property in properties)
                     {
-                        foreach (var property in properties)
+                        if (property.Value != null)
                         {
-                            if (property.Value != null)
+                            if(property.Value is string stringValue)
                             {
-                                if(property.Value is string stringValue)
-                                {
-                                    stringifiedProperties[property.Key] = stringValue;
-                                }
+                                stringifiedProperties[property.Key] = stringValue;
+                            }
 
-                                if (double.TryParse(property.Value.ToString(), out var numericValue))
-                                {
-                                    stringifiedProperties[property.Key] = numericValue.ToString(CultureInfo.InvariantCulture);
-                                }
+                            if (double.TryParse(property.Value.ToString(), out var numericValue))
+                            {
+                                stringifiedProperties[property.Key] = numericValue.ToString(CultureInfo.InvariantCulture);
+                            }
 
-                                else
-                                {
-                                    stringifiedProperties[property.Key] = JsonConvert.SerializeObject(property.Value);
-                                }
+                            else
+                            {
+                                stringifiedProperties[property.Key] = JsonConvert.SerializeObject(property.Value);
                             }
                         }
                     }
@@ -120,34 +122,35 @@ namespace Blauhaus.Analytics.Common.Service
 
         public void LogEvent(string eventName, Dictionary<string, object> properties = null, Dictionary<string, double> metrics = null)
         {
+            if (properties == null)
+            {
+                properties = new Dictionary<string, object>();
+            }
 
             var stringifiedProperties = new Dictionary<string, string>();
 
-            if (properties != null)
+            foreach (var property in properties)
             {
-                foreach (var property in properties)
+                if (property.Value != null)
                 {
-                    if (property.Value != null)
+                    if(property.Value is string stringValue)
                     {
-                        if(property.Value is string stringValue)
-                        {
-                            stringifiedProperties[property.Key] = stringValue;
-                        }
+                        stringifiedProperties[property.Key] = stringValue;
+                    }
 
-                        if (double.TryParse(property.Value.ToString(), out var numericValue))
-                        {
-                            stringifiedProperties[property.Key] = numericValue.ToString(CultureInfo.InvariantCulture);
-                        }
+                    if (double.TryParse(property.Value.ToString(), out var numericValue))
+                    {
+                        stringifiedProperties[property.Key] = numericValue.ToString(CultureInfo.InvariantCulture);
+                    }
 
-                        else
-                        {
-                            stringifiedProperties[property.Key] = JsonConvert.SerializeObject(property.Value);
-                        }
+                    else
+                    {
+                        stringifiedProperties[property.Key] = JsonConvert.SerializeObject(property.Value);
                     }
                 }
-                
-                TelemetryClient.TrackEvent(eventName, stringifiedProperties, metrics);
             }
+                
+            TelemetryClient.TrackEvent(eventName, stringifiedProperties, metrics);
 
             if (CurrentBuildConfig.Equals(BuildConfig.Debug))
             {

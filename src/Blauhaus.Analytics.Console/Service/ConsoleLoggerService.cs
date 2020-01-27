@@ -37,14 +37,14 @@ namespace Blauhaus.Analytics.Console.Service
                 return StartOperation(operationName);
             }
 
-            return new AnalyticsOperation(CurrentOperation.Id, CurrentOperation.Name, duration =>
+            return new AnalyticsOperation(CurrentOperation, duration =>
             {
                 ConsoleLogger.LogOperation(operationName, duration);
                 CurrentOperation = null;
             });
         }
 
-        public IAnalyticsOperation StartRequestOperation(string requestName, string operationId, string operationName, string sessionId)
+        public IAnalyticsOperation StartRequestOperation(string requestName, string operationName, string operationId, string sessionId)
         {
             CurrentSessionId = sessionId;
 

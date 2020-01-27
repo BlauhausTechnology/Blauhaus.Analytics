@@ -8,16 +8,13 @@ namespace Blauhaus.Analytics.Console.ConsoleLoggers
 {
     public class ConsoleLogger : IConsoleLogger
     {
-        private readonly IApplicationInsightsConfig _config;
         private readonly ITraceProxy _traceProxy;
         private readonly IBuildConfig _currentBuildConfig;
 
         public ConsoleLogger(
-            IApplicationInsightsConfig config,
             ITraceProxy traceProxy,
             IBuildConfig currentBuildConfig)
         {
-            _config = config;
             _traceProxy = traceProxy;
             _currentBuildConfig = currentBuildConfig;
         }

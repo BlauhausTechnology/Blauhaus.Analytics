@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Blauhaus.Analytics.Abstractions.Operation;
 using Blauhaus.Analytics.Abstractions.Service;
 using Blauhaus.Analytics.Common.Service;
@@ -41,5 +42,6 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests._BaseTests
             MockTelemetryClient.Mock.Verify(x => x.TrackDependency(It.Is<DependencyTelemetry>(y => 
                 y.Name == "MyOperation")));
         }
+
     }
 }

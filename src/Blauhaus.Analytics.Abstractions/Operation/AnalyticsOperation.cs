@@ -9,19 +9,26 @@ namespace Blauhaus.Analytics.Abstractions.Operation
 
         private readonly Stopwatch _stopwatch = new Stopwatch();
 
-        public AnalyticsOperation(string id, string operationName, Action<TimeSpan> onStopAction)
+        public AnalyticsOperation(string operationName, string operationId, Action<TimeSpan> onStopAction)
         {
-            _onStopAction = onStopAction;
-            Id = id;
+            Id = operationId;
             Name = operationName;
+            _onStopAction = onStopAction;
+            _stopwatch.Start();
+        }
+        public AnalyticsOperation(IAnalyticsOperation existingOperation, Action<TimeSpan> onStopAction)
+        {
+            Id = existingOperation.Id;
+            Name = existingOperation.Name;
+            _onStopAction = onStopAction;
             _stopwatch.Start();
         }
 
         public AnalyticsOperation(string operationName, Action<TimeSpan> onStopAction)
         {
-            _onStopAction = onStopAction;
             Id = Guid.NewGuid().ToString();
             Name = operationName;
+            _onStopAction = onStopAction;
             _stopwatch.Start();
         }
 

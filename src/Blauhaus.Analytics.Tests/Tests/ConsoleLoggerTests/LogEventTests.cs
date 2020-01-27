@@ -13,7 +13,7 @@ namespace Blauhaus.Analytics.Tests.Tests.ConsoleLoggerTests
 
         protected override ConsoleLogger ConstructSut()
         {
-            return new ConsoleLogger(MockConfig.Object, MockTraceProxy.Object, CurrentBuildConfig);
+            return new ConsoleLogger(MockTraceProxy.Object, CurrentBuildConfig);
         }
 
         [Test]

@@ -72,21 +72,6 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests._BaseTests
                 y["MyObject"] == JsonConvert.SerializeObject(myObject))));
         }
 
-        [Test]
-        public void IF_Build_is_Release_SHOULD_not_log_to_console()
-        {
-            //Arrange
-            CurrentBuildConfig = BuildConfig.Release;
-            var properties = new Dictionary<string, object>();
-
-            //Act
-            Sut.Trace("Trace message", LogSeverity.Verbose, properties);
-
-            //Assert
-            MockConsoleLogger.Mock.Verify(x => x.LogTrace("Trace message", LogSeverity.Verbose, properties), Times.Never);
-            MockTelemetryClient.Mock.Verify(x => x.TrackTrace("Trace message", SeverityLevel.Verbose, It.IsAny<Dictionary<string, string>>()));
-        }
-        
 
         [Test]
         public void IF_configured_min_logSeverity_is_higher_than_message_SHOULD_not_trace_to_server()

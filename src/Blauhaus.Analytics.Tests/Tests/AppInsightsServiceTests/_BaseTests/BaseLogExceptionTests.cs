@@ -77,21 +77,5 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests._BaseTests
                 y["MyObject"] == JsonConvert.SerializeObject(myObject)), metrics));
         }
 
-        [Test]
-        public void IF_Build_is_Release_SHOULD_not_log_to_console()
-        {
-            //Arrange
-            CurrentBuildConfig = BuildConfig.Release;
-            var properties = new Dictionary<string, object>();
-            var metrics = new Dictionary<string, double>();
-
-            //Act
-            Sut.LogException(new Exception("oh dear me"), properties, metrics);
-
-            //Assert
-            MockConsoleLogger.Mock.Verify(x => x.LogException(It.IsAny<Exception>(), properties, metrics), Times.Never);
-            MockTelemetryClient.Mock.Verify(x => x.TrackException(It.Is<Exception>(y => y.Message == "oh dear me"), It.IsAny<Dictionary<string, string>>(), metrics));
-        }
-        
     }
 }

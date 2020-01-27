@@ -85,16 +85,16 @@ namespace Blauhaus.Analytics.Common.Service
 
             if (Config.MinimumLogToServerSeverity.TryGetValue(CurrentBuildConfig, out var minumumSeverityToLogToServer))
             {
+                var stringifiedProperties = new Dictionary<string, string>();
+
                 if (logSeverity >= minumumSeverityToLogToServer)
                 {
-
-                    var stringifiedProperties = new Dictionary<string, string> ();
 
                     foreach (var property in properties)
                     {
                         if (property.Value != null)
                         {
-                            if(property.Value is string stringValue)
+                            if (property.Value is string stringValue)
                             {
                                 stringifiedProperties[property.Key] = stringValue;
                             }
@@ -110,13 +110,12 @@ namespace Blauhaus.Analytics.Common.Service
                             }
                         }
                     }
-                    
-                    TelemetryClient.TrackTrace(message, (SeverityLevel) logSeverity, stringifiedProperties);
-                }
-            }
 
-            if (CurrentBuildConfig.Equals(BuildConfig.Debug))
-            {
+                    //don't log to server if min level is not exceeded
+                    TelemetryClient.TrackTrace(message, (SeverityLevel) logSeverity, stringifiedProperties);
+
+                }
+
                 ConsoleLogger.LogTrace(message, logSeverity, properties);
             }
         }   
@@ -152,14 +151,9 @@ namespace Blauhaus.Analytics.Common.Service
             }
                 
             TelemetryClient.TrackEvent(eventName, stringifiedProperties, metrics);
-
-            if (CurrentBuildConfig.Equals(BuildConfig.Debug))
-            {
-                ConsoleLogger.LogEvent(eventName, properties, metrics);
-            }
+            ConsoleLogger.LogEvent(eventName, properties, metrics);
         }
 
-        //todo next
         public void LogException(Exception exception, Dictionary<string, object> properties = null, Dictionary<string, double> metrics = null)
         {
             if (properties == null)
@@ -191,11 +185,7 @@ namespace Blauhaus.Analytics.Common.Service
             }
                 
             TelemetryClient.TrackException(exception, stringifiedProperties, metrics);
-
-            if (CurrentBuildConfig.Equals(BuildConfig.Debug))
-            {
-                ConsoleLogger.LogException(exception, properties, metrics);
-            }
+            ConsoleLogger.LogException(exception, properties, metrics);
         }
     }
 }

@@ -6,7 +6,6 @@ using Blauhaus.Analytics.Abstractions.Operation;
 using Blauhaus.Analytics.Server.Service;
 using Blauhaus.Analytics.Tests.Tests._Base;
 using Microsoft.ApplicationInsights.DataContracts;
-using Microsoft.AspNetCore.Http;
 using Moq;
 using NUnit.Framework;
 

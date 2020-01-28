@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http.Headers;
-using Blauhaus.Analytics.Abstractions.Config;
 using Blauhaus.Analytics.Abstractions.Http;
 using Blauhaus.Analytics.Abstractions.Operation;
 using Blauhaus.Analytics.Abstractions.Service;
 using Blauhaus.Analytics.Console.ConsoleLoggers;
-using Microsoft.AspNetCore.Http;
 
 namespace Blauhaus.Analytics.Console.Service
 {
@@ -21,8 +18,8 @@ namespace Blauhaus.Analytics.Console.Service
             ConsoleLogger = consoleLogger;
         }
 
-        public IAnalyticsOperation CurrentOperation { get; private set; }
-        public string CurrentSessionId { get; private set; }
+        public IAnalyticsOperation? CurrentOperation { get; private set; }
+        public string? CurrentSessionId { get; private set; }
 
         public IAnalyticsOperation StartOperation(string operationName)
         {
@@ -98,17 +95,17 @@ namespace Blauhaus.Analytics.Console.Service
             return headers;
         }
 
-        public void Trace(string message, LogSeverity logSeverityLevel = LogSeverity.Verbose, Dictionary<string, object> properties = null)
+        public void Trace(string message, LogSeverity logSeverityLevel = LogSeverity.Verbose, Dictionary<string, object>? properties = null)
         {
             ConsoleLogger.LogTrace(message, logSeverityLevel, properties);
         }
 
-        public void LogEvent(string eventName, Dictionary<string, object> properties = null, Dictionary<string, double> metrics = null)
+        public void LogEvent(string eventName, Dictionary<string, object>? properties = null, Dictionary<string, double>? metrics = null)
         {
             ConsoleLogger.LogEvent(eventName, properties, metrics);
         }
 
-        public void LogException(Exception exception, Dictionary<string, object> properties = null, Dictionary<string, double> metrics = null)
+        public void LogException(Exception exception, Dictionary<string, object>? properties = null, Dictionary<string, double>? metrics = null)
         {
             ConsoleLogger.LogException(exception, properties, metrics);
         }

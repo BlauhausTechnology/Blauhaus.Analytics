@@ -9,7 +9,7 @@ namespace Blauhaus.Analytics.Console._Ioc
     public static class ServiceCollectionExtensions
     {
 
-        public static IServiceCollection RegisterConsoleLoggerService(this IServiceCollection services, TraceListener consoleTraceListener)
+        public static IServiceCollection RegisterConsoleLoggerServerService(this IServiceCollection services, TraceListener consoleTraceListener)
         {
             
             //so that console logging works

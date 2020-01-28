@@ -1,4 +1,4 @@
-﻿using System.Net.Http.Headers;
+﻿using System.Collections.Generic;
 using Blauhaus.Analytics.Abstractions.Operation;
 
 namespace Blauhaus.Analytics.Abstractions.Service
@@ -6,6 +6,6 @@ namespace Blauhaus.Analytics.Abstractions.Service
     public interface IAnalyticsClientService : IAnalyticsService
     {
         IAnalyticsOperation StartPageViewOperation(string viewName);
-        HttpRequestHeaders AddAnalyticsHeaders(HttpRequestHeaders headers);
+        IDictionary<string, string> AnalyticsOperationHeaders { get; }
     }
 }

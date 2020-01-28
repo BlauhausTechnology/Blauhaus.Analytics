@@ -17,18 +17,10 @@ namespace Blauhaus.Analytics.Console._Ioc
 
             services.AddScoped<ITraceProxy, TraceProxy>();
             services.AddScoped<IConsoleLogger, ConsoleLogger>();
+            services.AddScoped<IAnalyticsService, ConsoleLoggerService>();
 
             return services;
         }
 
-
-        public static IServiceCollection RegisterConsoleLoggerServerService(this IServiceCollection services, TraceListener consoleTraceListener)
-        {
-            services.RegisterConsoleLogger(consoleTraceListener);
-            services.AddScoped<IAnalyticsServerService, ConsoleLoggerService>();
-            services.AddScoped<IAnalyticsService>(x => x.GetService<IAnalyticsServerService>());
-
-            return services;
-        }
     }
 }

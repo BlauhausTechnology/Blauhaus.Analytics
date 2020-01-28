@@ -10,7 +10,7 @@ using NUnit.Framework;
 namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsClientServiceTests
 {
     [TestFixture]
-    public class AddAnalyticsHeadersTests : BaseAnalyticsServiceTest<AnalyticsClientService>
+    public class AnalyticsOperationHeadersTests : BaseAnalyticsServiceTest<AnalyticsClientService>
     {
         protected override AnalyticsClientService ConstructSut()
         {
@@ -26,18 +26,17 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsClie
         {
             //Arrange
             var currentOperation = Sut.StartOperation("Operation");
-            var headers = new HttpRequestMessage().Headers;
             
             //Act
-            var result = Sut.AddAnalyticsHeaders(headers);
+            var result = Sut.AnalyticsOperationHeaders;
 
             //Assert
-            result.TryGetValues(AnalyticsHeaders.OperationId, out var operationId);
-            Assert.That(operationId.First(), Is.EqualTo(currentOperation.Id));
-            result.TryGetValues(AnalyticsHeaders.OperationName, out var operationName);
-            Assert.That(operationName.First(), Is.EqualTo("Operation"));
-            result.TryGetValues(AnalyticsHeaders.SessionId, out var sessionId);
-            Assert.That(sessionId.First(), Is.EqualTo(Sut.CurrentSessionId));
+            result.TryGetValue(AnalyticsHeaders.OperationId, out var operationId);
+            Assert.That(operationId, Is.EqualTo(currentOperation.Id));
+            result.TryGetValue(AnalyticsHeaders.OperationName, out var operationName);
+            Assert.That(operationName, Is.EqualTo("Operation"));
+            result.TryGetValue(AnalyticsHeaders.SessionId, out var sessionId);
+            Assert.That(sessionId, Is.EqualTo(Sut.CurrentSessionId));
         }
     }
 }

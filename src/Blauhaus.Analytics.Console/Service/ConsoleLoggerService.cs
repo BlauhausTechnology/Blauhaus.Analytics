@@ -8,7 +8,7 @@ using Blauhaus.Analytics.Console.ConsoleLoggers;
 
 namespace Blauhaus.Analytics.Console.Service
 {
-    public class ConsoleLoggerService: IAnalyticsClientService, IAnalyticsServerService, IAnalyticsService
+    public class ConsoleLoggerService: IAnalyticsService
     {
         protected readonly IConsoleLogger ConsoleLogger;
 
@@ -44,55 +44,6 @@ namespace Blauhaus.Analytics.Console.Service
                 ConsoleLogger.LogOperation(operationName, duration);
                 CurrentOperation = null;
             });
-        }
-
-        public IAnalyticsOperation StartRequestOperation(string requestName, string operationName, string operationId, string sessionId)
-        {
-            CurrentSessionId = sessionId;
-
-            CurrentOperation = new AnalyticsOperation(operationId, operationName, duration =>
-            {
-                ConsoleLogger.LogOperation(requestName, duration);
-                CurrentOperation = null;
-            });
-
-            return CurrentOperation;
-        }
-
-        public IAnalyticsOperation StartRequestOperation(string requestName, IDictionary<string, string> headers)
-        {
-            if (!headers.TryGetValue(AnalyticsHeaders.OperationName, out var operationNames))
-            {
-                throw new ArgumentException(AnalyticsHeaders.OperationName + " missing from request headers");
-            }
-            
-            if (!headers.TryGetValue(AnalyticsHeaders.OperationId, out var operationIds))
-            {
-                throw new ArgumentException(AnalyticsHeaders.OperationId + " missing from request headers");
-            }
-            
-            if (!headers.TryGetValue(AnalyticsHeaders.SessionId, out var sessionId))
-            {
-                throw new ArgumentException(AnalyticsHeaders.SessionId + " missing from request headers");
-            }
-
-            return StartRequestOperation(requestName, operationNames, operationIds, sessionId);
-        }
-
-        public IAnalyticsOperation StartPageViewOperation(string viewName)
-        {
-            CurrentOperation = new AnalyticsOperation(viewName, duration =>
-            {
-                ConsoleLogger.LogOperation(viewName, duration);
-                CurrentOperation = null;
-            });
-
-            return CurrentOperation;
-        }
-
-        public HttpRequestHeaders AddAnalyticsHeaders(HttpRequestHeaders headers)
-        {
-            return headers;
         }
 
         public void Trace(string message, LogSeverity logSeverityLevel = LogSeverity.Verbose, Dictionary<string, object>? properties = null)

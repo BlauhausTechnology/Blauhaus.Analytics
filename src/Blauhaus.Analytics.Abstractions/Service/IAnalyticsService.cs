@@ -14,7 +14,7 @@ namespace Blauhaus.Analytics.Abstractions.Service
 
         void Trace(string message, LogSeverity logSeverityLevel = 0, Dictionary<string, object>? properties = null);
         void LogEvent(string eventName, Dictionary<string, object>? properties = null, Dictionary<string, double>? metrics = null);
-        void LogException(Exception exception, Dictionary<string, object> properties = null, Dictionary<string, double> metrics = null);
+        void LogException(Exception exception, Dictionary<string, object>? properties = null, Dictionary<string, double>? metrics = null);
 
     }
 }

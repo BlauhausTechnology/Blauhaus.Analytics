@@ -8,22 +8,14 @@ namespace Blauhaus.Analytics.Console._Ioc
     public static class IocServiceExtensions
     {
 
-
-
         public static IIocService RegisterConsoleLogger(this IIocService iocService)
         {
             iocService.RegisterImplementation<ITraceProxy, TraceProxy>();
             iocService.RegisterImplementation<IConsoleLogger, ConsoleLogger>();
-            return iocService;
-        }
-
-        public static IIocService RegisterConsoleLoggerClientService(this IIocService iocService)
-        {
-            iocService.RegisterConsoleLogger();
-            iocService.RegisterImplementation<IAnalyticsClientService, ConsoleLoggerService>(IocLifetime.Singleton);
-            iocService.RegisterInstance<IAnalyticsService>(iocService.Resolve<IAnalyticsClientService>());
+            iocService.RegisterImplementation<IAnalyticsService, ConsoleLoggerService>(IocLifetime.Singleton);
 
             return iocService;
         }
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http.Headers;
 using Blauhaus.Analytics.Abstractions.Config;
 using Blauhaus.Analytics.Abstractions.Http;
@@ -14,6 +15,7 @@ namespace Blauhaus.Analytics.Client.Service
 {
     public class AnalyticsClientService : BaseAnalyticsServerService, IAnalyticsClientService
     {
+
         public AnalyticsClientService(
             IApplicationInsightsConfig config, 
             IConsoleLogger appInsightsLogger, 
@@ -44,13 +46,12 @@ namespace Blauhaus.Analytics.Client.Service
             return CurrentOperation;
         }
 
-        public HttpRequestHeaders AddAnalyticsHeaders(HttpRequestHeaders headers)
+        public IDictionary<string, string> AnalyticsOperationHeaders => new Dictionary<string, string>
         {
-            headers.Add(AnalyticsHeaders.OperationName, CurrentOperation.Name);
-            headers.Add(AnalyticsHeaders.OperationId, CurrentOperation.Id);
-            headers.Add(AnalyticsHeaders.SessionId, CurrentSessionId);
+            {AnalyticsHeaders.OperationName, CurrentOperation?.Name },
+            {AnalyticsHeaders.OperationId, CurrentOperation?.Id },
+            {AnalyticsHeaders.SessionId, CurrentSessionId }
+        };
 
-            return headers;
-        }
     }
 }

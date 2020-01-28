@@ -9,12 +9,12 @@ using NUnit.Framework;
 
 namespace Blauhaus.Analytics.Tests.Tests.ConsoleLoggerTests
 {
-    public class TraceTests : BaseAppInsightsTest<ConsoleLogger>
+    public class LogTraceTests : BaseAnalyticsServiceTest<ConsoleLogger>
     {
 
         protected override ConsoleLogger ConstructSut()
         {
-            return new ConsoleLogger(MockConfig.Object, MockTraceProxy.Object, CurrentBuildConfig);
+            return new ConsoleLogger(MockTraceProxy.Object, CurrentBuildConfig);
         }
 
         [Test]
@@ -24,7 +24,7 @@ namespace Blauhaus.Analytics.Tests.Tests.ConsoleLoggerTests
             CurrentBuildConfig = BuildConfig.Release;
 
             //Act
-            Sut.TrackTrace("message", LogSeverity.Error);
+            Sut.LogTrace("message", LogSeverity.Error);
 
             //Assert
             MockTraceProxy.Mock.Verify(x => x.Write(It.IsAny<string>()), Times.Never);
@@ -35,7 +35,7 @@ namespace Blauhaus.Analytics.Tests.Tests.ConsoleLoggerTests
         public void SHOULD_trace_message_in_nice_colour()
         {
             //Act
-            Sut.TrackTrace("message", LogSeverity.Error);
+            Sut.LogTrace("message", LogSeverity.Error);
 
             //Assert
             MockTraceProxy.Mock.Verify(x => x.SetColour(ConsoleColours.TraceColours[LogSeverity.Error]));
@@ -47,7 +47,7 @@ namespace Blauhaus.Analytics.Tests.Tests.ConsoleLoggerTests
         public void IF_properties_are_specified_SHOULD_write_them()
         {
             //Act
-            Sut.TrackTrace("message", LogSeverity.Error, new Dictionary<string, object>
+            Sut.LogTrace("message", LogSeverity.Error, new Dictionary<string, object>
             {
                 {"EventProperty1", "EventValue1" },
                 {"EventProperty2", "EventValue2" },

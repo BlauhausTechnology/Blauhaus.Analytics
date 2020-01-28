@@ -9,14 +9,15 @@ using NUnit.Framework;
 namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsClientServiceTests
 {
     [TestFixture]
-    public class StartPageViewOperationTests : BaseAppInsightsTest<AppInsightsClientService>
+    public class StartPageViewOperationTests : BaseAnalyticsServiceTest<AnalyticsClientService>
     {
-        protected override AppInsightsClientService ConstructSut()
+        protected override AnalyticsClientService ConstructSut()
         {
-            return new AppInsightsClientService(
+            return new AnalyticsClientService(
                 MockConfig.Object,
                 MockConsoleLogger.Object,
-                MockTelemetryClient.Object);
+                MockTelemetryClient.Object,
+                CurrentBuildConfig);
         }
 
         [Test]
@@ -48,6 +49,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsClie
                 y.Name == "MyOperation"), Sut.CurrentSessionId));
             MockTelemetryClient.Mock.Verify(x => x.TrackPageView(It.Is<PageViewTelemetry>(y => 
                 y.Name == "MyOperation")));
+            MockConsoleLogger.Mock.Verify(x => x.LogOperation("MyOperation", It.IsAny<TimeSpan>()));
         }
     }
 }

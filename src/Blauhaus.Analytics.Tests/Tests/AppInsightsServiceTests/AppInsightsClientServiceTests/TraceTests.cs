@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsClientServiceTests
 {
     [TestFixture]
-    public class ContinueOperationTests : BaseContinueOperationTests<AnalyticsClientService>
+    public class TraceTests : BaseTraceTests<AnalyticsClientService>
     {
         protected override AnalyticsClientService ConstructSut()
         {
@@ -15,6 +15,5 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsClie
                 MockTelemetryClient.Object,
                 CurrentBuildConfig);
         }
-
     }
 }

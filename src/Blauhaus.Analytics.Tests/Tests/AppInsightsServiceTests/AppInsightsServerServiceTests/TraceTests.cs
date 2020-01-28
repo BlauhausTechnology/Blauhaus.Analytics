@@ -1,20 +1,20 @@
 ﻿using Blauhaus.Analytics.Client.Service;
+using Blauhaus.Analytics.Server.Service;
 using Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests._BaseTests;
 using NUnit.Framework;
 
-namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsClientServiceTests
+namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsServerServiceTests
 {
     [TestFixture]
-    public class ContinueOperationTests : BaseContinueOperationTests<AnalyticsClientService>
+    public class TraceTests : BaseTraceTests<AnalyticsServerService>
     {
-        protected override AnalyticsClientService ConstructSut()
+        protected override AnalyticsServerService ConstructSut()
         {
-            return new AnalyticsClientService(
+            return new AnalyticsServerService(
                 MockConfig.Object,
                 MockConsoleLogger.Object,
                 MockTelemetryClient.Object,
                 CurrentBuildConfig);
         }
-
     }
 }

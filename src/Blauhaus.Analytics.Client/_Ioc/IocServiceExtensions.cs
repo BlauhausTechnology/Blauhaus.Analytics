@@ -16,9 +16,9 @@ namespace Blauhaus.Analytics.Client._Ioc
             iocService.RegisterConsoleLogger();
 
             iocService.RegisterImplementation<IApplicationInsightsConfig, TConfig>(IocLifetime.Singleton);
-            iocService.RegisterImplementation<IAppInsightsClientService, AppInsightsClientService>(IocLifetime.Singleton);
+            iocService.RegisterImplementation<IAnalyticsClientService, AnalyticsClientService>(IocLifetime.Singleton);
             iocService.RegisterImplementation<ITelemetryClientProxy, TelemetryClientProxy>(IocLifetime.Singleton);
-            iocService.RegisterInstance<IAppInsightsService>(iocService.Resolve<IAppInsightsClientService>());
+            iocService.RegisterInstance<IAnalyticsService>(iocService.Resolve<IAnalyticsClientService>());
 
             return iocService;
         }

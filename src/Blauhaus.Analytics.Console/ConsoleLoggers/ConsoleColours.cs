@@ -17,6 +17,7 @@ namespace Blauhaus.Analytics.Console.ConsoleLoggers
 
         public static ConsoleColor EventColour { get; } = ConsoleColor.Magenta;
         public static ConsoleColor ExceptionColour { get; } = ConsoleColor.Red;
+        public static ConsoleColor OperationColour { get; } = ConsoleColor.DarkYellow;
 
     }
 }

@@ -1,42 +1,64 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Net.Http.Headers;
+using Blauhaus.Analytics.Abstractions.Http;
 using Blauhaus.Analytics.Abstractions.Operation;
 using Blauhaus.Analytics.Abstractions.Service;
+using Blauhaus.Analytics.Console.ConsoleLoggers;
 
 namespace Blauhaus.Analytics.Console.Service
 {
-    public class ConsoleLoggerService: IAppInsightsClientService, IAppInsightsServerService
+    public class ConsoleLoggerService: IAnalyticsService
     {
-        public IAnalyticsOperation CurrentOperation { get; }
-        public string CurrentSessionId { get; }
+        protected readonly IConsoleLogger ConsoleLogger;
+
+        public ConsoleLoggerService(
+            IConsoleLogger consoleLogger)
+        {
+            ConsoleLogger = consoleLogger;
+        }
+
+        public IAnalyticsOperation? CurrentOperation { get; private set; }
+        public string? CurrentSessionId { get; private set; }
 
         public IAnalyticsOperation StartOperation(string operationName)
         {
-            throw new System.NotImplementedException();
+            CurrentOperation = new AnalyticsOperation(operationName, duration =>
+            {
+                ConsoleLogger.LogOperation(operationName, duration);
+                CurrentOperation = null;
+            });
+
+            return CurrentOperation;
         }
 
         public IAnalyticsOperation ContinueOperation(string operationName)
         {
-            throw new System.NotImplementedException();
+            if (CurrentOperation == null)
+            {
+                return StartOperation(operationName);
+            }
+
+            return new AnalyticsOperation(CurrentOperation, duration =>
+            {
+                ConsoleLogger.LogOperation(operationName, duration);
+                CurrentOperation = null;
+            });
         }
 
-        public void Trace(string message, LogSeverity logSeverityLevel = LogSeverity.Verbose, Dictionary<string, object> properties = null)
+        public void Trace(string message, LogSeverity logSeverityLevel = LogSeverity.Verbose, Dictionary<string, object>? properties = null)
         {
-            throw new System.NotImplementedException();
+            ConsoleLogger.LogTrace(message, logSeverityLevel, properties);
         }
 
-        public void LogEvent(string eventName, Dictionary<string, object> properties = null, Dictionary<string, double> metrics = null)
+        public void LogEvent(string eventName, Dictionary<string, object>? properties = null, Dictionary<string, double>? metrics = null)
         {
-            throw new System.NotImplementedException();
+            ConsoleLogger.LogEvent(eventName, properties, metrics);
         }
 
-        public IAnalyticsOperation StartRequestOperation(string requestName, string operationId, string operationName, string sessionId)
+        public void LogException(Exception exception, Dictionary<string, object>? properties = null, Dictionary<string, double>? metrics = null)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public IAnalyticsOperation StartPageViewOperation(string viewName)
-        {
-            throw new System.NotImplementedException();
+            ConsoleLogger.LogException(exception, properties, metrics);
         }
     }
 }

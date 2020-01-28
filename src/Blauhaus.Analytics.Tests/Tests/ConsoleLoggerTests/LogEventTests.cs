@@ -7,13 +7,13 @@ using NUnit.Framework;
 
 namespace Blauhaus.Analytics.Tests.Tests.ConsoleLoggerTests
 {
-    public class LogEventTests : BaseAppInsightsTest<ConsoleLogger>
+    public class LogEventTests : BaseAnalyticsServiceTest<ConsoleLogger>
     {
 
 
         protected override ConsoleLogger ConstructSut()
         {
-            return new ConsoleLogger(MockConfig.Object, MockTraceProxy.Object, CurrentBuildConfig);
+            return new ConsoleLogger(MockTraceProxy.Object, CurrentBuildConfig);
         }
 
         [Test]
@@ -23,7 +23,7 @@ namespace Blauhaus.Analytics.Tests.Tests.ConsoleLoggerTests
             CurrentBuildConfig = BuildConfig.Release;
 
             //Act
-            Sut.TrackEvent("EventName");
+            Sut.LogEvent("EventName");
 
             //Assert
             MockTraceProxy.Mock.Verify(x => x.Write(It.IsAny<string>()), Times.Never);
@@ -34,7 +34,7 @@ namespace Blauhaus.Analytics.Tests.Tests.ConsoleLoggerTests
         public void SHOULD_trace_event_name_in_nice_colour()
         {
             //Act
-            Sut.TrackEvent("EventName");
+            Sut.LogEvent("EventName");
 
             //Assert
             MockTraceProxy.Mock.Verify(x => x.SetColour(ConsoleColours.EventColour));
@@ -46,7 +46,7 @@ namespace Blauhaus.Analytics.Tests.Tests.ConsoleLoggerTests
         public void IF_properties_are_specified_SHOULD_write_them()
         {
             //Act
-            Sut.TrackEvent("EventName", new Dictionary<string, object>
+            Sut.LogEvent("EventName", new Dictionary<string, object>
             {
                 {"EventProperty1", "EventValue1" },
                 {"EventProperty2", "EventValue2" },
@@ -61,7 +61,7 @@ namespace Blauhaus.Analytics.Tests.Tests.ConsoleLoggerTests
         public void IF_metrics_are_specified_SHOULD_write_them()
         {
             //Act
-            Sut.TrackEvent("EventName", null, new Dictionary<string, double>
+            Sut.LogEvent("EventName", null, new Dictionary<string, double>
             {
                 {"EventMetric1", 1 },
                 {"EventMetric2", 2 }

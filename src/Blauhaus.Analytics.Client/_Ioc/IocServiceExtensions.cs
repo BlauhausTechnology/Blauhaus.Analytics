@@ -10,7 +10,7 @@ namespace Blauhaus.Analytics.Client._Ioc
 {
     public static class IocServiceExtensions
     {
-        public static IIocService RegisterAppInsightsClient<TConfig>(this IIocService iocService) 
+        public static IIocService RegisterAnalyticsClientService<TConfig>(this IIocService iocService) 
             where TConfig : class, IApplicationInsightsConfig
         {
             iocService.RegisterConsoleLoggerClientService();

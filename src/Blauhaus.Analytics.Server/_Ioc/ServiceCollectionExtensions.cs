@@ -11,7 +11,7 @@ namespace Blauhaus.Analytics.Server._Ioc
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection RegisterAppInsightsServer<TConfig>(this IServiceCollection services, TraceListener consoleTraceListener) 
+        public static IServiceCollection RegisterAnalyticsServerService<TConfig>(this IServiceCollection services, TraceListener consoleTraceListener) 
             where TConfig : class, IApplicationInsightsConfig
         {
             services.RegisterConsoleLoggerServerService(consoleTraceListener);
@@ -20,7 +20,6 @@ namespace Blauhaus.Analytics.Server._Ioc
             services.AddScoped<IAnalyticsServerService, AnalyticsServerService>();
             services.AddScoped<ITelemetryClientProxy, TelemetryClientProxy>();
             services.AddScoped<IAnalyticsService>(x => x.GetService<IAnalyticsServerService>());
-
             
             services.AddApplicationInsightsTelemetry();
 

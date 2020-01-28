@@ -12,18 +12,18 @@ jobs:
      - uses: actions/checkout@v1
      - name: Set Version
        run: |
-        npm install @actions/core --save
-        node ./scripts/getversion.js
+        npm install @actions\core --save
+        node .\scripts\getversion.js
      - name: Build NuGet Package
        run: |
-        dotnet build ./src/Blauhaus.Analytics.sln --configuration Release
-        dotnet pack ./src/Blauhaus.Analytics.Abstractions/Blauhaus.Analytics.Abstractions.csproj -p:PackageVersion=${VERSION_NAME} --no-build --output ./ --configuration Release 
-        dotnet pack ./src/Blauhaus.Analytics.Client/Blauhaus.Analytics.Client.csproj -p:PackageVersion=${VERSION_NAME} --no-build --output ./ --configuration Release 
-        dotnet pack ./src/Blauhaus.Analytics.Console/Blauhaus.Analytics.Console.csproj -p:PackageVersion=${VERSION_NAME} --no-build --output ./ --configuration Release 
-        dotnet pack ./src/Blauhaus.Analytics.Server/Blauhaus.Analytics.Server.csproj -p:PackageVersion=${VERSION_NAME} --no-build --output ./ --configuration Release 
+        dotnet build .\src\Blauhaus.Analytics.sln --configuration Release
+        dotnet pack .\src\Blauhaus.Analytics.Abstractions\Blauhaus.Analytics.Abstractions.csproj -p:PackageVersion=${VERSION_NAME} --no-build --output .\ --configuration Release
+        dotnet pack .\src\Blauhaus.Analytics.Client\Blauhaus.Analytics.Client.csproj -p:PackageVersion=${VERSION_NAME} --no-build --output .\ --configuration Release
+        dotnet pack .\src\Blauhaus.Analytics.Console\Blauhaus.Analytics.Console.csproj -p:PackageVersion=${VERSION_NAME} --no-build --output .\ --configuration Release
+        dotnet pack .\src\Blauhaus.Analytics.Server\Blauhaus.Analytics.Server.csproj -p:PackageVersion=${VERSION_NAME} --no-build --output .\ --configuration Release
      - name: Deploy NuGet Package
        run:  |
-        dotnet nuget push /home/runner/work/Blauhaus.Analytics/Blauhaus.Analytics/Blauhaus.Analytics.Abstractions.${VERSION_NAME}.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
-        dotnet nuget push /home/runner/work/Blauhaus.Analytics/Blauhaus.Analytics/Blauhaus.Analytics.Client.${VERSION_NAME}.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
-        dotnet nuget push /home/runner/work/Blauhaus.Analytics/Blauhaus.Analytics/Blauhaus.Analytics.Console.${VERSION_NAME}.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
-        dotnet nuget push /home/runner/work/Blauhaus.Analytics/Blauhaus.Analytics/Blauhaus.Analytics.Server.ApplicationInsights.${VERSION_NAME}.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
+        dotnet nuget push \home\runner\work\Blauhaus.Analytics\Blauhaus.Analytics\Blauhaus.Analytics.Abstractions.${VERSION_NAME}.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https:\\api.nuget.org\v3\index.json
+        dotnet nuget push \home\runner\work\Blauhaus.Analytics\Blauhaus.Analytics\Blauhaus.Analytics.Client.${VERSION_NAME}.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https:\\api.nuget.org\v3\index.json
+        dotnet nuget push \home\runner\work\Blauhaus.Analytics\Blauhaus.Analytics\Blauhaus.Analytics.Console.${VERSION_NAME}.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https:\\api.nuget.org\v3\index.json
+        dotnet nuget push \home\runner\work\Blauhaus.Analytics\Blauhaus.Analytics\Blauhaus.Analytics.Server.ApplicationInsights.${VERSION_NAME}.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https:\\api.nuget.org\v3\index.json

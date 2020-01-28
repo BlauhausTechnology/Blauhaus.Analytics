@@ -16,6 +16,5 @@ namespace Blauhaus.Analytics.Console._Ioc
 
             return iocService;
         }
-
     }
 }

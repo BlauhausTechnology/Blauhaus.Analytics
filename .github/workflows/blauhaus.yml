@@ -7,12 +7,9 @@ on:
 jobs:
 
   build:
-     runs-on: ubuntu-latest
+     runs-on: windows-latest
      steps:
      - uses: actions/checkout@v1
-     - uses: actions/setup-dotnet@v1
-     with:
-       dotnet-version: '3.1.100' 
      - name: Set Version
        run: |
         npm install @actions/core --save

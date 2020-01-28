@@ -13,7 +13,7 @@ namespace Blauhaus.Analytics.Client._Ioc
         public static IIocService RegisterAppInsightsClient<TConfig>(this IIocService iocService) 
             where TConfig : class, IApplicationInsightsConfig
         {
-            iocService.RegisterConsoleLogger();
+            iocService.RegisterConsoleLoggerService();
 
             iocService.RegisterImplementation<IApplicationInsightsConfig, TConfig>(IocLifetime.Singleton);
             iocService.RegisterImplementation<IAnalyticsClientService, AnalyticsClientService>(IocLifetime.Singleton);

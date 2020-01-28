@@ -51,6 +51,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests._BaseTests
                 y["Double"] == 1.2d.ToString(CultureInfo.InvariantCulture) &&
                 y["Decimal"] == 1.2m.ToString(CultureInfo.InvariantCulture) &&
                 y.ContainsKey("String") &&
+                //y["String"] == "stringValue"), metrics));
                 y["String"] == "\"stringValue\""), metrics));
         }
 

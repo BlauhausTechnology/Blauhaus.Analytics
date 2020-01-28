@@ -14,7 +14,7 @@ using Newtonsoft.Json;
 
 namespace Blauhaus.Analytics.Common.Service
 {
-    public abstract class BaseAnalyticsServerService : IAnalyticsService
+    public abstract class BaseAnalyticsService : IAnalyticsService
     {
         protected readonly IApplicationInsightsConfig Config;
         protected readonly IConsoleLogger ConsoleLogger;
@@ -23,7 +23,7 @@ namespace Blauhaus.Analytics.Common.Service
         private readonly ITelemetryClientProxy _telemetryClient;
         protected ITelemetryClientProxy TelemetryClient => _telemetryClient.UpdateOperation(CurrentOperation, CurrentSessionId);
 
-        protected BaseAnalyticsServerService(
+        protected BaseAnalyticsService(
             IApplicationInsightsConfig config, 
             IConsoleLogger appInsightsLogger, 
             ITelemetryClientProxy telemetryClient, 

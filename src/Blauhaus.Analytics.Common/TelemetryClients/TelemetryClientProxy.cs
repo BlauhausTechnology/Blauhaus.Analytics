@@ -25,8 +25,11 @@ namespace Blauhaus.AppInsights.Abstractions.TelemetryClients
 
         public ITelemetryClientProxy UpdateOperation(IAnalyticsOperation analyticsOperation, string sessiondId)
         {
-            _client.Context.Operation.Id = analyticsOperation.Id;
-            _client.Context.Operation.Name = analyticsOperation.Name;
+            if (analyticsOperation != null)
+            {
+                _client.Context.Operation.Id = analyticsOperation.Id;
+                _client.Context.Operation.Name = analyticsOperation.Name;
+            }
             _client.Context.Session.Id = sessiondId;
             return this;
         }

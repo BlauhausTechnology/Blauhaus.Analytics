@@ -13,7 +13,7 @@ using Microsoft.ApplicationInsights.DataContracts;
 
 namespace Blauhaus.Analytics.Client.Service
 {
-    public class AnalyticsClientService : BaseAnalyticsServerService, IAnalyticsClientService
+    public class AnalyticsClientService : BaseAnalyticsService, IAnalyticsClientService
     {
 
         public AnalyticsClientService(

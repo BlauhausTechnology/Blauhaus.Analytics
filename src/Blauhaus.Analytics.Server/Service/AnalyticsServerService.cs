@@ -14,7 +14,7 @@ using Microsoft.ApplicationInsights.DataContracts;
 
 namespace Blauhaus.Analytics.Server.Service
 {
-    public class AnalyticsServerService : BaseAnalyticsServerService, IAnalyticsServerService
+    public class AnalyticsServerService : BaseAnalyticsService, IAnalyticsServerService
     {
 
         public AnalyticsServerService(

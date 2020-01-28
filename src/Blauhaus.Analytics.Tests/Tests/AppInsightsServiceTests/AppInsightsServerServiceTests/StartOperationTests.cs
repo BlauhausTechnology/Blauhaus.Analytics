@@ -3,11 +3,11 @@ using Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests._BaseTests;
 
 namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsServerServiceTests
 {
-    public class StartOperationTests : BaseStartOperationTests<AnalyticsServerServerService>
+    public class StartOperationTests : BaseStartOperationTests<AnalyticsServerService>
     {
-        protected override AnalyticsServerServerService ConstructSut()
+        protected override AnalyticsServerService ConstructSut()
         {
-            return new AnalyticsServerServerService(
+            return new AnalyticsServerService(
                 MockConfig.Object,
                 MockConsoleLogger.Object,
                 MockTelemetryClient.Object,

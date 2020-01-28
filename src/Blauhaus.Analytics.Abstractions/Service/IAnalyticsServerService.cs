@@ -1,4 +1,6 @@
-﻿using Blauhaus.Analytics.Abstractions.Operation;
+﻿using System.Collections.Generic;
+using System.Net.Http.Headers;
+using Blauhaus.Analytics.Abstractions.Operation;
 
 namespace Blauhaus.Analytics.Abstractions.Service
 {
@@ -6,5 +8,6 @@ namespace Blauhaus.Analytics.Abstractions.Service
     {
 
         IAnalyticsOperation StartRequestOperation(string requestName, string operationId, string operationName, string sessionId);
+        IAnalyticsOperation StartRequestOperation(string requestName, IDictionary<string, string> headers);
     }
 }

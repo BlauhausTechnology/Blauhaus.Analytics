@@ -12,7 +12,7 @@ using NUnit.Framework;
 
 namespace Blauhaus.Analytics.Tests.Tests._Base
 {
-    public abstract class BaseAppInsightsTest<TSut> : BaseUnitTest<TSut> where TSut : class
+    public abstract class BaseAnalyticsServiceTest<TSut> : BaseUnitTest<TSut> where TSut : class
     {
 
         protected MockBuilder<ITraceProxy> MockTraceProxy;

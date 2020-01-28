@@ -8,7 +8,7 @@ using NUnit.Framework;
 
 namespace Blauhaus.Analytics.Tests.Tests.ConsoleLoggerTests
 {
-    public class LogExceptionTests : BaseAppInsightsTest<ConsoleLogger>
+    public class LogExceptionTests : BaseAnalyticsServiceTest<ConsoleLogger>
     {
 
 

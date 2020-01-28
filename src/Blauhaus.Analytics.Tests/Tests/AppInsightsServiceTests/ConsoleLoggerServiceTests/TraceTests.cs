@@ -6,7 +6,7 @@ using NUnit.Framework;
 
 namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.ConsoleLoggerServiceTests
 {
-    public class TraceTests : BaseAppInsightsTest<ConsoleLoggerService>
+    public class TraceTests : BaseAnalyticsServiceTest<ConsoleLoggerService>
     {
         protected override ConsoleLoggerService ConstructSut()
         {

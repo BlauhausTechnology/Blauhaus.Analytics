@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http.Headers;
 using Blauhaus.Analytics.Abstractions.Config;
+using Blauhaus.Analytics.Abstractions.Http;
 using Blauhaus.Analytics.Abstractions.Operation;
 using Blauhaus.Analytics.Abstractions.Service;
 using Blauhaus.Analytics.Console.ConsoleLoggers;
+using Microsoft.AspNetCore.Http;
 
 namespace Blauhaus.Analytics.Console.Service
 {
@@ -58,6 +62,26 @@ namespace Blauhaus.Analytics.Console.Service
             return CurrentOperation;
         }
 
+        public IAnalyticsOperation StartRequestOperation(string requestName, IDictionary<string, string> headers)
+        {
+            if (!headers.TryGetValue(AnalyticsHeaders.OperationName, out var operationNames))
+            {
+                throw new ArgumentException(AnalyticsHeaders.OperationName + " missing from request headers");
+            }
+            
+            if (!headers.TryGetValue(AnalyticsHeaders.OperationId, out var operationIds))
+            {
+                throw new ArgumentException(AnalyticsHeaders.OperationId + " missing from request headers");
+            }
+            
+            if (!headers.TryGetValue(AnalyticsHeaders.SessionId, out var sessionId))
+            {
+                throw new ArgumentException(AnalyticsHeaders.SessionId + " missing from request headers");
+            }
+
+            return StartRequestOperation(requestName, operationNames, operationIds, sessionId);
+        }
+
         public IAnalyticsOperation StartPageViewOperation(string viewName)
         {
             CurrentOperation = new AnalyticsOperation(viewName, duration =>
@@ -68,7 +92,12 @@ namespace Blauhaus.Analytics.Console.Service
 
             return CurrentOperation;
         }
-        
+
+        public HttpRequestHeaders AddAnalyticsHeaders(HttpRequestHeaders headers)
+        {
+            return headers;
+        }
+
         public void Trace(string message, LogSeverity logSeverityLevel = LogSeverity.Verbose, Dictionary<string, object> properties = null)
         {
             ConsoleLogger.LogTrace(message, logSeverityLevel, properties);

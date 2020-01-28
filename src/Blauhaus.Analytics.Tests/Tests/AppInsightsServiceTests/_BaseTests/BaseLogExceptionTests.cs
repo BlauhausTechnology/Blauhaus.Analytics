@@ -11,7 +11,7 @@ using NUnit.Framework;
 
 namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests._BaseTests
 {
-    public abstract class BaseLogExceptionTests<TSut> : BaseAppInsightsTest<TSut> where TSut : class, IAnalyticsService
+    public abstract class BaseLogExceptionTests<TSut> : BaseAnalyticsServiceTest<TSut> where TSut : class, IAnalyticsService
     {
         [Test]
         public void SHOULD_log_to_console_and_server()

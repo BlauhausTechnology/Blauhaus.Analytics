@@ -10,7 +10,7 @@ using NUnit.Framework;
 
 namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests._BaseTests
 {
-    public abstract class BaseStartOperationTests<TSut> : BaseAppInsightsTest<TSut> where TSut : class, IAnalyticsService
+    public abstract class BaseStartOperationTests<TSut> : BaseAnalyticsServiceTest<TSut> where TSut : class, IAnalyticsService
     {
         [Test]
         public void SHOULD_set_and_return_CurrentOperation()

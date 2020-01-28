@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Net.Http.Headers;
 using Blauhaus.Analytics.Abstractions.Config;
+using Blauhaus.Analytics.Abstractions.Http;
 using Blauhaus.Analytics.Abstractions.Operation;
 using Blauhaus.Analytics.Abstractions.Service;
 using Blauhaus.Analytics.Abstractions.TelemetryClients;
@@ -42,5 +44,13 @@ namespace Blauhaus.Analytics.Client.Service
             return CurrentOperation;
         }
 
+        public HttpRequestHeaders AddAnalyticsHeaders(HttpRequestHeaders headers)
+        {
+            headers.Add(AnalyticsHeaders.OperationName, CurrentOperation.Name);
+            headers.Add(AnalyticsHeaders.OperationId, CurrentOperation.Id);
+            headers.Add(AnalyticsHeaders.SessionId, CurrentSessionId);
+
+            return headers;
+        }
     }
 }

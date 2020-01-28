@@ -9,7 +9,7 @@ using NUnit.Framework;
 namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsClientServiceTests
 {
     [TestFixture]
-    public class StartPageViewOperationTests : BaseAppInsightsTest<AnalyticsClientService>
+    public class StartPageViewOperationTests : BaseAnalyticsServiceTest<AnalyticsClientService>
     {
         protected override AnalyticsClientService ConstructSut()
         {

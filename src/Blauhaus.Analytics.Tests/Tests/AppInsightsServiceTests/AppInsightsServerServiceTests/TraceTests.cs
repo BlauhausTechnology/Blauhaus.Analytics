@@ -6,11 +6,11 @@ using NUnit.Framework;
 namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsServerServiceTests
 {
     [TestFixture]
-    public class TraceTests : BaseTraceTests<AnalyticsServerServerService>
+    public class TraceTests : BaseTraceTests<AnalyticsServerService>
     {
-        protected override AnalyticsServerServerService ConstructSut()
+        protected override AnalyticsServerService ConstructSut()
         {
-            return new AnalyticsServerServerService(
+            return new AnalyticsServerService(
                 MockConfig.Object,
                 MockConsoleLogger.Object,
                 MockTelemetryClient.Object,

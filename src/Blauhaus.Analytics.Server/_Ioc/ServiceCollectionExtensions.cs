@@ -17,7 +17,7 @@ namespace Blauhaus.Analytics.Server._Ioc
             services.RegisterConsoleLogger(consoleTraceListener);
 
             services.AddScoped<IApplicationInsightsConfig, TConfig>();
-            services.AddScoped<IAnalyticsServerService, AnalyticsServerServerService>();
+            services.AddScoped<IAnalyticsServerService, AnalyticsServerService>();
             services.AddScoped<ITelemetryClientProxy, TelemetryClientProxy>();
             services.AddScoped<IAnalyticsService>(x => x.GetService<IAnalyticsServerService>());
 

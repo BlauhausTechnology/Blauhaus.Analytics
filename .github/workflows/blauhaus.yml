@@ -30,4 +30,4 @@ jobs:
         dotnet nuget push /home/runner/work/Blauhaus.Analytics/Blauhaus.Analytics/Blauhaus.Analytics.Abstractions.${VERSION_NAME}.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
         dotnet nuget push /home/runner/work/Blauhaus.Analytics/Blauhaus.Analytics/Blauhaus.Analytics.Client.${VERSION_NAME}.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
         dotnet nuget push /home/runner/work/Blauhaus.Analytics/Blauhaus.Analytics/Blauhaus.Analytics.Console.${VERSION_NAME}.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
-        dotnet nuget push /home/runner/work/Blauhaus.Analytics/Blauhaus.Analytics/Blauhaus.Analytics.Server.ApplicationInsights.${VERSION_NAME}.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
+        dotnet nuget push /home/runner/work/Blauhaus.Analytics/Blauhaus.Analytics/Blauhaus.Analytics.Server.${VERSION_NAME}.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json

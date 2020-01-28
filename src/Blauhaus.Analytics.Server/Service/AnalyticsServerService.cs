@@ -11,7 +11,6 @@ using Blauhaus.Analytics.Common.Service;
 using Blauhaus.Analytics.Console.ConsoleLoggers;
 using Blauhaus.Common.ValueObjects.BuildConfigs;
 using Microsoft.ApplicationInsights.DataContracts;
-using Microsoft.AspNetCore.Http;
 
 namespace Blauhaus.Analytics.Server.Service
 {

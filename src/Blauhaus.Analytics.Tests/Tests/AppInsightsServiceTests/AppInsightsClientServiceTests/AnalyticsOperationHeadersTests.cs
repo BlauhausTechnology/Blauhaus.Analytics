@@ -1,10 +1,6 @@
-﻿using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using Blauhaus.Analytics.Abstractions.Http;
+﻿using Blauhaus.Analytics.Abstractions.Http;
 using Blauhaus.Analytics.Client.Service;
 using Blauhaus.Analytics.Tests.Tests._Base;
-using Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests._BaseTests;
 using NUnit.Framework;
 
 namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsClientServiceTests

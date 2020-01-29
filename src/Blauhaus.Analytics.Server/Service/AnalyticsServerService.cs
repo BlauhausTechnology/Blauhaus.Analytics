@@ -78,7 +78,7 @@ namespace Blauhaus.Analytics.Server.Service
                 if (header.Key.StartsWith(AnalyticsHeaders.Prefix))
                 {
                     var propertyName = header.Key.Substring(AnalyticsHeaders.Prefix.Length);
-                    session.Properties[propertyName] = header.Value;
+                    session.SetProperty(propertyName, header.Value);
                 }
             }
 

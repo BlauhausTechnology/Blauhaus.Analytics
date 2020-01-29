@@ -9,6 +9,8 @@ namespace Blauhaus.Analytics.Abstractions.Session
         string? AccountId { get; set; }
         string? DeviceId { get; set; }
         string? AppVersion { get; set; }
-        Dictionary<string, string> Properties { get; }
+        IReadOnlyDictionary<string, string> Properties { get; }
+        void SetProperty(string key, string value);
+        string Property(string key);
     }
 }

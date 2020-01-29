@@ -28,8 +28,8 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsClie
             Sut.CurrentSession.AccountId = "accountId";
             Sut.CurrentSession.DeviceId = "deviceId";
             Sut.CurrentSession.AppVersion = "1.0.2";
-            Sut.CurrentSession.Properties["FavouriteColour"] = "Red";
-            Sut.CurrentSession.Properties["LuckyNumber"] = "2";
+            Sut.CurrentSession.SetProperty("FavouriteColour", "Red");
+            Sut.CurrentSession.SetProperty("LuckyNumber", "2");
             
             //Act
             var result = Sut.AnalyticsOperationHeaders;

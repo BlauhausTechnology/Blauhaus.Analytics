@@ -85,5 +85,13 @@ namespace Blauhaus.Analytics.Client.Service
                 return _analyticsOperationHeaders;
             }
         }
+
+        public void ClearCurrentSession()
+        {
+            CurrentOperation?.Dispose();
+            CurrentOperation = null;
+            var sessionId = CurrentSession.Id;
+            CurrentSession = AnalyticsSession.FromExisting(sessionId);
+        }
     }
 }

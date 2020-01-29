@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using Blauhaus.Analytics.Abstractions.Config;
 using Blauhaus.Analytics.Abstractions.Operation;
 using Blauhaus.Analytics.Abstractions.Service;
+using Blauhaus.Analytics.Abstractions.Session;
 using Blauhaus.Analytics.Abstractions.TelemetryClients;
 using Blauhaus.Analytics.Common.Extensions;
 using Blauhaus.Analytics.Console.ConsoleLoggers;
@@ -14,16 +15,16 @@ using Newtonsoft.Json;
 
 namespace Blauhaus.Analytics.Common.Service
 {
-    public abstract class BaseAnalyticsServerService : IAnalyticsService
+    public abstract class BaseAnalyticsService : IAnalyticsService
     {
         protected readonly IApplicationInsightsConfig Config;
         protected readonly IConsoleLogger ConsoleLogger;
         protected readonly IBuildConfig CurrentBuildConfig;
 
         private readonly ITelemetryClientProxy _telemetryClient;
-        protected ITelemetryClientProxy TelemetryClient => _telemetryClient.UpdateOperation(CurrentOperation, CurrentSessionId);
+        protected ITelemetryClientProxy TelemetryClient => _telemetryClient.UpdateOperation(CurrentOperation, CurrentSession);
 
-        protected BaseAnalyticsServerService(
+        protected BaseAnalyticsService(
             IApplicationInsightsConfig config, 
             IConsoleLogger appInsightsLogger, 
             ITelemetryClientProxy telemetryClient, 
@@ -37,8 +38,7 @@ namespace Blauhaus.Analytics.Common.Service
 
 
         public IAnalyticsOperation? CurrentOperation { get; protected set; }
-
-        public string CurrentSessionId { get; protected set; } = string.Empty;
+        public IAnalyticsSession CurrentSession { get; protected set; } = AnalyticsSession.Empty;
 
         public IAnalyticsOperation StartOperation(string operationName)
         {

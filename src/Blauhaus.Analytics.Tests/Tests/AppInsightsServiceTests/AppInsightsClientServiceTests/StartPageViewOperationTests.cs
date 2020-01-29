@@ -1,5 +1,6 @@
 ﻿using System;
 using Blauhaus.Analytics.Abstractions.Operation;
+using Blauhaus.Analytics.Abstractions.Session;
 using Blauhaus.Analytics.Client.Service;
 using Blauhaus.Analytics.Tests.Tests._Base;
 using Microsoft.ApplicationInsights.DataContracts;
@@ -17,7 +18,9 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsClie
                 MockConfig.Object,
                 MockConsoleLogger.Object,
                 MockTelemetryClient.Object,
-                CurrentBuildConfig);
+                CurrentBuildConfig,
+                MockDeviceInfoService.Object,
+                MockApplicationInfoService.Object);
         }
 
         [Test]
@@ -46,10 +49,11 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsClie
             //Assert
             MockTelemetryClient.Mock.Verify(x => x.UpdateOperation(It.Is<IAnalyticsOperation>(y => 
                 y.Id == operation.Id &&
-                y.Name == "MyOperation"), Sut.CurrentSessionId));
+                y.Name == "MyOperation"), Sut.CurrentSession));
             MockTelemetryClient.Mock.Verify(x => x.TrackPageView(It.Is<PageViewTelemetry>(y => 
                 y.Name == "MyOperation")));
             MockConsoleLogger.Mock.Verify(x => x.LogOperation("MyOperation", It.IsAny<TimeSpan>()));
         }
+
     }
 }

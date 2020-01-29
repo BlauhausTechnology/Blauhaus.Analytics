@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Blauhaus.Analytics.Abstractions.Config;
 using Blauhaus.Analytics.Abstractions.Operation;
+using Blauhaus.Analytics.Abstractions.Session;
 using Blauhaus.Analytics.Abstractions.TelemetryClients;
 using Blauhaus.Common.ValueObjects.BuildConfigs;
 using Microsoft.ApplicationInsights;
@@ -23,11 +24,32 @@ namespace Blauhaus.AppInsights.Abstractions.TelemetryClients
         }
 
 
-        public ITelemetryClientProxy UpdateOperation(IAnalyticsOperation analyticsOperation, string sessiondId)
+        public ITelemetryClientProxy UpdateOperation(IAnalyticsOperation analyticsOperation, IAnalyticsSession session)
         {
-            _client.Context.Operation.Id = analyticsOperation.Id;
-            _client.Context.Operation.Name = analyticsOperation.Name;
-            _client.Context.Session.Id = sessiondId;
+            if (analyticsOperation != null)
+            {
+                _client.Context.Operation.Id = analyticsOperation.Id;
+                _client.Context.Operation.Name = analyticsOperation.Name;
+            }
+            _client.Context.Session.Id = session.Id;
+
+            if (session.AppVersion != null)
+                _client.Context.Component.Version = session.AppVersion;
+
+            if (session.AccountId != null)
+                _client.Context.User.AccountId = session.AccountId;
+
+            if (session.UserId != null)
+                _client.Context.User.AuthenticatedUserId = session.UserId;
+
+            if (session.DeviceId != null)
+                _client.Context.Device.Id = session.DeviceId;
+
+            foreach (var sessionProperty in session.Properties)
+            {
+                _client.Context.GlobalProperties[sessionProperty.Key] = sessionProperty.Value;
+            }
+
             return this;
         }
 

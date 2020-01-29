@@ -5,6 +5,8 @@ namespace Blauhaus.Analytics.Abstractions.Session
 {
     public class AnalyticsSession : IAnalyticsSession
     {
+        private readonly Dictionary<string, string> _properties = new Dictionary<string, string>();
+
         private AnalyticsSession(string id)
         {
             Id = id;
@@ -15,7 +17,18 @@ namespace Blauhaus.Analytics.Abstractions.Session
         public string? AccountId { get; set; }
         public string? DeviceId { get; set; }
         public string? AppVersion { get; set; }
-        public Dictionary<string, string> Properties { get; } = new Dictionary<string, string>();
+        public IReadOnlyDictionary<string, string> Properties => _properties;
+        public void SetProperty(string key, string value)
+        {
+            _properties[key] = value;
+        }
+
+        public string Property(string key)
+        {
+            return _properties.TryGetValue(key, out var value) 
+                ? value 
+                : string.Empty;
+        }
 
         public static AnalyticsSession Empty => new AnalyticsSession(string.Empty);
         public static AnalyticsSession New => new AnalyticsSession(Guid.NewGuid().ToString());

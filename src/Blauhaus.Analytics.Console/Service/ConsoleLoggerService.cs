@@ -20,7 +20,7 @@ namespace Blauhaus.Analytics.Console.Service
         }
 
         public IAnalyticsOperation? CurrentOperation { get; private set; }
-        public AnalyticsSession CurrentSession { get; private set; }
+        public IAnalyticsSession CurrentSession { get; private set; }
 
         public IAnalyticsOperation StartOperation(string operationName)
         {

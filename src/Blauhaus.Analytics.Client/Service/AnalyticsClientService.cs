@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using Blauhaus.Analytics.Abstractions.Config;
 using Blauhaus.Analytics.Abstractions.Http;
 using Blauhaus.Analytics.Abstractions.Operation;
@@ -10,21 +11,26 @@ using Blauhaus.Analytics.Abstractions.TelemetryClients;
 using Blauhaus.Analytics.Common.Service;
 using Blauhaus.Analytics.Console.ConsoleLoggers;
 using Blauhaus.Common.ValueObjects.BuildConfigs;
+using Blauhaus.DeviceServices.Abstractions.Application;
+using Blauhaus.DeviceServices.Abstractions.DeviceInfo;
 using Microsoft.ApplicationInsights.DataContracts;
 
 namespace Blauhaus.Analytics.Client.Service
 {
     public class AnalyticsClientService : BaseAnalyticsService, IAnalyticsClientService
     {
-
         public AnalyticsClientService(
             IApplicationInsightsConfig config, 
             IConsoleLogger appInsightsLogger, 
             ITelemetryClientProxy telemetryClient,
-            IBuildConfig currentBuildConfig)
+            IBuildConfig currentBuildConfig,
+            IDeviceInfoService deviceInfoService,
+            IApplicationInfoService applicationInfoService)
             : base(config, appInsightsLogger, telemetryClient, currentBuildConfig)
         {
             CurrentSession = AnalyticsSession.New;
+            CurrentSession.AppVersion = applicationInfoService.CurrentVersion;
+            CurrentSession.DeviceId = deviceInfoService.DeviceUniqueIdentifier;
         }
 
 

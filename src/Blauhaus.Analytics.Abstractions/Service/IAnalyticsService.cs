@@ -8,7 +8,7 @@ namespace Blauhaus.Analytics.Abstractions.Service
     public interface IAnalyticsService
     {
         IAnalyticsOperation? CurrentOperation { get; }
-        AnalyticsSession CurrentSession { get; }
+        IAnalyticsSession CurrentSession { get; }
 
         IAnalyticsOperation StartOperation(string operationName);
         IAnalyticsOperation ContinueOperation(string operationName);

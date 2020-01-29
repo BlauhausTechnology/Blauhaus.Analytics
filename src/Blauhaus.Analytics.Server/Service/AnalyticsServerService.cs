@@ -27,7 +27,7 @@ namespace Blauhaus.Analytics.Server.Service
         {
         }
 
-        public IAnalyticsOperation StartRequestOperation(string requestName, string operationName, string operationId, AnalyticsSession session)
+        public IAnalyticsOperation StartRequestOperation(string requestName, string operationName, string operationId, IAnalyticsSession session)
         {
             CurrentSession = session;
 

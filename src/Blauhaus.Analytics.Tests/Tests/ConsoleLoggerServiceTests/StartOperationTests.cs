@@ -1,14 +1,11 @@
 ﻿using System;
-using Blauhaus.Analytics.Abstractions.Operation;
 using Blauhaus.Analytics.Console.Service;
-using Blauhaus.Analytics.Server.Service;
 using Blauhaus.Analytics.Tests.Tests._Base;
-using Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests._BaseTests;
 using Microsoft.ApplicationInsights.DataContracts;
 using Moq;
 using NUnit.Framework;
 
-namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.ConsoleLoggerServiceTests
+namespace Blauhaus.Analytics.Tests.Tests.ConsoleLoggerServiceTests
 {
     public class StartOperationTests : BaseAnalyticsServiceTest<ConsoleLoggerService>
     {

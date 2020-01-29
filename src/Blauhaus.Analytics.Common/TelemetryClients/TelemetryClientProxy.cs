@@ -24,7 +24,7 @@ namespace Blauhaus.AppInsights.Abstractions.TelemetryClients
         }
 
 
-        public ITelemetryClientProxy UpdateOperation(IAnalyticsOperation analyticsOperation, AnalyticsSession session)
+        public ITelemetryClientProxy UpdateOperation(IAnalyticsOperation analyticsOperation, IAnalyticsSession session)
         {
             if (analyticsOperation != null)
             {
@@ -47,7 +47,7 @@ namespace Blauhaus.AppInsights.Abstractions.TelemetryClients
 
             foreach (var sessionProperty in session.Properties)
             {
-                _client.Context.GlobalProperties.Add(sessionProperty);
+                _client.Context.GlobalProperties[sessionProperty.Key] = sessionProperty.Value;
             }
 
             return this;

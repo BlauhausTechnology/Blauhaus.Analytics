@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Blauhaus.Analytics.Abstractions.Session
 {
-    public class AnalyticsSession
+    public class AnalyticsSession : IAnalyticsSession
     {
         private AnalyticsSession(string id)
         {

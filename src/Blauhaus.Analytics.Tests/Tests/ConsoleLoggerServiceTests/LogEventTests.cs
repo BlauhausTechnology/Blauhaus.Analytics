@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
-using Blauhaus.Analytics.Abstractions.Service;
 using Blauhaus.Analytics.Console.Service;
 using Blauhaus.Analytics.Tests.Tests._Base;
 using NUnit.Framework;
 
-namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.ConsoleLoggerServiceTests
+namespace Blauhaus.Analytics.Tests.Tests.ConsoleLoggerServiceTests
 {
-    public class TraceTests : BaseAnalyticsServiceTest<ConsoleLoggerService>
+    public class LogEventTests : BaseAnalyticsServiceTest<ConsoleLoggerService>
     {
         protected override ConsoleLoggerService ConstructSut()
         {
@@ -19,12 +18,13 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.ConsoleLoggerSe
         {
             //Arrange
             var properties = new Dictionary<string, object>();
+            var metrics = new Dictionary<string, double>();
 
             //Act
-            Sut.Trace("event name", LogSeverity.Critical, properties);
+            Sut.LogEvent("event name", properties, metrics);
 
             //Assert
-            MockConsoleLogger.Mock.Verify(x => x.LogTrace("event name", LogSeverity.Critical, properties));
+            MockConsoleLogger.Mock.Verify(x => x.LogEvent("event name", properties, metrics));
         }
 
     }

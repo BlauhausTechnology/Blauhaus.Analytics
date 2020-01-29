@@ -7,5 +7,6 @@ namespace Blauhaus.Analytics.Abstractions.Service
     {
         IAnalyticsOperation StartPageViewOperation(string viewName);
         IDictionary<string, string> AnalyticsOperationHeaders { get; }
+        void ClearCurrentSession();
     }
 }

@@ -58,7 +58,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsServ
                 //Assert
                 MockTelemetryClient.Mock.Verify(x => x.UpdateOperation(It.Is<IAnalyticsOperation>(y => 
                     y.Id == operation.Id &&
-                    y.Name == "MyOperation"), Sut.CurrentSessionId));
+                    y.Name == "MyOperation"), Sut.CurrentSession));
                 MockTelemetryClient.Mock.Verify(x => x.TrackRequest(It.Is<RequestTelemetry>(y => 
                     y.Name == "RequestName")));
                 MockConsoleLogger.Mock.Verify(x => x.LogOperation("RequestName", It.IsAny<TimeSpan>()));
@@ -109,7 +109,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsServ
                 //Assert
                 MockTelemetryClient.Mock.Verify(x => x.UpdateOperation(It.Is<IAnalyticsOperation>(y => 
                     y.Id == operation.Id &&
-                    y.Name == "MyOperation"), Sut.CurrentSessionId));
+                    y.Name == "MyOperation"), Sut.CurrentSession));
                 MockTelemetryClient.Mock.Verify(x => x.TrackRequest(It.Is<RequestTelemetry>(y => 
                     y.Name == "RequestName")));
                 MockConsoleLogger.Mock.Verify(x => x.LogOperation("RequestName", It.IsAny<TimeSpan>()));

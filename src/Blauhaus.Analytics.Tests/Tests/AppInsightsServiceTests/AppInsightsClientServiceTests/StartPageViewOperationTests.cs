@@ -46,7 +46,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsClie
             //Assert
             MockTelemetryClient.Mock.Verify(x => x.UpdateOperation(It.Is<IAnalyticsOperation>(y => 
                 y.Id == operation.Id &&
-                y.Name == "MyOperation"), Sut.CurrentSessionId));
+                y.Name == "MyOperation"), Sut.CurrentSession));
             MockTelemetryClient.Mock.Verify(x => x.TrackPageView(It.Is<PageViewTelemetry>(y => 
                 y.Name == "MyOperation")));
             MockConsoleLogger.Mock.Verify(x => x.LogOperation("MyOperation", It.IsAny<TimeSpan>()));

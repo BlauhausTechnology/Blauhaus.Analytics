@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Blauhaus.Analytics.Abstractions.Config;
 using Blauhaus.Analytics.Abstractions.Operation;
+using Blauhaus.Analytics.Abstractions.Session;
 using Blauhaus.Analytics.Abstractions.TelemetryClients;
 using Blauhaus.Common.ValueObjects.BuildConfigs;
 using Microsoft.ApplicationInsights;
@@ -23,14 +24,14 @@ namespace Blauhaus.AppInsights.Abstractions.TelemetryClients
         }
 
 
-        public ITelemetryClientProxy UpdateOperation(IAnalyticsOperation analyticsOperation, string sessiondId)
+        public ITelemetryClientProxy UpdateOperation(IAnalyticsOperation analyticsOperation, AnalyticsSession session)
         {
             if (analyticsOperation != null)
             {
                 _client.Context.Operation.Id = analyticsOperation.Id;
                 _client.Context.Operation.Name = analyticsOperation.Name;
             }
-            _client.Context.Session.Id = sessiondId;
+            _client.Context.Session.Id = session.Id;
             return this;
         }
 

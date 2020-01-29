@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using Blauhaus.Analytics.Abstractions.Operation;
+using Blauhaus.Analytics.Abstractions.Session;
 
 namespace Blauhaus.Analytics.Abstractions.Service
 {
     public interface IAnalyticsService
     {
         IAnalyticsOperation? CurrentOperation { get; }
-        string? CurrentSessionId { get; }
+        AnalyticsSession CurrentSession { get; }
 
         IAnalyticsOperation StartOperation(string operationName);
         IAnalyticsOperation ContinueOperation(string operationName);

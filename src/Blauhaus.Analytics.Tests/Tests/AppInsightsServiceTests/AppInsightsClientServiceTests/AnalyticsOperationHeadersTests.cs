@@ -32,7 +32,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsClie
             result.TryGetValue(AnalyticsHeaders.OperationName, out var operationName);
             Assert.That(operationName, Is.EqualTo("Operation"));
             result.TryGetValue(AnalyticsHeaders.SessionId, out var sessionId);
-            Assert.That(sessionId, Is.EqualTo(Sut.CurrentSessionId));
+            Assert.That(sessionId, Is.EqualTo(Sut.CurrentSession.Id));
         }
     }
 }

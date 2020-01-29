@@ -2,6 +2,7 @@
 using Blauhaus.Analytics.Abstractions.Config;
 using Blauhaus.Analytics.Abstractions.Operation;
 using Blauhaus.Analytics.Abstractions.Service;
+using Blauhaus.Analytics.Abstractions.Session;
 using Blauhaus.Analytics.Console.ConsoleLoggers;
 using Blauhaus.Analytics.Tests.MockBuilders;
 using Blauhaus.Common.TestHelpers;
@@ -38,7 +39,7 @@ namespace Blauhaus.Analytics.Tests.Tests._Base
 
             MockConsoleLogger = new MockBuilder<IConsoleLogger>();
             MockTelemetryClient = new TelemetryClientMockBuilder();
-            MockTelemetryClient.Mock.Setup(x => x.UpdateOperation(It.IsAny<IAnalyticsOperation>(), It.IsAny<string>()))
+            MockTelemetryClient.Mock.Setup(x => x.UpdateOperation(It.IsAny<IAnalyticsOperation>(), It.IsAny<AnalyticsSession>()))
                 .Returns(MockTelemetryClient.Object);
 
         }

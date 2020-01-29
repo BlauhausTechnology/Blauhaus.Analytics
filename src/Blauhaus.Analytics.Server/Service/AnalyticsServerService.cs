@@ -6,6 +6,7 @@ using Blauhaus.Analytics.Abstractions.Config;
 using Blauhaus.Analytics.Abstractions.Http;
 using Blauhaus.Analytics.Abstractions.Operation;
 using Blauhaus.Analytics.Abstractions.Service;
+using Blauhaus.Analytics.Abstractions.Session;
 using Blauhaus.Analytics.Abstractions.TelemetryClients;
 using Blauhaus.Analytics.Common.Service;
 using Blauhaus.Analytics.Console.ConsoleLoggers;
@@ -28,7 +29,7 @@ namespace Blauhaus.Analytics.Server.Service
 
         public IAnalyticsOperation StartRequestOperation(string requestName, string operationName, string operationId, string sessionId)
         {
-            CurrentSessionId = sessionId;
+            CurrentSession = AnalyticsSession.FromRequest(sessionId);
 
             CurrentOperation = new AnalyticsOperation(operationName, operationId, duration =>
             {

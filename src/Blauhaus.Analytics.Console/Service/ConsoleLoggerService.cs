@@ -4,6 +4,7 @@ using System.Net.Http.Headers;
 using Blauhaus.Analytics.Abstractions.Http;
 using Blauhaus.Analytics.Abstractions.Operation;
 using Blauhaus.Analytics.Abstractions.Service;
+using Blauhaus.Analytics.Abstractions.Session;
 using Blauhaus.Analytics.Console.ConsoleLoggers;
 
 namespace Blauhaus.Analytics.Console.Service
@@ -19,7 +20,7 @@ namespace Blauhaus.Analytics.Console.Service
         }
 
         public IAnalyticsOperation? CurrentOperation { get; private set; }
-        public string? CurrentSessionId { get; private set; }
+        public AnalyticsSession CurrentSession { get; private set; }
 
         public IAnalyticsOperation StartOperation(string operationName)
         {

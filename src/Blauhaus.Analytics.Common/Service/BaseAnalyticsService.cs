@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using Blauhaus.Analytics.Abstractions.Config;
 using Blauhaus.Analytics.Abstractions.Operation;
 using Blauhaus.Analytics.Abstractions.Service;
+using Blauhaus.Analytics.Abstractions.Session;
 using Blauhaus.Analytics.Abstractions.TelemetryClients;
 using Blauhaus.Analytics.Common.Extensions;
 using Blauhaus.Analytics.Console.ConsoleLoggers;
@@ -21,7 +22,7 @@ namespace Blauhaus.Analytics.Common.Service
         protected readonly IBuildConfig CurrentBuildConfig;
 
         private readonly ITelemetryClientProxy _telemetryClient;
-        protected ITelemetryClientProxy TelemetryClient => _telemetryClient.UpdateOperation(CurrentOperation, CurrentSessionId);
+        protected ITelemetryClientProxy TelemetryClient => _telemetryClient.UpdateOperation(CurrentOperation, CurrentSession);
 
         protected BaseAnalyticsService(
             IApplicationInsightsConfig config, 
@@ -38,7 +39,7 @@ namespace Blauhaus.Analytics.Common.Service
 
         public IAnalyticsOperation? CurrentOperation { get; protected set; }
 
-        public string CurrentSessionId { get; protected set; } = string.Empty;
+        public AnalyticsSession CurrentSession { get; protected set; } = AnalyticsSession.Empty;
 
         public IAnalyticsOperation StartOperation(string operationName)
         {

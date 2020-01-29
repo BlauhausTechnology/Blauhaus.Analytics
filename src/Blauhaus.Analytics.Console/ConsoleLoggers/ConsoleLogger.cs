@@ -58,7 +58,8 @@ namespace Blauhaus.Analytics.Console.ConsoleLoggers
             }
 
             _traceProxy.SetColour(ConsoleColours.ExceptionColour);
-
+            
+            _traceProxy.Write(""); //newline per exception
             _traceProxy.Write($"EXCEPTION: {exception.Message}");
             _traceProxy.Write($"STACKTRACE {exception.StackTrace}");
 
@@ -90,6 +91,7 @@ namespace Blauhaus.Analytics.Console.ConsoleLoggers
             }
 
             _traceProxy.SetColour(ConsoleColours.OperationColour);
+            _traceProxy.Write(""); //newline per operation
             _traceProxy.Write($"OPERATION: {operationName} completed in {Math.Round((double) duration.Milliseconds)} ms");
         }
 

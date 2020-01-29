@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 
 namespace Blauhaus.Analytics.Common.Extensions
@@ -18,6 +20,9 @@ namespace Blauhaus.Analytics.Common.Extensions
                 {
                     if (property.Value is string stringValue)
                     {
+                        //var v = Regex.Unescape(stringValue);
+                        //v = v.TrimStart('\"');
+                        //v = v.TrimEnd('\"');
                         stringifiedProperties[property.Key] = stringValue;
                     }
 

@@ -22,8 +22,6 @@ namespace Blauhaus.Analytics.Abstractions.Config
 
         public string InstrumentationKey { get; }
         public string ClientName { get; }
-
-
         public Dictionary<IBuildConfig, LogSeverity> MinimumLogToServerSeverity { get; }
     }
 }

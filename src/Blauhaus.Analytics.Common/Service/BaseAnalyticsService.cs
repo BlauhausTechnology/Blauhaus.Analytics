@@ -38,7 +38,6 @@ namespace Blauhaus.Analytics.Common.Service
 
 
         public IAnalyticsOperation? CurrentOperation { get; protected set; }
-
         public AnalyticsSession CurrentSession { get; protected set; } = AnalyticsSession.Empty;
 
         public IAnalyticsOperation StartOperation(string operationName)

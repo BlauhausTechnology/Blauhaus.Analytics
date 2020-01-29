@@ -32,6 +32,24 @@ namespace Blauhaus.AppInsights.Abstractions.TelemetryClients
                 _client.Context.Operation.Name = analyticsOperation.Name;
             }
             _client.Context.Session.Id = session.Id;
+
+            if (session.AppVersion != null)
+                _client.Context.Component.Version = session.AppVersion;
+
+            if (session.AccountId != null)
+                _client.Context.User.AccountId = session.AccountId;
+
+            if (session.UserId != null)
+                _client.Context.User.AuthenticatedUserId = session.UserId;
+
+            if (session.DeviceId != null)
+                _client.Context.Device.Id = session.DeviceId;
+
+            foreach (var sessionProperty in session.Properties)
+            {
+                _client.Context.GlobalProperties.Add(sessionProperty);
+            }
+
             return this;
         }
 

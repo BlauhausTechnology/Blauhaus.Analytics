@@ -27,9 +27,9 @@ namespace Blauhaus.Analytics.Server.Service
         {
         }
 
-        public IAnalyticsOperation StartRequestOperation(string requestName, string operationName, string operationId, string sessionId)
+        public IAnalyticsOperation StartRequestOperation(string requestName, string operationName, string operationId, AnalyticsSession session)
         {
-            CurrentSession = AnalyticsSession.FromRequest(sessionId);
+            CurrentSession = session;
 
             CurrentOperation = new AnalyticsOperation(operationName, operationId, duration =>
             {
@@ -50,22 +50,40 @@ namespace Blauhaus.Analytics.Server.Service
 
         public IAnalyticsOperation StartRequestOperation(string requestName, IDictionary<string, string> headers)
         {
-            if (!headers.TryGetValue(AnalyticsHeaders.OperationName, out var operationNames))
-            {
-                throw new ArgumentException(AnalyticsHeaders.OperationName + " missing from request headers");
-            }
+            if (!headers.TryGetValue(AnalyticsHeaders.Operation.Name, out var operationName))
+                operationName = "NewRequest";
+
+            if (!headers.TryGetValue(AnalyticsHeaders.Operation.Id, out var operationId))
+                operationId = Guid.NewGuid().ToString();
+
+            if (!headers.TryGetValue(AnalyticsHeaders.Session.Id, out var sessionId))
+                sessionId = Guid.NewGuid().ToString();
             
-            if (!headers.TryGetValue(AnalyticsHeaders.OperationId, out var operationIds))
-            {
-                throw new ArgumentException(AnalyticsHeaders.OperationId + " missing from request headers");
-            }
+            var session = AnalyticsSession.FromExisting(sessionId);
+
+            if (headers.TryGetValue(AnalyticsHeaders.Session.AppVersion, out var appVersion))
+                session.AppVersion = appVersion;
+
+            if (headers.TryGetValue(AnalyticsHeaders.Session.AccountId, out var accountId))
+                session.AccountId = accountId;
+
+            if (headers.TryGetValue(AnalyticsHeaders.Session.DeviceId, out var deviceId))
+                session.DeviceId = deviceId;
             
-            if (!headers.TryGetValue(AnalyticsHeaders.SessionId, out var sessionId))
+            if (headers.TryGetValue(AnalyticsHeaders.Session.UserId, out var userId))
+                session.UserId = userId;
+
+            foreach (var header in headers)
             {
-                throw new ArgumentException(AnalyticsHeaders.SessionId + " missing from request headers");
+                if (header.Key.StartsWith(AnalyticsHeaders.Prefix))
+                {
+                    var propertyName = header.Key.Substring(AnalyticsHeaders.Prefix.Length);
+                    session.Properties[propertyName] = header.Value;
+                }
             }
 
-            return StartRequestOperation(requestName, operationNames, operationIds, sessionId);
+
+            return StartRequestOperation(requestName, operationName, operationId, session);
 
         }
     }

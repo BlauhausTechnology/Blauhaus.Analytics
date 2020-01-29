@@ -5,23 +5,20 @@ namespace Blauhaus.Analytics.Abstractions.Session
 {
     public class AnalyticsSession
     {
-        private AnalyticsSession(string id, string? userId, string? accountId, string? deviceId, Dictionary<string, string>? properties = null)
+        private AnalyticsSession(string id)
         {
             Id = id;
-            UserId = userId;
-            AccountId = accountId;
-            DeviceId = deviceId;
-            Properties = properties ?? new Dictionary<string, string>();
         }
 
         public string Id { get; }
-        public string? UserId { get; }
-        public string? AccountId { get; }
-        public string? DeviceId { get; }
-        public Dictionary<string, string> Properties { get; } 
+        public string? UserId { get; set; }
+        public string? AccountId { get; set; }
+        public string? DeviceId { get; set; }
+        public string? AppVersion { get; set; }
+        public Dictionary<string, string> Properties { get; } = new Dictionary<string, string>();
 
-        public static AnalyticsSession Empty => new AnalyticsSession(string.Empty, null, null, null, null);
-        public static AnalyticsSession New => new AnalyticsSession(Guid.NewGuid().ToString(), null, null, null, null);
-        public static AnalyticsSession FromRequest(string sessionId) => new AnalyticsSession(sessionId, null, null, null, null);
+        public static AnalyticsSession Empty => new AnalyticsSession(string.Empty);
+        public static AnalyticsSession New => new AnalyticsSession(Guid.NewGuid().ToString());
+        public static AnalyticsSession FromExisting(string sessionId) => new AnalyticsSession(sessionId);
     }
 }

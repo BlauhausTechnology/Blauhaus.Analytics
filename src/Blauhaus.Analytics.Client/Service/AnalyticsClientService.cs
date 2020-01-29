@@ -46,12 +46,38 @@ namespace Blauhaus.Analytics.Client.Service
             return CurrentOperation;
         }
 
-        public IDictionary<string, string> AnalyticsOperationHeaders => new Dictionary<string, string>
+        private readonly Dictionary<string, string> _analyticsOperationHeaders = new Dictionary<string, string>();
+        public IDictionary<string, string> AnalyticsOperationHeaders
         {
-            {AnalyticsHeaders.OperationName, CurrentOperation?.Name },
-            {AnalyticsHeaders.OperationId, CurrentOperation?.Id },
-            {AnalyticsHeaders.SessionId, CurrentSession.Id }
-        };
+            get
+            {
+                _analyticsOperationHeaders[AnalyticsHeaders.Operation.Name] = CurrentOperation?.Name;
+                _analyticsOperationHeaders[AnalyticsHeaders.Operation.Id] = CurrentOperation?.Id;
 
+                if (CurrentSession != null)
+                {
+                    _analyticsOperationHeaders[AnalyticsHeaders.Session.Id] = CurrentSession.Id;
+                    
+                    if(CurrentSession.AccountId != null)
+                        _analyticsOperationHeaders[AnalyticsHeaders.Session.AccountId] = CurrentSession.AccountId;
+                    
+                    if(CurrentSession.UserId != null)
+                        _analyticsOperationHeaders[AnalyticsHeaders.Session.UserId] = CurrentSession.UserId;
+                    
+                    if(CurrentSession.DeviceId != null)
+                        _analyticsOperationHeaders[AnalyticsHeaders.Session.DeviceId] = CurrentSession.DeviceId;
+                    
+                    if(CurrentSession.AppVersion != null)
+                        _analyticsOperationHeaders[AnalyticsHeaders.Session.AppVersion] = CurrentSession.AppVersion;
+                
+                    foreach (var currentSessionProperty in CurrentSession.Properties)
+                    {
+                        _analyticsOperationHeaders[AnalyticsHeaders.Prefix + currentSessionProperty.Key] = currentSessionProperty.Value;
+                    }
+                }
+                
+                return _analyticsOperationHeaders;
+            }
+        }
     }
 }

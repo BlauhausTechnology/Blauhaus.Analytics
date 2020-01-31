@@ -31,7 +31,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests._BaseTests
             //Arrange
             var operation = Sut.StartOperation("MyOperation", new Dictionary<string, object>
             {
-                {"key", 1 }
+                {"key", "1" }
             });
             MockTelemetryClient.Mock.Verify(x => x.TrackDependency(It.IsAny<DependencyTelemetry>()), Times.Never);
 
@@ -42,7 +42,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests._BaseTests
             MockTelemetryDecorator.Mock.Verify(x => x.DecorateTelemetry(It.IsAny<DependencyTelemetry>(), It.Is<IAnalyticsOperation>(y => 
                 y.Id == operation.Id &&
                 y.Name == "MyOperation"), 
-                Sut.CurrentSession, It.Is<Dictionary<string, string>>(y => y["key"] == "1")));
+                Sut.CurrentSession, It.Is<Dictionary<string, object>>(y => (string) y["key"] == "1")));
             MockTelemetryClient.Mock.Verify(x => x.TrackDependency(It.Is<DependencyTelemetry>(y => 
                 y.Name == "MyOperation")));
             MockConsoleLogger.Mock.Verify(x => x.LogOperation("MyOperation", It.IsAny<TimeSpan>()));

@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 
-namespace Blauhaus.Analytics.Common.Extensions
+namespace Blauhaus.Analytics.Abstractions.Extensions
 {
     public static class DictionaryExtensions
     {

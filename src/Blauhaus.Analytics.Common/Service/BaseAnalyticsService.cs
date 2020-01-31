@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using Blauhaus.Analytics.Abstractions.Config;
+using Blauhaus.Analytics.Abstractions.Extensions;
 using Blauhaus.Analytics.Abstractions.Operation;
 using Blauhaus.Analytics.Abstractions.Service;
 using Blauhaus.Analytics.Abstractions.Session;
 using Blauhaus.Analytics.Abstractions.TelemetryClients;
-using Blauhaus.Analytics.Common.Extensions;
 using Blauhaus.Analytics.Common.TelemetryClients;
 using Blauhaus.Analytics.Console.ConsoleLoggers;
 using Blauhaus.Common.ValueObjects.BuildConfigs;
@@ -59,7 +59,7 @@ namespace Blauhaus.Analytics.Common.Service
                 
                 if(properties == null) properties = new Dictionary<string, object>();
 
-                TelemetryDecorator.DecorateTelemetry(dependencyTelemetry, CurrentOperation, CurrentSession, properties.ToDictionaryOfStrings());
+                TelemetryDecorator.DecorateTelemetry(dependencyTelemetry, CurrentOperation, CurrentSession, properties);
                 TelemetryClient.TrackDependency(dependencyTelemetry);
                 ConsoleLogger.LogOperation(operationName, duration);
 
@@ -86,39 +86,43 @@ namespace Blauhaus.Analytics.Common.Service
 
                 if(properties == null) properties = new Dictionary<string, object>();
                 
-                TelemetryDecorator.DecorateTelemetry(dependencyTelemetry, CurrentOperation, CurrentSession, properties.ToDictionaryOfStrings());
+                TelemetryDecorator.DecorateTelemetry(dependencyTelemetry, CurrentOperation, CurrentSession, properties);
                 TelemetryClient.TrackDependency(dependencyTelemetry);
                 ConsoleLogger.LogOperation(operationName, duration);
             });
 
         }
         
+        public void LogEvent(string eventName, Dictionary<string, object> properties = null, Dictionary<string, double> metrics = null)
+        {
+            TelemetryClient.TrackEvent(TelemetryDecorator
+                .DecorateTelemetry(new EventTelemetry(eventName), CurrentOperation, CurrentSession, properties, metrics));
+
+            ConsoleLogger.LogEvent(eventName, properties.ToDictionaryOfStrings(), metrics);
+        }
+
+        public void LogException(Exception exception, Dictionary<string, object> properties = null, Dictionary<string, double> metrics = null)
+        {
+            TelemetryClient.TrackException(TelemetryDecorator
+                .DecorateTelemetry(new ExceptionTelemetry(exception), CurrentOperation, CurrentSession, properties, metrics));
+            
+            ConsoleLogger.LogException(exception, properties.ToDictionaryOfStrings(), metrics);
+        }
+
+
         public void Trace(string message, LogSeverity logSeverity = LogSeverity.Verbose, Dictionary<string, object> properties = null)
         {
             if (Config.MinimumLogToServerSeverity.TryGetValue(CurrentBuildConfig, out var minumumSeverityToLogToServer))
             {
                 if (logSeverity >= minumumSeverityToLogToServer)
                 {
-                    TelemetryClient.TrackTrace(message, (SeverityLevel) logSeverity, properties.ToDictionaryOfStrings());
+                    TelemetryClient.TrackTrace(TelemetryDecorator
+                        .DecorateTelemetry(new TraceTelemetry(message), CurrentOperation, CurrentSession, properties));
                 }
             }
 
-            ConsoleLogger.LogTrace(message, logSeverity, properties);
+            ConsoleLogger.LogTrace(message, logSeverity, properties.ToDictionaryOfStrings());
         }   
 
-        public void LogEvent(string eventName, Dictionary<string, object> properties = null, Dictionary<string, double> metrics = null)
-        {
-            var telemetry = new EventTelemetry(eventName);
-            TelemetryDecorator.DecorateTelemetry(telemetry, CurrentOperation, CurrentSession, properties.ToDictionaryOfStrings());
-            TelemetryClient.TrackEvent(telemetry);
-            
-            ConsoleLogger.LogEvent(eventName, properties, metrics);
-        }
-
-        public void LogException(Exception exception, Dictionary<string, object> properties = null, Dictionary<string, double> metrics = null)
-        {
-            TelemetryClient.TrackException(exception, properties.ToDictionaryOfStrings(), metrics);
-            ConsoleLogger.LogException(exception, properties, metrics);
-        }
     }
 }

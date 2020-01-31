@@ -46,7 +46,7 @@ namespace Blauhaus.Analytics.Tests.Tests.ConsoleLoggerTests
         public void IF_properties_are_specified_SHOULD_write_them()
         {
             //Act
-            Sut.LogEvent("EventName", new Dictionary<string, object>
+            Sut.LogEvent("EventName", new Dictionary<string, string>
             {
                 {"EventProperty1", "EventValue1" },
                 {"EventProperty2", "EventValue2" },

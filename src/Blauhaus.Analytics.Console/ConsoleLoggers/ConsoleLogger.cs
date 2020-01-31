@@ -19,7 +19,7 @@ namespace Blauhaus.Analytics.Console.ConsoleLoggers
             _currentBuildConfig = currentBuildConfig;
         }
 
-        public void LogEvent(string eventName, Dictionary<string, object>? properties = null, Dictionary<string, double>? metrics = null)
+        public void LogEvent(string eventName, Dictionary<string, string>? properties = null, Dictionary<string, double>? metrics = null)
         {
 
             if (_currentBuildConfig.Value == BuildConfig.Release.Value)
@@ -50,7 +50,7 @@ namespace Blauhaus.Analytics.Console.ConsoleLoggers
 
         }
 
-        public void LogException(Exception exception, Dictionary<string, object>? properties, Dictionary<string, double>? metrics)
+        public void LogException(Exception exception, Dictionary<string, string>? properties, Dictionary<string, double>? metrics)
         {
             if (_currentBuildConfig.Value == BuildConfig.Release.Value)
             {
@@ -95,7 +95,7 @@ namespace Blauhaus.Analytics.Console.ConsoleLoggers
             _traceProxy.Write($"OPERATION: {operationName} completed in {Math.Round((double) duration.Milliseconds)} ms");
         }
 
-        public void LogTrace(string message, LogSeverity severityLevel = LogSeverity.Verbose, Dictionary<string, object>? properties = null)
+        public void LogTrace(string message, LogSeverity severityLevel = LogSeverity.Verbose, Dictionary<string, string>? properties = null)
         {
 
             if (_currentBuildConfig.Value == BuildConfig.Release.Value)

@@ -60,21 +60,18 @@ namespace Blauhaus.AppInsights.Abstractions.TelemetryClients
 
         public void TrackDependency(DependencyTelemetry dependencyTelemetry)
         {
-            //DecorateTelemetry(dependencyTelemetry);
             _client.TrackDependency(dependencyTelemetry);
             if(_isDebug)_client.Flush();
         }
 
         public void TrackRequest(RequestTelemetry requestTelemetry)
         {
-            //DecorateTelemetry(requestTelemetry);
             _client.TrackRequest(requestTelemetry);
             if(_isDebug)_client.Flush();
         }
 
         public void TrackPageView(PageViewTelemetry pageViewTelemetry)
         {
-            //DecorateTelemetry(pageViewTelemetry);
             _client.TrackPageView(pageViewTelemetry);
             if(_isDebug)_client.Flush();
         }
@@ -91,43 +88,5 @@ namespace Blauhaus.AppInsights.Abstractions.TelemetryClients
             if(_isDebug)_client.Flush();
         }
 
-
-        private TTelemetry DecorateTelemetry<TTelemetry>(TTelemetry telemetry, Dictionary<string, string> properties) where TTelemetry : ITelemetry, ISupportProperties
-        {
-            telemetry.Context.Cloud.RoleName = _config.RoleName;
-            telemetry.Context.InstrumentationKey = _config.InstrumentationKey;
-
-            if (_currentOperation != null)
-            {
-                telemetry.Context.Operation.Id = _currentOperation.Id;
-                telemetry.Context.Operation.Name = _currentOperation.Name;
-            }
-            telemetry.Context.Session.Id = _currentSession.Id;
-
-            if (_currentSession.AppVersion != null)
-                telemetry.Context.Component.Version = _currentSession.AppVersion;
-
-            if (_currentSession.AccountId != null)
-                telemetry.Context.User.AccountId = _currentSession.AccountId;
-
-            if (_currentSession.UserId != null)
-                telemetry.Context.User.AuthenticatedUserId = _currentSession.UserId;
-
-            if (_currentSession.DeviceId != null)
-                telemetry.Context.Device.Id = _currentSession.DeviceId;
-
-            foreach (var sessionProperty in _currentSession.Properties)
-            {
-                telemetry.Properties[sessionProperty.Key] = sessionProperty.Value;
-            }
-
-            foreach (var property in properties)
-            {
-                
-                telemetry.Properties[property.Key] = property.Value;
-            }
-
-            return telemetry;
-        }
     }
 }

@@ -47,7 +47,7 @@ namespace Blauhaus.Analytics.Tests.Tests.ConsoleLoggerTests
         public void IF_properties_are_specified_SHOULD_write_them()
         {
             //Act
-            Sut.LogTrace("message", LogSeverity.Error, new Dictionary<string, object>
+            Sut.LogTrace("message", LogSeverity.Error, new Dictionary<string, string>
             {
                 {"EventProperty1", "EventValue1" },
                 {"EventProperty2", "EventValue2" },

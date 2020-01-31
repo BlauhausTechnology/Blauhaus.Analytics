@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http.Headers;
+using Blauhaus.Analytics.Abstractions.Extensions;
 using Blauhaus.Analytics.Abstractions.Http;
 using Blauhaus.Analytics.Abstractions.Operation;
 using Blauhaus.Analytics.Abstractions.Service;
@@ -50,17 +51,17 @@ namespace Blauhaus.Analytics.Console.Service
 
         public void Trace(string message, LogSeverity logSeverityLevel = LogSeverity.Verbose, Dictionary<string, object>? properties = null)
         {
-            ConsoleLogger.LogTrace(message, logSeverityLevel, properties);
+            ConsoleLogger.LogTrace(message, logSeverityLevel, properties.ToDictionaryOfStrings());
         }
 
         public void LogEvent(string eventName, Dictionary<string, object>? properties = null, Dictionary<string, double>? metrics = null)
         {
-            ConsoleLogger.LogEvent(eventName, properties, metrics);
+            ConsoleLogger.LogEvent(eventName, properties.ToDictionaryOfStrings(), metrics);
         }
 
         public void LogException(Exception exception, Dictionary<string, object>? properties = null, Dictionary<string, double>? metrics = null)
         {
-            ConsoleLogger.LogException(exception, properties, metrics);
+            ConsoleLogger.LogException(exception, properties.ToDictionaryOfStrings(), metrics);
         }
     }
 }

@@ -24,7 +24,7 @@ namespace Blauhaus.Analytics.Tests.Tests.ConsoleLoggerTests
             CurrentBuildConfig = BuildConfig.Release;
 
             //Act
-            Sut.LogException(new Exception("oops"), new Dictionary<string, object>(), new Dictionary<string, double>());
+            Sut.LogException(new Exception("oops"), new Dictionary<string, string>(), new Dictionary<string, double>());
 
             //Assert
             MockTraceProxy.Mock.Verify(x => x.Write(It.IsAny<string>()), Times.Never);
@@ -46,7 +46,7 @@ namespace Blauhaus.Analytics.Tests.Tests.ConsoleLoggerTests
             }
 
             //Act
-            Sut.LogException(thrownException, new Dictionary<string, object>(), new Dictionary<string, double>());
+            Sut.LogException(thrownException, new Dictionary<string, string>(), new Dictionary<string, double>());
 
             //Assert
             MockTraceProxy.Mock.Verify(x => x.SetColour(ConsoleColours.ExceptionColour));
@@ -59,7 +59,7 @@ namespace Blauhaus.Analytics.Tests.Tests.ConsoleLoggerTests
         public void IF_properties_are_specified_SHOULD_write_them()
         {
             //Act
-            Sut.LogException(new Exception("oops"), new Dictionary<string, object>
+            Sut.LogException(new Exception("oops"), new Dictionary<string, string>
             {
                 {"EventProperty1", "EventValue1" },
                 {"EventProperty2", "EventValue2" },

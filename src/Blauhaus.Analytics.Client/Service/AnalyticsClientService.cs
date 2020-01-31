@@ -45,7 +45,9 @@ namespace Blauhaus.Analytics.Client.Service
                     Duration = duration
                 };
 
-                TelemetryClient.TrackPageView(pageViewTelemetry);
+                var te = TelemetryDecorator.DecorateTelemetry(pageViewTelemetry, CurrentOperation, CurrentSession,
+                    new Dictionary<string, object>(), new Dictionary<string, double>());
+                TelemetryClient.TrackPageView(te);
                 ConsoleLogger.LogOperation(pageName, duration);
                 
                 CurrentOperation = null;

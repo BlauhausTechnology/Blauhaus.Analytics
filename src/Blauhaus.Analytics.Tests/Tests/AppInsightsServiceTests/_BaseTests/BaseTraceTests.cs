@@ -13,63 +13,22 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests._BaseTests
     public abstract class BaseTraceTests<TSut> : BaseAnalyticsServiceTest<TSut> where TSut : class, IAnalyticsService
     {
         [Test]
-        public void SHOULD_log_to_console_and_server()
+        public void SHOULD_decorate_telemetry_and_log_to_console_and_server()
         {
             //Arrange
-            var properties = new Dictionary<string, object>();
+            var properties = new Dictionary<string, object>{{"Property", "value"}};
+            MockTelemetryDecorator.Where_Decorate_returns(new TraceTelemetry("Decorated"));
 
             //Act
             Sut.Trace("Trace message", LogSeverity.Verbose, properties);
 
             //Assert
-            MockConsoleLogger.Mock.Verify(x => x.LogTrace("Trace message", LogSeverity.Verbose, properties));
-            MockTelemetryClient.Mock.Verify(x => x.TrackTrace("Trace message", SeverityLevel.Verbose, It.IsAny<Dictionary<string, string>>()));
-        }
-
-        [Test]
-        public void WHEN_logging_to_server_SHOULD_convert_string_and_scalar_properties_toString()
-        {
-            //Arrange
-            var properties = new Dictionary<string, object>
-            {
-                {"Integer", 1 },
-                {"Double", 1.2d },
-                {"Decimal", 1.2m },
-                {"String", "stringValue" },
-            };
-
-            //Act
-            Sut.Trace("Trace message", LogSeverity.Verbose, properties);
-
-            //Assert
-            MockTelemetryClient.Mock.Verify(x => x.TrackTrace("Trace message", SeverityLevel.Verbose, It.Is<Dictionary<string, string>>(y =>
-                y["Integer"] == "1" &&
-                y["Double"] == 1.2d.ToString(CultureInfo.InvariantCulture) &&
-                y["Decimal"] == 1.2m.ToString(CultureInfo.InvariantCulture) &&
-                y.ContainsKey("String") &&
-                y["String"] == "\"stringValue\"")));
-        }
-
-        [Test]
-        public void WHEN_logging_to_server_SHOULD_convert_object_properties_to_json()
-        {
-            //Arrange
-            var myObject = new
-            {
-                Name = "Adrian",
-                Age = 211
-            };
-            var properties = new Dictionary<string, object>
-            {
-                {"MyObject", myObject }
-            };
-
-            //Act
-            Sut.Trace("Trace message", LogSeverity.Verbose, properties);
-
-            //Assert
-            MockTelemetryClient.Mock.Verify(x => x.TrackTrace("Trace message", SeverityLevel.Verbose, It.Is<Dictionary<string, string>>(y =>
-                y["MyObject"] == JsonConvert.SerializeObject(myObject))));
+            MockTelemetryDecorator.Mock.Verify(x => x.DecorateTelemetry(
+                It.Is<TraceTelemetry>(y => y.Message == "Trace message"),
+                Sut.CurrentOperation, Sut.CurrentSession, It.Is<Dictionary<string, object>>(y => 
+                    (string) y["Property"] ==  "value")));
+            MockTelemetryClient.Mock.Verify(x => x.TrackTrace(It.Is<TraceTelemetry>(y => y.Message == "Decorated")));
+            MockConsoleLogger.Mock.Verify(x => x.LogTrace("Trace message", LogSeverity.Verbose, It.Is<Dictionary<string, string>>(y => y["Property"] == "\"value\"")));
         }
 
 
@@ -88,8 +47,8 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests._BaseTests
             Sut.Trace("Trace message", LogSeverity.Verbose, properties);
 
             //Assert
-            MockConsoleLogger.Mock.Verify(x => x.LogTrace("Trace message", LogSeverity.Verbose, properties));
-            MockTelemetryClient.Mock.Verify(x => x.TrackTrace("Trace message", SeverityLevel.Verbose, It.IsAny<Dictionary<string, string>>()), Times.Never);
+            MockConsoleLogger.Mock.Verify(x => x.LogTrace("Trace message", LogSeverity.Verbose, It.IsAny<Dictionary<string, string>>()));
+            MockTelemetryClient.Mock.Verify(x => x.TrackTrace(It.IsAny<TraceTelemetry>()), Times.Never);
         }
     }
 }

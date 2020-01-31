@@ -29,7 +29,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests._BaseTests
         public void IF_no_operation_exists_and_Operation_is_disposed_SHOULD_track_dependency()
         {
             //Arrange
-            var operation = Sut.ContinueOperation("MyOperation", new Dictionary<string, object>{{"key", 1}});
+            var operation = Sut.ContinueOperation("MyOperation", new Dictionary<string, object>{{"key", "1"}});
             MockTelemetryClient.Mock.Verify(x => x.TrackDependency(It.IsAny<DependencyTelemetry>()), Times.Never);
 
             //Act
@@ -39,7 +39,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests._BaseTests
             MockTelemetryDecorator.Mock.Verify(x => x.DecorateTelemetry(It.IsAny<DependencyTelemetry>(), It.Is<IAnalyticsOperation>(y => 
                     y.Id == operation.Id &&
                     y.Name == "MyOperation"), 
-                Sut.CurrentSession, It.Is<Dictionary<string, string>>(y => y["key"] == "1")));
+                Sut.CurrentSession, It.Is<Dictionary<string, object>>(y => (string) y["key"] == "1")));
             MockTelemetryClient.Mock.Verify(x => x.TrackDependency(It.Is<DependencyTelemetry>(y => 
                 y.Name == "MyOperation")));
             MockConsoleLogger.Mock.Verify(x => x.LogOperation("MyOperation", It.IsAny<TimeSpan>()));
@@ -67,7 +67,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests._BaseTests
         {
             //Arrange
             var firstOperation = Sut.StartOperation("MyFirstOperation");
-            var result = Sut.ContinueOperation("MySecondOperation", new Dictionary<string, object>{{"key", 1}});
+            var result = Sut.ContinueOperation("MySecondOperation", new Dictionary<string, object>{{"key", "1"}});
 
             //Act
             result.Dispose();
@@ -75,8 +75,8 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests._BaseTests
             //Assert
             MockTelemetryDecorator.Mock.Verify(x => x.DecorateTelemetry(It.Is<DependencyTelemetry>(y => 
                     y.Name == "MySecondOperation"), It.Is<IAnalyticsOperation>(y => 
-                    y.Id == firstOperation.Id && y.Name == "MyFirstOperation"), Sut.CurrentSession, It.Is<Dictionary<string, string>>(y => 
-                    y["key"] == "1")));
+                    y.Id == firstOperation.Id && y.Name == "MyFirstOperation"), Sut.CurrentSession, It.Is<Dictionary<string, object>>(y => 
+                    (string) y["key"] == "1")));
             MockTelemetryClient.Mock.Verify(x => x.TrackDependency(It.Is<DependencyTelemetry>(y => 
                 y.Name == "MySecondOperation")));
             MockConsoleLogger.Mock.Verify(x => x.LogOperation("MySecondOperation", It.IsAny<TimeSpan>()));

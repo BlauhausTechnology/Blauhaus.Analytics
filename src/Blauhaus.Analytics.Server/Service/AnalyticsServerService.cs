@@ -41,7 +41,9 @@ namespace Blauhaus.Analytics.Server.Service
                     Name = requestName
                 };
                 
-                TelemetryClient.TrackRequest(requestTelemetry);
+                TelemetryClient.TrackRequest(TelemetryDecorator.DecorateTelemetry(requestTelemetry, CurrentOperation, CurrentSession, 
+                    new Dictionary<string, object>(), new Dictionary<string, double>()));
+
                 ConsoleLogger.LogOperation(requestName, duration);
 
                 CurrentOperation = null;

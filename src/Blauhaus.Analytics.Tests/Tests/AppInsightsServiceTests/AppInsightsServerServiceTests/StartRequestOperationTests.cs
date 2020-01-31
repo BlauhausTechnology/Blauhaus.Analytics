@@ -20,6 +20,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsServ
                 MockConfig.Object,
                 MockConsoleLogger.Object,
                 MockTelemetryClient.Object,
+                MockTelemetryDecorator.Object,
                 CurrentBuildConfig);
         }
 

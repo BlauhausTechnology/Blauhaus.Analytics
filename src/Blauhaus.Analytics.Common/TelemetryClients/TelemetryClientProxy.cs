@@ -60,28 +60,27 @@ namespace Blauhaus.AppInsights.Abstractions.TelemetryClients
 
         public void TrackDependency(DependencyTelemetry dependencyTelemetry)
         {
-            DecorateTelemetry(dependencyTelemetry);
+            //DecorateTelemetry(dependencyTelemetry);
             _client.TrackDependency(dependencyTelemetry);
             if(_isDebug)_client.Flush();
         }
 
         public void TrackRequest(RequestTelemetry requestTelemetry)
         {
-            DecorateTelemetry(requestTelemetry);
+            //DecorateTelemetry(requestTelemetry);
             _client.TrackRequest(requestTelemetry);
             if(_isDebug)_client.Flush();
         }
 
         public void TrackPageView(PageViewTelemetry pageViewTelemetry)
         {
-            DecorateTelemetry(pageViewTelemetry);
+            //DecorateTelemetry(pageViewTelemetry);
             _client.TrackPageView(pageViewTelemetry);
             if(_isDebug)_client.Flush();
         }
 
         public void TrackTrace(string message, SeverityLevel severityLevel, Dictionary<string, string> properties)
         {
-            var telemetry = new TraceTelemetry(message, severityLevel);
             _client.TrackTrace(message, severityLevel, properties);
             if(_isDebug)_client.Flush();
         }
@@ -93,7 +92,7 @@ namespace Blauhaus.AppInsights.Abstractions.TelemetryClients
         }
 
 
-        private ITelemetry DecorateTelemetry(ITelemetry telemetry)
+        private TTelemetry DecorateTelemetry<TTelemetry>(TTelemetry telemetry, Dictionary<string, string> properties) where TTelemetry : ITelemetry, ISupportProperties
         {
             telemetry.Context.Cloud.RoleName = _config.RoleName;
             telemetry.Context.InstrumentationKey = _config.InstrumentationKey;
@@ -119,7 +118,13 @@ namespace Blauhaus.AppInsights.Abstractions.TelemetryClients
 
             foreach (var sessionProperty in _currentSession.Properties)
             {
-                telemetry.Context.GlobalProperties[sessionProperty.Key] = sessionProperty.Value;
+                telemetry.Properties[sessionProperty.Key] = sessionProperty.Value;
+            }
+
+            foreach (var property in properties)
+            {
+                
+                telemetry.Properties[property.Key] = property.Value;
             }
 
             return telemetry;

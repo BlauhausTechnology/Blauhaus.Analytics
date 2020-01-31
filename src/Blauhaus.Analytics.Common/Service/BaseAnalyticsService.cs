@@ -8,6 +8,7 @@ using Blauhaus.Analytics.Abstractions.Service;
 using Blauhaus.Analytics.Abstractions.Session;
 using Blauhaus.Analytics.Abstractions.TelemetryClients;
 using Blauhaus.Analytics.Common.Extensions;
+using Blauhaus.Analytics.Common.TelemetryClients;
 using Blauhaus.Analytics.Console.ConsoleLoggers;
 using Blauhaus.Common.ValueObjects.BuildConfigs;
 using Microsoft.ApplicationInsights.DataContracts;
@@ -22,6 +23,8 @@ namespace Blauhaus.Analytics.Common.Service
         protected readonly IBuildConfig CurrentBuildConfig;
 
         private readonly ITelemetryClientProxy _telemetryClient;
+        protected readonly ITelemetryDecorator TelemetryDecorator;
+
         protected ITelemetryClientProxy TelemetryClient => 
             _telemetryClient.UpdateOperation(CurrentOperation, CurrentSession);
 
@@ -29,11 +32,13 @@ namespace Blauhaus.Analytics.Common.Service
             IApplicationInsightsConfig config, 
             IConsoleLogger appInsightsLogger, 
             ITelemetryClientProxy telemetryClient, 
+            ITelemetryDecorator telemetryDecorator,
             IBuildConfig currentBuildConfig)
         {
             Config = config;
             ConsoleLogger = appInsightsLogger;
             _telemetryClient = telemetryClient;
+            TelemetryDecorator = telemetryDecorator;
             CurrentBuildConfig = currentBuildConfig;
         }
 
@@ -41,7 +46,7 @@ namespace Blauhaus.Analytics.Common.Service
         public IAnalyticsOperation? CurrentOperation { get; protected set; }
         public IAnalyticsSession CurrentSession { get; protected set; } = AnalyticsSession.Empty;
 
-        public IAnalyticsOperation StartOperation(string operationName)
+        public IAnalyticsOperation StartOperation(string operationName, Dictionary<string, object>? properties = null)
         {
 
             CurrentOperation = new AnalyticsOperation(operationName, duration =>
@@ -51,7 +56,10 @@ namespace Blauhaus.Analytics.Common.Service
                     Duration = duration,
                     Name = operationName,
                 };
+                
+                if(properties == null) properties = new Dictionary<string, object>();
 
+                TelemetryDecorator.DecorateTelemetry(dependencyTelemetry, CurrentOperation, CurrentSession, properties.ToDictionaryOfStrings());
                 TelemetryClient.TrackDependency(dependencyTelemetry);
                 ConsoleLogger.LogOperation(operationName, duration);
 
@@ -61,11 +69,11 @@ namespace Blauhaus.Analytics.Common.Service
             return CurrentOperation;
         }
 
-        public IAnalyticsOperation ContinueOperation(string operationName)
+        public IAnalyticsOperation ContinueOperation(string operationName, Dictionary<string, object>? properties = null)
         {
             if (CurrentOperation == null)
             {
-                return StartOperation(operationName);
+                return StartOperation(operationName, properties);
             }
 
             return new AnalyticsOperation(CurrentOperation, duration =>
@@ -76,6 +84,9 @@ namespace Blauhaus.Analytics.Common.Service
                     Name = operationName
                 };
 
+                if(properties == null) properties = new Dictionary<string, object>();
+                
+                TelemetryDecorator.DecorateTelemetry(dependencyTelemetry, CurrentOperation, CurrentSession, properties.ToDictionaryOfStrings());
                 TelemetryClient.TrackDependency(dependencyTelemetry);
                 ConsoleLogger.LogOperation(operationName, duration);
             });
@@ -97,7 +108,10 @@ namespace Blauhaus.Analytics.Common.Service
 
         public void LogEvent(string eventName, Dictionary<string, object> properties = null, Dictionary<string, double> metrics = null)
         {
-            TelemetryClient.TrackEvent(eventName, properties.ToDictionaryOfStrings(), metrics);
+            var telemetry = new EventTelemetry(eventName);
+            TelemetryDecorator.DecorateTelemetry(telemetry, CurrentOperation, CurrentSession, properties.ToDictionaryOfStrings());
+            TelemetryClient.TrackEvent(telemetry);
+            
             ConsoleLogger.LogEvent(eventName, properties, metrics);
         }
 

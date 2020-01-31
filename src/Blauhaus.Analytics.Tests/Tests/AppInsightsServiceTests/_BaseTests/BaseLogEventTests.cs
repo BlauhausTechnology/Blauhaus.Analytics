@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
+using System.Runtime.Serialization;
+using Blauhaus.Analytics.Abstractions.Operation;
 using Blauhaus.Analytics.Abstractions.Service;
 using Blauhaus.Analytics.Tests.Tests._Base;
 using Blauhaus.Common.ValueObjects.BuildConfigs;
@@ -18,13 +20,20 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests._BaseTests
             //Arrange
             var properties = new Dictionary<string, object>();
             var metrics = new Dictionary<string, double>{{"Metric", 12}};
+            MockTelemetryDecorator.Where_Decorate_returns(new EventTelemetry("Decorated"));
 
             //Act
             Sut.LogEvent("Event Name", properties, metrics);
 
+            //TODO 
+
             //Assert
             MockConsoleLogger.Mock.Verify(x => x.LogEvent("Event Name", properties, metrics));
-            MockTelemetryClient.Mock.Verify(x => x.TrackEvent("Event Name", It.IsAny<Dictionary<string, string>>(), metrics));
+            MockTelemetryClient.Mock.Verify(x => x.TrackEvent(It.IsAny<EventTelemetry>()));
+            //MockTelemetryClient.Mock.Verify(x => x.TrackEvent(It.Is<EventTelemetry>(y => y.Name == "Decorated")));
+            MockTelemetryDecorator.Mock.Verify(x => x.DecorateTelemetry(
+                It.Is<EventTelemetry>(y => y.Name == "EventName"), 
+                It.IsAny<IAnalyticsOperation>(), Sut.CurrentSession, It.IsAny<Dictionary<string, string>>()));
         }
 
         [Test]

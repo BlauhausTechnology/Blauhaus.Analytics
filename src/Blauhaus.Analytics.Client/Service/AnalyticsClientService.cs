@@ -9,6 +9,7 @@ using Blauhaus.Analytics.Abstractions.Service;
 using Blauhaus.Analytics.Abstractions.Session;
 using Blauhaus.Analytics.Abstractions.TelemetryClients;
 using Blauhaus.Analytics.Common.Service;
+using Blauhaus.Analytics.Common.TelemetryClients;
 using Blauhaus.Analytics.Console.ConsoleLoggers;
 using Blauhaus.Common.ValueObjects.BuildConfigs;
 using Blauhaus.DeviceServices.Abstractions.Application;
@@ -23,10 +24,11 @@ namespace Blauhaus.Analytics.Client.Service
             IApplicationInsightsConfig config, 
             IConsoleLogger appInsightsLogger, 
             ITelemetryClientProxy telemetryClient,
+            ITelemetryDecorator telemetryDecorator,
             IBuildConfig currentBuildConfig,
             IDeviceInfoService deviceInfoService,
             IApplicationInfoService applicationInfoService)
-            : base(config, appInsightsLogger, telemetryClient, currentBuildConfig)
+            : base(config, appInsightsLogger, telemetryClient, telemetryDecorator, currentBuildConfig)
         {
             CurrentSession = AnalyticsSession.New;
             CurrentSession.AppVersion = applicationInfoService.CurrentVersion;

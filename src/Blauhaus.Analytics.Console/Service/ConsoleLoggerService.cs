@@ -22,7 +22,7 @@ namespace Blauhaus.Analytics.Console.Service
         public IAnalyticsOperation? CurrentOperation { get; private set; }
         public IAnalyticsSession CurrentSession { get; private set; }
 
-        public IAnalyticsOperation StartOperation(string operationName)
+        public IAnalyticsOperation StartOperation(string operationName, Dictionary<string, object> properties = null)
         {
             
             CurrentOperation = new AnalyticsOperation(operationName, duration =>
@@ -34,11 +34,11 @@ namespace Blauhaus.Analytics.Console.Service
             return CurrentOperation;
         }
 
-        public IAnalyticsOperation ContinueOperation(string operationName)
+        public IAnalyticsOperation ContinueOperation(string operationName, Dictionary<string, object> properties = null)
         {
             if (CurrentOperation == null)
             {
-                return StartOperation(operationName);
+                return StartOperation(operationName, properties);
             }
 
             return new AnalyticsOperation(CurrentOperation, duration =>

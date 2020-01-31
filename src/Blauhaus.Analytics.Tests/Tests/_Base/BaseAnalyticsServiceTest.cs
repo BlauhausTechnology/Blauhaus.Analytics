@@ -34,7 +34,7 @@ namespace Blauhaus.Analytics.Tests.Tests._Base
             MockTraceProxy = new MockBuilder<ITraceProxy>();
             MockConfig = new MockBuilder<IApplicationInsightsConfig>()
                 .With(x => x.InstrumentationKey, "TestInstrumentationKey")
-                .With(x => x.ClientName, "TestClientName")
+                .With(x => x.RoleName, "TestClientName")
                 .With(x => x.MinimumLogToServerSeverity, new Dictionary<IBuildConfig, LogSeverity>
                 {
                     {BuildConfig.Debug, LogSeverity.Verbose },

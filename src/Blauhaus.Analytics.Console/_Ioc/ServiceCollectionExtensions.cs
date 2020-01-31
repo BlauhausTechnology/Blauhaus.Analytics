@@ -8,12 +8,12 @@ namespace Blauhaus.Analytics.Console._Ioc
 {
     public static class ServiceCollectionExtensions
     {
+        private static bool IsTraceListenerRegistered;
 
         public static IServiceCollection RegisterConsoleLoggerServerService(this IServiceCollection services, TraceListener consoleTraceListener)
         {
+            AddTraceListener(consoleTraceListener);
             
-            //so that console logging works
-            Trace.Listeners.Add(consoleTraceListener);
 
             services.AddScoped<ITraceProxy, TraceProxy>();
             services.AddScoped<IConsoleLogger, ConsoleLogger>();
@@ -22,5 +22,14 @@ namespace Blauhaus.Analytics.Console._Ioc
             return services;
         }
 
+        private static void AddTraceListener(TraceListener consoleTraceListener)
+        {
+            if (!IsTraceListenerRegistered)
+            {
+                //so that console logging works
+                Trace.Listeners.Add(consoleTraceListener);
+                IsTraceListenerRegistered = true;
+            }
+        }
     }
 }

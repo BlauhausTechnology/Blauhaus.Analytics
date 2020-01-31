@@ -9,19 +9,17 @@ namespace Blauhaus.Analytics.Abstractions.Config
         protected BaseApplicationInsightsConfig(string instrumentationKey, string clientName)
         {
             InstrumentationKey = instrumentationKey;
-            ClientName = clientName;
+            RoleName = clientName;
 
             MinimumLogToServerSeverity = new Dictionary<IBuildConfig, LogSeverity>
             {
                 {BuildConfig.Debug, LogSeverity.Critical },
                 {BuildConfig.Release, LogSeverity.Information }
             };
-
-
         }
 
         public string InstrumentationKey { get; }
-        public string ClientName { get; }
+        public string RoleName { get; }
         public Dictionary<IBuildConfig, LogSeverity> MinimumLogToServerSeverity { get; }
     }
 }

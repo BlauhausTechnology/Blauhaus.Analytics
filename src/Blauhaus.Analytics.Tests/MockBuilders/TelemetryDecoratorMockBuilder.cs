@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Blauhaus.Analytics.Abstractions.Operation;
 using Blauhaus.Analytics.Abstractions.Session;
-using Blauhaus.Analytics.Common.TelemetryClients;
+using Blauhaus.Analytics.Common.Telemetry;
 using Blauhaus.Common.TestHelpers;
 using Microsoft.ApplicationInsights.Channel;
 using Microsoft.ApplicationInsights.DataContracts;

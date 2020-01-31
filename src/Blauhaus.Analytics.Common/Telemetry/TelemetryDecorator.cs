@@ -6,7 +6,7 @@ using Microsoft.ApplicationInsights.Channel;
 using Microsoft.ApplicationInsights.DataContracts;
 using Newtonsoft.Json;
 
-namespace Blauhaus.Analytics.Common.TelemetryClients
+namespace Blauhaus.Analytics.Common.Telemetry
 {
     public class TelemetryDecorator : ITelemetryDecorator
     {
@@ -57,15 +57,18 @@ namespace Blauhaus.Analytics.Common.TelemetryClients
                 }
             }
 
-            foreach (var property in properties)
+            if (properties != null)
             {
-                if (!property.Value.GetType().IsValueType && property.Value.GetType() != typeof(string))
+                foreach (var property in properties)
                 {
-                    telemetry.Properties[property.Key] = JsonConvert.SerializeObject(property.Value);
-                }
-                else
-                {
-                    telemetry.Properties[property.Key] = property.Value.ToString();
+                    if (!property.Value.GetType().IsValueType && property.Value.GetType() != typeof(string))
+                    {
+                        telemetry.Properties[property.Key] = JsonConvert.SerializeObject(property.Value);
+                    }
+                    else
+                    {
+                        telemetry.Properties[property.Key] = property.Value.ToString();
+                    }
                 }
             }
 

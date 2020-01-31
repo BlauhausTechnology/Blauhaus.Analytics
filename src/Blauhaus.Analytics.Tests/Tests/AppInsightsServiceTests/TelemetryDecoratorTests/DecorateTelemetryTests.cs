@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using Blauhaus.Analytics.Abstractions.Operation;
 using Blauhaus.Analytics.Abstractions.Session;
-using Blauhaus.Analytics.Common.TelemetryClients;
+using Blauhaus.Analytics.Common.Telemetry;
 using Blauhaus.Analytics.Tests.Tests._Base;
 using Blauhaus.Common.TestHelpers;
 using Microsoft.ApplicationInsights.DataContracts;

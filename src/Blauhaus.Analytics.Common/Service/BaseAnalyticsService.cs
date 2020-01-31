@@ -7,8 +7,7 @@ using Blauhaus.Analytics.Abstractions.Extensions;
 using Blauhaus.Analytics.Abstractions.Operation;
 using Blauhaus.Analytics.Abstractions.Service;
 using Blauhaus.Analytics.Abstractions.Session;
-using Blauhaus.Analytics.Abstractions.TelemetryClients;
-using Blauhaus.Analytics.Common.TelemetryClients;
+using Blauhaus.Analytics.Common.Telemetry;
 using Blauhaus.Analytics.Console.ConsoleLoggers;
 using Blauhaus.Common.ValueObjects.BuildConfigs;
 using Microsoft.ApplicationInsights.DataContracts;
@@ -22,11 +21,8 @@ namespace Blauhaus.Analytics.Common.Service
         protected readonly IConsoleLogger ConsoleLogger;
         protected readonly IBuildConfig CurrentBuildConfig;
 
-        private readonly ITelemetryClientProxy _telemetryClient;
+        protected readonly ITelemetryClientProxy TelemetryClient;
         protected readonly ITelemetryDecorator TelemetryDecorator;
-
-        protected ITelemetryClientProxy TelemetryClient => 
-            _telemetryClient.UpdateOperation(CurrentOperation, CurrentSession);
 
         protected BaseAnalyticsService(
             IApplicationInsightsConfig config, 
@@ -37,7 +33,7 @@ namespace Blauhaus.Analytics.Common.Service
         {
             Config = config;
             ConsoleLogger = appInsightsLogger;
-            _telemetryClient = telemetryClient;
+            TelemetryClient = telemetryClient;
             TelemetryDecorator = telemetryDecorator;
             CurrentBuildConfig = currentBuildConfig;
         }

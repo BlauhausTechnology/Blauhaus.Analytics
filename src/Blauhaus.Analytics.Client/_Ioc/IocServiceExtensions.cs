@@ -1,9 +1,8 @@
 ﻿using Blauhaus.Analytics.Abstractions.Config;
 using Blauhaus.Analytics.Abstractions.Service;
-using Blauhaus.Analytics.Abstractions.TelemetryClients;
 using Blauhaus.Analytics.Client.Service;
+using Blauhaus.Analytics.Common.Telemetry;
 using Blauhaus.Analytics.Console._Ioc;
-using Blauhaus.AppInsights.Abstractions.TelemetryClients;
 using Blauhaus.DeviceServices._Ioc;
 using Blauhaus.Ioc.Abstractions;
 
@@ -19,6 +18,7 @@ namespace Blauhaus.Analytics.Client._Ioc
             iocService.RegisterImplementation<IApplicationInsightsConfig, TConfig>(IocLifetime.Singleton);
             iocService.RegisterImplementation<IAnalyticsClientService, AnalyticsClientService>(IocLifetime.Singleton);
             iocService.RegisterImplementation<ITelemetryClientProxy, TelemetryClientProxy>(IocLifetime.Singleton);
+            iocService.RegisterImplementation<ITelemetryDecorator, TelemetryDecorator>();
             iocService.RegisterInstance<IAnalyticsService>(iocService.Resolve<IAnalyticsClientService>());
             iocService.RegisterBlauhausDeviceServices();
 

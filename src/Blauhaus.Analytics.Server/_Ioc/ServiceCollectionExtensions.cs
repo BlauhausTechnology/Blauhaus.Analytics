@@ -1,10 +1,9 @@
 ﻿using System.Diagnostics;
 using Blauhaus.Analytics.Abstractions.Config;
 using Blauhaus.Analytics.Abstractions.Service;
-using Blauhaus.Analytics.Abstractions.TelemetryClients;
+using Blauhaus.Analytics.Common.Telemetry;
 using Blauhaus.Analytics.Console._Ioc;
 using Blauhaus.Analytics.Server.Service;
-using Blauhaus.AppInsights.Abstractions.TelemetryClients;
 using Microsoft.ApplicationInsights;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -20,10 +19,10 @@ namespace Blauhaus.Analytics.Server._Ioc
             services.AddScoped<IApplicationInsightsConfig, TConfig>();
             services.AddScoped<IAnalyticsServerService, AnalyticsServerService>();
             services.AddScoped<ITelemetryClientProxy, TelemetryClientProxy>();
+            services.AddScoped<ITelemetryDecorator, TelemetryDecorator>();
             services.AddScoped<IAnalyticsService>(x => x.GetService<IAnalyticsServerService>());
 
             services.AddScoped<TelemetryClient>();
-            //services.AddApplicationInsightsTelemetry();
 
             return services;
         }

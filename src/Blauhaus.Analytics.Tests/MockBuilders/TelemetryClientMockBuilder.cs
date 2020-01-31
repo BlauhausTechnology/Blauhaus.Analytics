@@ -1,4 +1,4 @@
-﻿using Blauhaus.Analytics.Abstractions.TelemetryClients;
+﻿using Blauhaus.Analytics.Common.Telemetry;
 using Blauhaus.Common.TestHelpers;
 
 namespace Blauhaus.Analytics.Tests.MockBuilders

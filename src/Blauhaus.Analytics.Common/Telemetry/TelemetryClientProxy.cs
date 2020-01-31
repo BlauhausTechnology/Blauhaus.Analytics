@@ -3,39 +3,25 @@ using System.Collections.Generic;
 using Blauhaus.Analytics.Abstractions.Config;
 using Blauhaus.Analytics.Abstractions.Operation;
 using Blauhaus.Analytics.Abstractions.Session;
-using Blauhaus.Analytics.Abstractions.TelemetryClients;
 using Blauhaus.Common.ValueObjects.BuildConfigs;
 using Microsoft.ApplicationInsights;
-using Microsoft.ApplicationInsights.Channel;
 using Microsoft.ApplicationInsights.DataContracts;
 using Microsoft.ApplicationInsights.Extensibility;
 
-namespace Blauhaus.AppInsights.Abstractions.TelemetryClients
+namespace Blauhaus.Analytics.Common.Telemetry
 {
     public class TelemetryClientProxy : ITelemetryClientProxy
     {
-        private readonly IApplicationInsightsConfig _config;
         private readonly TelemetryClient _client;
         private readonly bool _isDebug;
-        private IAnalyticsOperation _currentOperation;
-        private IAnalyticsSession _currentSession;
 
         public TelemetryClientProxy(IApplicationInsightsConfig config, IBuildConfig buildConfig)
         {
-            _config = config;
             _client = new TelemetryClient(new TelemetryConfiguration(config.InstrumentationKey));
             _client.Context.Cloud.RoleName = config.RoleName;
             _isDebug = (BuildConfig) buildConfig == BuildConfig.Debug;
         }
 
-
-        public ITelemetryClientProxy UpdateOperation(IAnalyticsOperation analyticsOperation, IAnalyticsSession session)
-        {
-            _currentOperation = analyticsOperation;
-            _currentSession = session;
-
-            return this;
-        }
 
         public void TrackException(Exception exception, Dictionary<string, string> properties, Dictionary<string, double> metrics)
         {
@@ -45,17 +31,20 @@ namespace Blauhaus.AppInsights.Abstractions.TelemetryClients
 
         public void TrackTrace(TraceTelemetry traceTelemetry)
         {
-            throw new NotImplementedException();
+            _client.TrackTrace(traceTelemetry);
+            if(_isDebug)_client.Flush();
         }
 
         public void TrackEvent(EventTelemetry eventTelemetry)
         {
-            throw new NotImplementedException();
+            _client.TrackEvent(eventTelemetry);
+            if(_isDebug)_client.Flush();
         }
 
         public void TrackException(ExceptionTelemetry exceptionTelemetry)
         {
-            throw new NotImplementedException();
+            _client.TrackException(exceptionTelemetry);
+            if(_isDebug)_client.Flush();
         }
 
         public void TrackDependency(DependencyTelemetry dependencyTelemetry)
@@ -76,17 +65,6 @@ namespace Blauhaus.AppInsights.Abstractions.TelemetryClients
             if(_isDebug)_client.Flush();
         }
 
-        public void TrackTrace(string message, SeverityLevel severityLevel, Dictionary<string, string> properties)
-        {
-            _client.TrackTrace(message, severityLevel, properties);
-            if(_isDebug)_client.Flush();
-        }
-
-        public void TrackEvent(string eventName, Dictionary<string, string> properties, Dictionary<string, double> metrics)
-        {
-            _client.TrackEvent(eventName, properties, metrics);
-            if(_isDebug)_client.Flush();
-        }
 
     }
 }

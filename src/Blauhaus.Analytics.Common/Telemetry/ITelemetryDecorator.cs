@@ -4,7 +4,7 @@ using Blauhaus.Analytics.Abstractions.Session;
 using Microsoft.ApplicationInsights.Channel;
 using Microsoft.ApplicationInsights.DataContracts;
 
-namespace Blauhaus.Analytics.Common.TelemetryClients
+namespace Blauhaus.Analytics.Common.Telemetry
 {
     public interface ITelemetryDecorator
     {

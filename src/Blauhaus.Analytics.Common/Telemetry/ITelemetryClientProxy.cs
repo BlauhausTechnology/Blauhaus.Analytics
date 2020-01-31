@@ -4,17 +4,10 @@ using Blauhaus.Analytics.Abstractions.Operation;
 using Blauhaus.Analytics.Abstractions.Session;
 using Microsoft.ApplicationInsights.DataContracts;
 
-namespace Blauhaus.Analytics.Abstractions.TelemetryClients
+namespace Blauhaus.Analytics.Common.Telemetry
 {
     public interface ITelemetryClientProxy 
     {
-        ITelemetryClientProxy UpdateOperation(IAnalyticsOperation analyticsOperation, IAnalyticsSession sessiond);
-        
-        void TrackTrace(string message, SeverityLevel severityLevel, Dictionary<string, string> properties);
-        void TrackEvent(string eventName, Dictionary<string, string> properties, Dictionary<string, double> metrics);
-        void TrackException(Exception exception, Dictionary<string, string> properties, Dictionary<string, double> metrics);
-
-
         void TrackTrace(TraceTelemetry traceTelemetry);
         void TrackEvent(EventTelemetry eventTelemetry);
         void TrackException(ExceptionTelemetry exceptionTelemetry);

@@ -44,8 +44,6 @@ namespace Blauhaus.Analytics.Tests.Tests._Base
 
             MockConsoleLogger = new MockBuilder<IConsoleLogger>();
             MockTelemetryClient = new TelemetryClientMockBuilder();
-            MockTelemetryClient.Mock.Setup(x => x.UpdateOperation(It.IsAny<IAnalyticsOperation>(), It.IsAny<AnalyticsSession>()))
-                .Returns(MockTelemetryClient.Object);
 
             MockDeviceInfoService = new MockBuilder<IDeviceInfoService>();
             MockApplicationInfoService = new MockBuilder<IApplicationInfoService>();

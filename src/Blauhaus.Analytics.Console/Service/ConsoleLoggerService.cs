@@ -24,6 +24,7 @@ namespace Blauhaus.Analytics.Console.Service
 
         public IAnalyticsOperation StartOperation(string operationName)
         {
+            
             CurrentOperation = new AnalyticsOperation(operationName, duration =>
             {
                 ConsoleLogger.LogOperation(operationName, duration);

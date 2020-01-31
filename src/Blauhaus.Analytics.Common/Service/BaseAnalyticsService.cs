@@ -42,6 +42,7 @@ namespace Blauhaus.Analytics.Common.Service
 
         public IAnalyticsOperation StartOperation(string operationName)
         {
+
             CurrentOperation = new AnalyticsOperation(operationName, duration =>
             {
                 var dependencyTelemetry = new DependencyTelemetry

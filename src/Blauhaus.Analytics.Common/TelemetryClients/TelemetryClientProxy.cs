@@ -19,7 +19,7 @@ namespace Blauhaus.AppInsights.Abstractions.TelemetryClients
         public TelemetryClientProxy(IApplicationInsightsConfig config, IBuildConfig buildConfig)
         {
             _client = new TelemetryClient(new TelemetryConfiguration(config.InstrumentationKey));
-            _client.Context.Device.Type = config.ClientName;
+            _client.Context.Cloud.RoleName = config.RoleName;
             _isDebug = (BuildConfig) buildConfig == BuildConfig.Debug;
         }
 

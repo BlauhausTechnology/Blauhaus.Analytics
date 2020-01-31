@@ -4,6 +4,7 @@ using Blauhaus.Analytics.Abstractions.Operation;
 using Blauhaus.Analytics.Abstractions.Session;
 using Microsoft.ApplicationInsights.Channel;
 using Microsoft.ApplicationInsights.DataContracts;
+using Newtonsoft.Json;
 
 namespace Blauhaus.Analytics.Common.TelemetryClients
 {
@@ -27,13 +28,13 @@ namespace Blauhaus.Analytics.Common.TelemetryClients
             telemetry.Context.Cloud.RoleName = _config.RoleName;
             telemetry.Context.InstrumentationKey = _config.InstrumentationKey;
 
-            //todo tests vvv
 
             if (currentOperation != null)
             {
                 telemetry.Context.Operation.Id = currentOperation.Id;
                 telemetry.Context.Operation.Name = currentOperation.Name;
             }
+
             telemetry.Context.Session.Id = currentSession.Id;
 
             if (currentSession.AppVersion != null)
@@ -58,8 +59,14 @@ namespace Blauhaus.Analytics.Common.TelemetryClients
 
             foreach (var property in properties)
             {
-                
-                telemetry.Properties[property.Key] = property.Value.ToString();
+                if (!property.Value.GetType().IsValueType && property.Value.GetType() != typeof(string))
+                {
+                    telemetry.Properties[property.Key] = JsonConvert.SerializeObject(property.Value);
+                }
+                else
+                {
+                    telemetry.Properties[property.Key] = property.Value.ToString();
+                }
             }
 
             return telemetry;
@@ -69,7 +76,13 @@ namespace Blauhaus.Analytics.Common.TelemetryClients
         {
             telemetry = DecorateTelemetry(telemetry, currentOperation, currentSession, properties);
 
-            //add metrics
+            if (metrics != null)
+            {
+                foreach (var metric in metrics)
+                {
+                    telemetry.Metrics[metric.Key] = metric.Value;
+                }
+            }
 
             return telemetry;
         }

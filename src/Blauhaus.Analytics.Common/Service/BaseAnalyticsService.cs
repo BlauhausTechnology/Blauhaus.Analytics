@@ -22,7 +22,8 @@ namespace Blauhaus.Analytics.Common.Service
         protected readonly IBuildConfig CurrentBuildConfig;
 
         private readonly ITelemetryClientProxy _telemetryClient;
-        protected ITelemetryClientProxy TelemetryClient => _telemetryClient.UpdateOperation(CurrentOperation, CurrentSession);
+        protected ITelemetryClientProxy TelemetryClient => 
+            _telemetryClient.UpdateOperation(CurrentOperation, CurrentSession);
 
         protected BaseAnalyticsService(
             IApplicationInsightsConfig config, 

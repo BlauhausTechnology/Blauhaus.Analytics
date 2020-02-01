@@ -18,9 +18,6 @@ namespace Blauhaus.Analytics.Abstractions.Extensions
                 {
                     if (property.Value is string stringValue)
                     {
-                        //var v = Regex.Unescape(stringValue);
-                        //v = v.TrimStart('\"');
-                        //v = v.TrimEnd('\"');
                         stringifiedProperties[property.Key] = stringValue;
                     }
 
@@ -31,7 +28,7 @@ namespace Blauhaus.Analytics.Abstractions.Extensions
 
                     else
                     {
-                        stringifiedProperties[property.Key] = JsonConvert.SerializeObject(property.Value);
+                        stringifiedProperties[property.Key] = JsonConvert.SerializeObject(property.Value, Formatting.Indented);
                     }
                 }
             }

@@ -20,19 +20,18 @@ namespace Blauhaus.Analytics.Common.Service
         protected readonly IApplicationInsightsConfig Config;
         protected readonly IConsoleLogger ConsoleLogger;
         protected readonly IBuildConfig CurrentBuildConfig;
-
         protected readonly ITelemetryClientProxy TelemetryClient;
         protected readonly ITelemetryDecorator TelemetryDecorator;
 
         protected BaseAnalyticsService(
             IApplicationInsightsConfig config, 
-            IConsoleLogger appInsightsLogger, 
+            IConsoleLogger consoleLogger, 
             ITelemetryClientProxy telemetryClient, 
             ITelemetryDecorator telemetryDecorator,
             IBuildConfig currentBuildConfig)
         {
             Config = config;
-            ConsoleLogger = appInsightsLogger;
+            ConsoleLogger = consoleLogger;
             TelemetryClient = telemetryClient;
             TelemetryDecorator = telemetryDecorator;
             CurrentBuildConfig = currentBuildConfig;

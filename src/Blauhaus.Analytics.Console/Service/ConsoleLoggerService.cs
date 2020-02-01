@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http.Headers;
+using Blauhaus.Analytics.Abstractions.Extensions;
 using Blauhaus.Analytics.Abstractions.Http;
 using Blauhaus.Analytics.Abstractions.Operation;
 using Blauhaus.Analytics.Abstractions.Service;
@@ -22,7 +23,7 @@ namespace Blauhaus.Analytics.Console.Service
         public IAnalyticsOperation? CurrentOperation { get; private set; }
         public IAnalyticsSession CurrentSession { get; private set; }
 
-        public IAnalyticsOperation StartOperation(string operationName)
+        public IAnalyticsOperation StartOperation(string operationName, Dictionary<string, object> properties = null)
         {
             
             CurrentOperation = new AnalyticsOperation(operationName, duration =>
@@ -34,11 +35,11 @@ namespace Blauhaus.Analytics.Console.Service
             return CurrentOperation;
         }
 
-        public IAnalyticsOperation ContinueOperation(string operationName)
+        public IAnalyticsOperation ContinueOperation(string operationName, Dictionary<string, object> properties = null)
         {
             if (CurrentOperation == null)
             {
-                return StartOperation(operationName);
+                return StartOperation(operationName, properties);
             }
 
             return new AnalyticsOperation(CurrentOperation, duration =>
@@ -50,17 +51,17 @@ namespace Blauhaus.Analytics.Console.Service
 
         public void Trace(string message, LogSeverity logSeverityLevel = LogSeverity.Verbose, Dictionary<string, object>? properties = null)
         {
-            ConsoleLogger.LogTrace(message, logSeverityLevel, properties);
+            ConsoleLogger.LogTrace(message, logSeverityLevel, properties.ToDictionaryOfStrings());
         }
 
         public void LogEvent(string eventName, Dictionary<string, object>? properties = null, Dictionary<string, double>? metrics = null)
         {
-            ConsoleLogger.LogEvent(eventName, properties, metrics);
+            ConsoleLogger.LogEvent(eventName, properties.ToDictionaryOfStrings(), metrics);
         }
 
         public void LogException(Exception exception, Dictionary<string, object>? properties = null, Dictionary<string, double>? metrics = null)
         {
-            ConsoleLogger.LogException(exception, properties, metrics);
+            ConsoleLogger.LogException(exception, properties.ToDictionaryOfStrings(), metrics);
         }
     }
 }

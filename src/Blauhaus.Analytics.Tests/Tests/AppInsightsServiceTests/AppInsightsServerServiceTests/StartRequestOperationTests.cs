@@ -20,6 +20,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsServ
                 MockConfig.Object,
                 MockConsoleLogger.Object,
                 MockTelemetryClient.Object,
+                MockTelemetryDecorator.Object,
                 CurrentBuildConfig);
         }
 
@@ -51,18 +52,22 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsServ
                 var operationId = Guid.NewGuid().ToString();
                 var sessionId = Guid.NewGuid().ToString();
                 var operation = Sut.StartRequestOperation("RequestName", "MyOperation", operationId, AnalyticsSession.FromExisting(sessionId));
+                var decoratedRequestTelemetry = new RequestTelemetry();
+                MockTelemetryDecorator.Where_Decorate_with_metrics_returns(decoratedRequestTelemetry);
                 MockTelemetryClient.Mock.Verify(x => x.TrackRequest(It.IsAny<RequestTelemetry>()), Times.Never);
 
                 //Act
                 operation.Dispose();
             
                 //Assert
-                MockTelemetryClient.Mock.Verify(x => x.UpdateOperation(It.Is<IAnalyticsOperation>(y => 
-                    y.Id == operation.Id &&
-                    y.Name == "MyOperation"), Sut.CurrentSession));
-                MockTelemetryClient.Mock.Verify(x => x.TrackRequest(It.Is<RequestTelemetry>(y => 
-                    y.Name == "RequestName")));
+                MockTelemetryDecorator.Mock.Verify(x => x.DecorateTelemetry(
+                    It.Is<RequestTelemetry>(y => y.Name == "RequestName"),
+                    It.Is<IAnalyticsOperation>(y => y.Name == "MyOperation"), 
+                    Sut.CurrentSession, 
+                    It.IsAny<Dictionary<string, object>>(), It.IsAny<Dictionary<string, double>>()));
+                MockTelemetryClient.Mock.Verify(x => x.TrackRequest(decoratedRequestTelemetry));
                 MockConsoleLogger.Mock.Verify(x => x.LogOperation("RequestName", It.IsAny<TimeSpan>()));
+
             }
         }
 
@@ -156,17 +161,19 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsServ
             {
                 //Arrange
                 var operation = Sut.StartRequestOperation("RequestName", new Dictionary<string, string>());
-                MockTelemetryClient.Mock.Verify(x => x.TrackRequest(It.IsAny<RequestTelemetry>()), Times.Never);
+                var decoratedRequestTelemetry = new RequestTelemetry();
+                MockTelemetryDecorator.Where_Decorate_with_metrics_returns(decoratedRequestTelemetry);
 
                 //Act
                 operation.Dispose();
             
                 //Assert
-                MockTelemetryClient.Mock.Verify(x => x.UpdateOperation(It.Is<IAnalyticsOperation>(y => 
-                    y.Id == operation.Id &&
-                    y.Name == "NewRequest"), Sut.CurrentSession));
-                MockTelemetryClient.Mock.Verify(x => x.TrackRequest(It.Is<RequestTelemetry>(y => 
-                    y.Name == "RequestName")));
+                MockTelemetryDecorator.Mock.Verify(x => x.DecorateTelemetry(
+                    It.Is<RequestTelemetry>(y => y.Name == "RequestName"),
+                    It.Is<IAnalyticsOperation>(y => y.Name == "NewRequest"), 
+                    Sut.CurrentSession, 
+                    It.IsAny<Dictionary<string, object>>(), It.IsAny<Dictionary<string, double>>()));
+                MockTelemetryClient.Mock.Verify(x => x.TrackRequest(decoratedRequestTelemetry));
                 MockConsoleLogger.Mock.Verify(x => x.LogOperation("RequestName", It.IsAny<TimeSpan>()));
             }
 
@@ -179,17 +186,19 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsServ
                     {AnalyticsHeaders.Operation.Name,  "MyOperation"}
                 };
                 var operation = Sut.StartRequestOperation("RequestName", headers);
-                MockTelemetryClient.Mock.Verify(x => x.TrackRequest(It.IsAny<RequestTelemetry>()), Times.Never);
+                var decoratedRequestTelemetry = new RequestTelemetry();
+                MockTelemetryDecorator.Where_Decorate_with_metrics_returns(decoratedRequestTelemetry);
 
                 //Act
                 operation.Dispose();
             
                 //Assert
-                MockTelemetryClient.Mock.Verify(x => x.UpdateOperation(It.Is<IAnalyticsOperation>(y => 
-                    y.Id == operation.Id &&
-                    y.Name == "MyOperation"), Sut.CurrentSession));
-                MockTelemetryClient.Mock.Verify(x => x.TrackRequest(It.Is<RequestTelemetry>(y => 
-                    y.Name == "RequestName")));
+                MockTelemetryDecorator.Mock.Verify(x => x.DecorateTelemetry(
+                    It.Is<RequestTelemetry>(y => y.Name == "RequestName"),
+                    It.Is<IAnalyticsOperation>(y => y.Name == "MyOperation"), 
+                    Sut.CurrentSession, 
+                    It.IsAny<Dictionary<string, object>>(), It.IsAny<Dictionary<string, double>>()));
+                MockTelemetryClient.Mock.Verify(x => x.TrackRequest(decoratedRequestTelemetry));
                 MockConsoleLogger.Mock.Verify(x => x.LogOperation("RequestName", It.IsAny<TimeSpan>()));
             }
         }

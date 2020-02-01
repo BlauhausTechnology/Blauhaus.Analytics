@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using Blauhaus.Analytics.Abstractions.Operation;
+using Blauhaus.Analytics.Abstractions.Service;
 using Blauhaus.Analytics.Abstractions.Session;
 using Blauhaus.Analytics.Client.Service;
 using Blauhaus.Analytics.Tests.Tests._Base;
@@ -18,6 +20,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsClie
                 MockConfig.Object,
                 MockConsoleLogger.Object,
                 MockTelemetryClient.Object,
+                MockTelemetryDecorator.Object,
                 CurrentBuildConfig,
                 MockDeviceInfoService.Object,
                 MockApplicationInfoService.Object);
@@ -42,16 +45,18 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsClie
             //Arrange
             var operation = Sut.StartPageViewOperation("MyOperation");
             MockTelemetryClient.Mock.Verify(x => x.TrackPageView(It.IsAny<PageViewTelemetry>()), Times.Never);
+            MockTelemetryDecorator.Where_Decorate_with_metrics_returns(new PageViewTelemetry("Decorated"));
 
             //Act
             operation.Dispose();
             
             //Assert
-            MockTelemetryClient.Mock.Verify(x => x.UpdateOperation(It.Is<IAnalyticsOperation>(y => 
-                y.Id == operation.Id &&
-                y.Name == "MyOperation"), Sut.CurrentSession));
-            MockTelemetryClient.Mock.Verify(x => x.TrackPageView(It.Is<PageViewTelemetry>(y => 
-                y.Name == "MyOperation")));
+            MockTelemetryDecorator.Mock.Verify(x => x.DecorateTelemetry(
+                It.Is<PageViewTelemetry>(y => y.Name == "MyOperation"),
+                It.Is<IAnalyticsOperation>(y => y.Name == "MyOperation"), 
+                Sut.CurrentSession, 
+                It.IsAny<Dictionary<string, object>>(), It.IsAny<Dictionary<string, double>>()));
+            MockTelemetryClient.Mock.Verify(x => x.TrackPageView(It.Is<PageViewTelemetry>(y => y.Name == "Decorated")));
             MockConsoleLogger.Mock.Verify(x => x.LogOperation("MyOperation", It.IsAny<TimeSpan>()));
         }
 

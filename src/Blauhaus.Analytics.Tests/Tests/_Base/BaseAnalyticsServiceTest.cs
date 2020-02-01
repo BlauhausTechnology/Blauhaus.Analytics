@@ -25,6 +25,7 @@ namespace Blauhaus.Analytics.Tests.Tests._Base
         protected IBuildConfig CurrentBuildConfig;
         protected MockBuilder<IDeviceInfoService> MockDeviceInfoService;
         protected MockBuilder<IApplicationInfoService> MockApplicationInfoService;
+        protected TelemetryDecoratorMockBuilder MockTelemetryDecorator;
 
         [SetUp]
         public virtual void Setup()
@@ -43,11 +44,10 @@ namespace Blauhaus.Analytics.Tests.Tests._Base
 
             MockConsoleLogger = new MockBuilder<IConsoleLogger>();
             MockTelemetryClient = new TelemetryClientMockBuilder();
-            MockTelemetryClient.Mock.Setup(x => x.UpdateOperation(It.IsAny<IAnalyticsOperation>(), It.IsAny<AnalyticsSession>()))
-                .Returns(MockTelemetryClient.Object);
 
             MockDeviceInfoService = new MockBuilder<IDeviceInfoService>();
             MockApplicationInfoService = new MockBuilder<IApplicationInfoService>();
+            MockTelemetryDecorator = new TelemetryDecoratorMockBuilder();
         }
 
     }

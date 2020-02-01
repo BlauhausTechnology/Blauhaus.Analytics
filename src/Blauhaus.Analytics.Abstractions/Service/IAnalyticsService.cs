@@ -10,8 +10,8 @@ namespace Blauhaus.Analytics.Abstractions.Service
         IAnalyticsOperation? CurrentOperation { get; }
         IAnalyticsSession CurrentSession { get; }
 
-        IAnalyticsOperation StartOperation(string operationName);
-        IAnalyticsOperation ContinueOperation(string operationName);
+        IAnalyticsOperation StartOperation(string operationName, Dictionary<string, object>? properties = null);
+        IAnalyticsOperation ContinueOperation(string operationName, Dictionary<string, object>? properties = null);
 
         void Trace(string message, LogSeverity logSeverityLevel = 0, Dictionary<string, object>? properties = null);
         void LogEvent(string eventName, Dictionary<string, object>? properties = null, Dictionary<string, double>? metrics = null);

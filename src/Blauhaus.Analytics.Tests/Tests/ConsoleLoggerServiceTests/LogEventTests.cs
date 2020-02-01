@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Blauhaus.Analytics.Console.Service;
 using Blauhaus.Analytics.Tests.Tests._Base;
+using Moq;
 using NUnit.Framework;
 
 namespace Blauhaus.Analytics.Tests.Tests.ConsoleLoggerServiceTests
@@ -24,7 +25,7 @@ namespace Blauhaus.Analytics.Tests.Tests.ConsoleLoggerServiceTests
             Sut.LogEvent("event name", properties, metrics);
 
             //Assert
-            MockConsoleLogger.Mock.Verify(x => x.LogEvent("event name", properties, metrics));
+            MockConsoleLogger.Mock.Verify(x => x.LogEvent("event name", It.IsAny<Dictionary<string, string>>(), metrics));
         }
 
     }

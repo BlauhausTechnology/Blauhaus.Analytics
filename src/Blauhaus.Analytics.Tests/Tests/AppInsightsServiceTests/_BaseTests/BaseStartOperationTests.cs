@@ -29,16 +29,20 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests._BaseTests
         public void WHEN_Operation_is_disposed_SHOULD_track_dependency()
         {
             //Arrange
-            var operation = Sut.StartOperation("MyOperation");
+            var operation = Sut.StartOperation("MyOperation", new Dictionary<string, object>
+            {
+                {"key", "1" }
+            });
             MockTelemetryClient.Mock.Verify(x => x.TrackDependency(It.IsAny<DependencyTelemetry>()), Times.Never);
 
             //Act
             operation.Dispose();
             
             //Assert
-            MockTelemetryClient.Mock.Verify(x => x.UpdateOperation(It.Is<IAnalyticsOperation>(y => 
+            MockTelemetryDecorator.Mock.Verify(x => x.DecorateTelemetry(It.IsAny<DependencyTelemetry>(), It.Is<IAnalyticsOperation>(y => 
                 y.Id == operation.Id &&
-                y.Name == "MyOperation"), Sut.CurrentSession));
+                y.Name == "MyOperation"), 
+                Sut.CurrentSession, It.Is<Dictionary<string, object>>(y => (string) y["key"] == "1")));
             MockTelemetryClient.Mock.Verify(x => x.TrackDependency(It.Is<DependencyTelemetry>(y => 
                 y.Name == "MyOperation")));
             MockConsoleLogger.Mock.Verify(x => x.LogOperation("MyOperation", It.IsAny<TimeSpan>()));

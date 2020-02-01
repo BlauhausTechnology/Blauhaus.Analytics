@@ -2,6 +2,7 @@
 using Blauhaus.Analytics.Abstractions.Service;
 using Blauhaus.Analytics.Console.Service;
 using Blauhaus.Analytics.Tests.Tests._Base;
+using Moq;
 using NUnit.Framework;
 
 namespace Blauhaus.Analytics.Tests.Tests.ConsoleLoggerServiceTests
@@ -24,7 +25,7 @@ namespace Blauhaus.Analytics.Tests.Tests.ConsoleLoggerServiceTests
             Sut.Trace("event name", LogSeverity.Critical, properties);
 
             //Assert
-            MockConsoleLogger.Mock.Verify(x => x.LogTrace("event name", LogSeverity.Critical, properties));
+            MockConsoleLogger.Mock.Verify(x => x.LogTrace("event name", LogSeverity.Critical, It.IsAny<Dictionary<string, string>>()));
         }
 
     }

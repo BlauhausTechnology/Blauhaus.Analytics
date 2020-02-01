@@ -7,8 +7,8 @@ using Blauhaus.Analytics.Abstractions.Http;
 using Blauhaus.Analytics.Abstractions.Operation;
 using Blauhaus.Analytics.Abstractions.Service;
 using Blauhaus.Analytics.Abstractions.Session;
-using Blauhaus.Analytics.Abstractions.TelemetryClients;
 using Blauhaus.Analytics.Common.Service;
+using Blauhaus.Analytics.Common.Telemetry;
 using Blauhaus.Analytics.Console.ConsoleLoggers;
 using Blauhaus.Common.ValueObjects.BuildConfigs;
 using Microsoft.ApplicationInsights.DataContracts;
@@ -22,8 +22,9 @@ namespace Blauhaus.Analytics.Server.Service
             IApplicationInsightsConfig config, 
             IConsoleLogger appInsightsLogger, 
             ITelemetryClientProxy telemetryClient,
+            ITelemetryDecorator telemetryDecorator,
             IBuildConfig currentBuildConfig)
-            : base(config, appInsightsLogger, telemetryClient, currentBuildConfig)
+            : base(config, appInsightsLogger, telemetryClient, telemetryDecorator, currentBuildConfig)
         {
         }
 
@@ -39,7 +40,9 @@ namespace Blauhaus.Analytics.Server.Service
                     Name = requestName
                 };
                 
-                TelemetryClient.TrackRequest(requestTelemetry);
+                TelemetryClient.TrackRequest(TelemetryDecorator.DecorateTelemetry(requestTelemetry, CurrentOperation, CurrentSession, 
+                    new Dictionary<string, object>(), new Dictionary<string, double>()));
+
                 ConsoleLogger.LogOperation(requestName, duration);
 
                 CurrentOperation = null;

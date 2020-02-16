@@ -10,11 +10,9 @@ namespace Blauhaus.Analytics.Console._Ioc
     {
         private static bool IsTraceListenerRegistered;
 
-        public static IServiceCollection RegisterConsoleLoggerServerService(this IServiceCollection services, TraceListener consoleTraceListener)
+        public static IServiceCollection RegisterConsoleLoggerService(this IServiceCollection services, TraceListener consoleTraceListener)
         {
             AddTraceListener(consoleTraceListener);
-            
-
             services.AddScoped<ITraceProxy, TraceProxy>();
             services.AddScoped<IConsoleLogger, ConsoleLogger>();
             services.AddScoped<IAnalyticsService, ConsoleLoggerService>();

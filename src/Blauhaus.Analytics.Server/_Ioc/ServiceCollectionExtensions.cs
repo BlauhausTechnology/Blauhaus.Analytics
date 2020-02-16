@@ -14,7 +14,7 @@ namespace Blauhaus.Analytics.Server._Ioc
         public static IServiceCollection RegisterAnalyticsServerService<TConfig>(this IServiceCollection services, TraceListener consoleTraceListener) 
             where TConfig : class, IApplicationInsightsConfig
         {
-            services.RegisterConsoleLoggerServerService(consoleTraceListener);
+            services.RegisterConsoleLoggerService(consoleTraceListener);
 
             services.AddScoped<IApplicationInsightsConfig, TConfig>();
             services.AddScoped<IAnalyticsServerService, AnalyticsServerService>();

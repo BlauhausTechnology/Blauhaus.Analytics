@@ -14,12 +14,11 @@ namespace Blauhaus.Analytics.Client._Ioc
     public static class ServiceCollectionExtensions
     {
         
-        public static IServiceCollection RegisterAnalyticsClientService<TConfig, TDeviceInfoService, TApplicationInfoService>(this IServiceCollection services, TraceListener consoleTraceListener) 
+        public static IServiceCollection RegisterAnalyticsClientService<TConfig, TDeviceInfoService>(this IServiceCollection services, TraceListener consoleTraceListener) 
             where TConfig : class, IApplicationInsightsConfig 
-            where TDeviceInfoService : class, IDeviceInfoService 
-            where TApplicationInfoService : class, IApplicationInfoService
+            where TDeviceInfoService : class, IDeviceInfoService, IApplicationInfoService
         {
-            RegisterCommon<TConfig, TDeviceInfoService, TApplicationInfoService>(services, consoleTraceListener);
+            RegisterCommon<TConfig, TDeviceInfoService>(services, consoleTraceListener);
             return services;
         }
 
@@ -27,19 +26,18 @@ namespace Blauhaus.Analytics.Client._Ioc
         public static IServiceCollection RegisterAnalyticsClientService<TConfig>(this IServiceCollection services, TraceListener consoleTraceListener) 
             where TConfig : class, IApplicationInsightsConfig 
         {
-            RegisterCommon<TConfig, DefaultDeviceService, DefaultDeviceService>(services, consoleTraceListener);
+            RegisterCommon<TConfig, DefaultDeviceService>(services, consoleTraceListener);
             return services;
         }
 
-        private static IServiceCollection RegisterCommon<TConfig, TDeviceInfoService, TApplicationInfoService>(this IServiceCollection services, TraceListener consoleTraceListener) 
+        private static IServiceCollection RegisterCommon<TConfig, TDeviceInfoService>(this IServiceCollection services, TraceListener consoleTraceListener) 
             where TConfig : class, IApplicationInsightsConfig            
-            where TDeviceInfoService : class, IDeviceInfoService 
-            where TApplicationInfoService : class, IApplicationInfoService
+            where TDeviceInfoService : class, IDeviceInfoService , IApplicationInfoService
         {
             services.RegisterConsoleLoggerService(consoleTraceListener);
             
             services.AddSingleton<IDeviceInfoService, TDeviceInfoService>();
-            services.AddSingleton<IApplicationInfoService, TApplicationInfoService>();
+            services.AddSingleton<IApplicationInfoService, TDeviceInfoService>();
 
             services.AddSingleton<IApplicationInsightsConfig, TConfig>();
             services.AddSingleton<ITelemetryClientProxy, TelemetryClientProxy>();

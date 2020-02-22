@@ -23,11 +23,13 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests._BaseTests
             MockTelemetryDecorator.Where_Decorate_with_metrics_returns(new ExceptionTelemetry(exception));
 
             //Act
-            Sut.LogException(exception, properties, metrics);
+            Sut.LogException(this, exception, properties, metrics);
 
             //Assert
             MockTelemetryDecorator.Mock.Verify(x => x.DecorateTelemetry(
                 It.Is<ExceptionTelemetry>(y => y.Exception == exception),
+                It.IsAny<string>(),
+                It.IsAny<string>(),
                 Sut.CurrentOperation, Sut.CurrentSession, It.Is<Dictionary<string, object>>(y => 
                     (string) y["Property"] ==  "value"), metrics));
             MockTelemetryClient.Mock.Verify(x => x.TrackException(It.Is<ExceptionTelemetry>(y => y.Exception== exception)));

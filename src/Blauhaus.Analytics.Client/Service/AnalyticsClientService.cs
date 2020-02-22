@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Http.Headers;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Blauhaus.Analytics.Abstractions;
 using Blauhaus.Analytics.Abstractions.Config;
 using Blauhaus.Analytics.Abstractions.Http;
 using Blauhaus.Analytics.Abstractions.Operation;
@@ -35,7 +38,7 @@ namespace Blauhaus.Analytics.Client.Service
         }
 
 
-        public IAnalyticsOperation StartPageViewOperation(string pageName)
+        public IAnalyticsOperation StartPageViewOperation(object sender, string pageName, [CallerMemberName] string callerMember = "")
         {
             CurrentOperation = new AnalyticsOperation(pageName, duration =>
             {
@@ -44,13 +47,15 @@ namespace Blauhaus.Analytics.Client.Service
                     Duration = duration
                 };
 
-                var te = TelemetryDecorator.DecorateTelemetry(pageViewTelemetry, CurrentOperation, CurrentSession,
-                    new Dictionary<string, object>(), new Dictionary<string, double>());
-                TelemetryClient.TrackPageView(te);
+                TelemetryClient.TrackPageView(TelemetryDecorator.DecorateTelemetry(pageViewTelemetry, sender.GetType().Name, callerMember, CurrentOperation, CurrentSession,
+                    new Dictionary<string, object>(), new Dictionary<string, double>()));
+
                 ConsoleLogger.LogOperation(pageName, duration);
                 
                 CurrentOperation = null;
             });
+
+            LogTrace($"{pageName} started", LogSeverity.Verbose, new Dictionary<string, object>(), sender.GetType().Name, callerMember);
 
             return CurrentOperation;
         }

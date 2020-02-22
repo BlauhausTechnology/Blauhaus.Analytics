@@ -18,11 +18,13 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests._BaseTests
             MockTelemetryDecorator.Where_Decorate_with_metrics_returns(new EventTelemetry("Decorated"));
 
             //Act
-            Sut.LogEvent("Event Name", properties, metrics);
+            Sut.LogEvent(this, "Event Name", properties, metrics);
 
             //Assert
             MockTelemetryDecorator.Mock.Verify(x => x.DecorateTelemetry(
                 It.Is<EventTelemetry>(y => y.Name == "Event Name"),
+                It.IsAny<string>(),
+                It.IsAny<string>(),
                 Sut.CurrentOperation, Sut.CurrentSession, It.Is<Dictionary<string, object>>(y => 
                     (string) y["Property"] ==  "value"), metrics));
             MockTelemetryClient.Mock.Verify(x => x.TrackEvent(It.Is<EventTelemetry>(y => y.Name == "Decorated")));

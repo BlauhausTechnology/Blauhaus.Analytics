@@ -17,10 +17,11 @@ namespace Blauhaus.Analytics.Common.Telemetry
             _config = config;
         }
 
-        public TTelemetry DecorateTelemetry<TTelemetry>(
-            TTelemetry telemetry, 
-            IAnalyticsOperation currentOperation, 
-            IAnalyticsSession currentSession, 
+        public TTelemetry DecorateTelemetry<TTelemetry>(TTelemetry telemetry,
+            string className,
+            string callerMemberName,
+            IAnalyticsOperation currentOperation,
+            IAnalyticsSession currentSession,
             Dictionary<string, object> properties) 
                 where TTelemetry : ITelemetry, ISupportProperties
         {
@@ -72,12 +73,15 @@ namespace Blauhaus.Analytics.Common.Telemetry
                 }
             }
 
+            telemetry.Properties["Class"] = className;
+            telemetry.Properties["Method"] = callerMemberName;
+
             return telemetry;
         }
 
-        public TTelemetry DecorateTelemetry<TTelemetry>(TTelemetry telemetry, IAnalyticsOperation currentOperation, IAnalyticsSession currentSession, Dictionary<string, object> properties, Dictionary<string, double> metrics) where TTelemetry : ITelemetry, ISupportProperties, ISupportMetrics
+        public TTelemetry DecorateTelemetry<TTelemetry>(TTelemetry telemetry, string className, string memberName, IAnalyticsOperation currentOperation, IAnalyticsSession currentSession, Dictionary<string, object> properties, Dictionary<string, double> metrics) where TTelemetry : ITelemetry, ISupportProperties, ISupportMetrics
         {
-            telemetry = DecorateTelemetry(telemetry, currentOperation, currentSession, properties);
+            telemetry = DecorateTelemetry(telemetry, className, memberName, currentOperation, currentSession, properties);
 
             if (metrics != null)
             {

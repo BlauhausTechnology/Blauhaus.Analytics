@@ -38,12 +38,12 @@ namespace Blauhaus.Analytics.Client._Ioc
         {
             services.RegisterConsoleLoggerService(consoleTraceListener);
             
-            services.AddSingleton<IDeviceInfoService, TDeviceInfoService>();
-            services.AddSingleton<IApplicationInfoService, TApplicationInfoService>();
+            services.AddScoped<IDeviceInfoService, TDeviceInfoService>();
+            services.AddScoped<IApplicationInfoService, TApplicationInfoService>();
 
-            services.AddSingleton<IApplicationInsightsConfig, TConfig>();
-            services.AddSingleton<ITelemetryClientProxy, TelemetryClientProxy>();
-            services.AddSingleton<ITelemetryDecorator, TelemetryDecorator>();
+            services.AddScoped<IApplicationInsightsConfig, TConfig>();
+            services.AddScoped<ITelemetryClientProxy, TelemetryClientProxy>();
+            services.AddScoped<ITelemetryDecorator, TelemetryDecorator>();
 
             services.AddScoped<IAnalyticsClientService, AnalyticsClientService>();
             services.AddScoped<IAnalyticsService>(x => x.GetService<IAnalyticsClientService>());

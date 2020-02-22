@@ -4,6 +4,7 @@ using Blauhaus.Analytics.Abstractions.Operation;
 using Blauhaus.Analytics.Abstractions.Service;
 using Blauhaus.Analytics.Common.Service;
 using Blauhaus.Analytics.Tests.Tests._Base;
+using Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsClientServiceTests;
 using Microsoft.ApplicationInsights.DataContracts;
 using Moq;
 using NUnit.Framework;
@@ -36,7 +37,9 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests._BaseTests
             operation.Dispose();
             
             //Assert
-            MockTelemetryDecorator.Mock.Verify(x => x.DecorateTelemetry(It.IsAny<DependencyTelemetry>(), It.Is<IAnalyticsOperation>(y => 
+            MockTelemetryDecorator.Mock.Verify(x => x.DecorateTelemetry(It.IsAny<DependencyTelemetry>(),
+                It.IsAny<string>(),
+                    It.Is<IAnalyticsOperation>(y => 
                     y.Id == operation.Id &&
                     y.Name == "MyOperation"), 
                 Sut.CurrentSession, It.Is<Dictionary<string, object>>(y => (string) y["key"] == "1")));
@@ -74,7 +77,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests._BaseTests
 
             //Assert
             MockTelemetryDecorator.Mock.Verify(x => x.DecorateTelemetry(It.Is<DependencyTelemetry>(y => 
-                    y.Name == "MySecondOperation"), It.Is<IAnalyticsOperation>(y => 
+                    y.Name == "MySecondOperation"), It.IsAny<string>(), It.Is<IAnalyticsOperation>(y => 
                     y.Id == firstOperation.Id && y.Name == "MyFirstOperation"), Sut.CurrentSession, It.Is<Dictionary<string, object>>(y => 
                     (string) y["key"] == "1")));
             MockTelemetryClient.Mock.Verify(x => x.TrackDependency(It.Is<DependencyTelemetry>(y => 

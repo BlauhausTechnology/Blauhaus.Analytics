@@ -23,6 +23,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests._BaseTests
             //Assert
             MockTelemetryDecorator.Mock.Verify(x => x.DecorateTelemetry(
                 It.Is<EventTelemetry>(y => y.Name == "Event Name"),
+                It.IsAny<string>(),
                 Sut.CurrentOperation, Sut.CurrentSession, It.Is<Dictionary<string, object>>(y => 
                     (string) y["Property"] ==  "value"), metrics));
             MockTelemetryClient.Mock.Verify(x => x.TrackEvent(It.Is<EventTelemetry>(y => y.Name == "Decorated")));

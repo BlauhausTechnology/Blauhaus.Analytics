@@ -52,6 +52,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsClie
             //Assert
             MockTelemetryDecorator.Mock.Verify(x => x.DecorateTelemetry(
                 It.Is<PageViewTelemetry>(y => y.Name == "MyOperation"),
+                nameof(StartPageViewOperationTests),
                 It.Is<IAnalyticsOperation>(y => y.Name == "MyOperation"), 
                 Sut.CurrentSession, 
                 It.IsAny<Dictionary<string, object>>(), It.IsAny<Dictionary<string, double>>()));
@@ -71,6 +72,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsClie
             //Assert
             MockTelemetryDecorator.Mock.Verify(x => x.DecorateTelemetry(
                 It.Is<TraceTelemetry>(y => y.Message == "MyOperation started"),
+                nameof(StartPageViewOperationTests),
                 It.Is<IAnalyticsOperation>(y => y.Name == "MyOperation"), 
                 Sut.CurrentSession, 
                 It.IsAny<Dictionary<string, object>>()));

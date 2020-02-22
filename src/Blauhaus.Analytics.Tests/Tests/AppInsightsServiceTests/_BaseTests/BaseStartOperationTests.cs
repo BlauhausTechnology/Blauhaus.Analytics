@@ -39,7 +39,9 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests._BaseTests
             operation.Dispose();
             
             //Assert
-            MockTelemetryDecorator.Mock.Verify(x => x.DecorateTelemetry(It.IsAny<DependencyTelemetry>(), It.Is<IAnalyticsOperation>(y => 
+            MockTelemetryDecorator.Mock.Verify(x => x.DecorateTelemetry(It.IsAny<DependencyTelemetry>(), 
+                It.IsAny<string>(),
+                It.Is<IAnalyticsOperation>(y => 
                 y.Id == operation.Id &&
                 y.Name == "MyOperation"), 
                 Sut.CurrentSession, It.Is<Dictionary<string, object>>(y => (string) y["key"] == "1")));

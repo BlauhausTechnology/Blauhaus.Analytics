@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
+using System.Reflection;
 using System.Runtime.InteropServices;
+using Blauhaus.Analytics.Abstractions;
 using Blauhaus.Analytics.Abstractions.Config;
 using Blauhaus.Analytics.Abstractions.Extensions;
 using Blauhaus.Analytics.Abstractions.Operation;
@@ -43,6 +46,7 @@ namespace Blauhaus.Analytics.Common.Service
 
         public IAnalyticsOperation StartOperation(string operationName, Dictionary<string, object>? properties = null)
         {
+            var callingClassName = CallingClass.NameOfCallingClass();
 
             CurrentOperation = new AnalyticsOperation(operationName, duration =>
             {
@@ -54,7 +58,7 @@ namespace Blauhaus.Analytics.Common.Service
                 
                 if(properties == null) properties = new Dictionary<string, object>();
 
-                TelemetryDecorator.DecorateTelemetry(dependencyTelemetry, CurrentOperation, CurrentSession, properties);
+                TelemetryDecorator.DecorateTelemetry(dependencyTelemetry, callingClassName, CurrentOperation, CurrentSession, properties);
                 TelemetryClient.TrackDependency(dependencyTelemetry);
                 ConsoleLogger.LogOperation(operationName, duration);
 
@@ -66,6 +70,8 @@ namespace Blauhaus.Analytics.Common.Service
 
         public IAnalyticsOperation ContinueOperation(string operationName, Dictionary<string, object>? properties = null)
         {
+            var callingClassName = CallingClass.NameOfCallingClass();
+
             if (CurrentOperation == null)
             {
                 return StartOperation(operationName, properties);
@@ -81,7 +87,7 @@ namespace Blauhaus.Analytics.Common.Service
 
                 if(properties == null) properties = new Dictionary<string, object>();
                 
-                TelemetryDecorator.DecorateTelemetry(dependencyTelemetry, CurrentOperation, CurrentSession, properties);
+                TelemetryDecorator.DecorateTelemetry(dependencyTelemetry, callingClassName, CurrentOperation, CurrentSession, properties);
                 TelemetryClient.TrackDependency(dependencyTelemetry);
                 ConsoleLogger.LogOperation(operationName, duration);
             });
@@ -91,7 +97,7 @@ namespace Blauhaus.Analytics.Common.Service
         public void LogEvent(string eventName, Dictionary<string, object> properties = null, Dictionary<string, double> metrics = null)
         {
             TelemetryClient.TrackEvent(TelemetryDecorator
-                .DecorateTelemetry(new EventTelemetry(eventName), CurrentOperation, CurrentSession, properties, metrics));
+                .DecorateTelemetry(new EventTelemetry(eventName), CallingClass.NameOfCallingClass(), CurrentOperation, CurrentSession, properties, metrics));
 
             ConsoleLogger.LogEvent(eventName, properties.ToDictionaryOfStrings(), metrics);
         }
@@ -99,7 +105,7 @@ namespace Blauhaus.Analytics.Common.Service
         public void LogException(Exception exception, Dictionary<string, object> properties = null, Dictionary<string, double> metrics = null)
         {
             TelemetryClient.TrackException(TelemetryDecorator
-                .DecorateTelemetry(new ExceptionTelemetry(exception), CurrentOperation, CurrentSession, properties, metrics));
+                .DecorateTelemetry(new ExceptionTelemetry(exception), CallingClass.NameOfCallingClass(), CurrentOperation, CurrentSession, properties, metrics));
             
             ConsoleLogger.LogException(exception, properties.ToDictionaryOfStrings(), metrics);
         }
@@ -107,17 +113,26 @@ namespace Blauhaus.Analytics.Common.Service
 
         public void Trace(string message, LogSeverity logSeverity = LogSeverity.Verbose, Dictionary<string, object> properties = null)
         {
+            LogTrace(message, logSeverity, properties, CallingClass.NameOfCallingClass());
+        }   
+
+        protected void LogTrace(string message, LogSeverity logSeverity, Dictionary<string, object> properties, string callingClassName)
+        {
             if (Config.MinimumLogToServerSeverity.TryGetValue(CurrentBuildConfig, out var minumumSeverityToLogToServer))
             {
                 if (logSeverity >= minumumSeverityToLogToServer)
                 {
                     TelemetryClient.TrackTrace(TelemetryDecorator
-                        .DecorateTelemetry(new TraceTelemetry(message), CurrentOperation, CurrentSession, properties));
+                        .DecorateTelemetry(new TraceTelemetry(message), callingClassName, CurrentOperation, CurrentSession, properties));
                 }
             }
 
             ConsoleLogger.LogTrace(message, logSeverity, properties.ToDictionaryOfStrings());
         }   
 
+
+
     }
+
+    
 }

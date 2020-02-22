@@ -19,6 +19,7 @@ namespace Blauhaus.Analytics.Common.Telemetry
 
         public TTelemetry DecorateTelemetry<TTelemetry>(
             TTelemetry telemetry, 
+            string className, 
             IAnalyticsOperation currentOperation, 
             IAnalyticsSession currentSession, 
             Dictionary<string, object> properties) 
@@ -26,6 +27,7 @@ namespace Blauhaus.Analytics.Common.Telemetry
         {
 
             telemetry.Context.Cloud.RoleName = _config.RoleName;
+            telemetry.Context.Cloud.RoleInstance = className;
             telemetry.Context.InstrumentationKey = _config.InstrumentationKey;
 
 
@@ -75,9 +77,9 @@ namespace Blauhaus.Analytics.Common.Telemetry
             return telemetry;
         }
 
-        public TTelemetry DecorateTelemetry<TTelemetry>(TTelemetry telemetry, IAnalyticsOperation currentOperation, IAnalyticsSession currentSession, Dictionary<string, object> properties, Dictionary<string, double> metrics) where TTelemetry : ITelemetry, ISupportProperties, ISupportMetrics
+        public TTelemetry DecorateTelemetry<TTelemetry>(TTelemetry telemetry, string className, IAnalyticsOperation currentOperation, IAnalyticsSession currentSession, Dictionary<string, object> properties, Dictionary<string, double> metrics) where TTelemetry : ITelemetry, ISupportProperties, ISupportMetrics
         {
-            telemetry = DecorateTelemetry(telemetry, currentOperation, currentSession, properties);
+            telemetry = DecorateTelemetry(telemetry, className, currentOperation, currentSession, properties);
 
             if (metrics != null)
             {

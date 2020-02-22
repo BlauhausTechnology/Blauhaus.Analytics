@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Http;
 using Blauhaus.Analytics.Abstractions.Http;
 using Blauhaus.Analytics.Abstractions.Operation;
-using Blauhaus.Analytics.Abstractions.Session;
 using Blauhaus.Analytics.Server.Service;
 using Blauhaus.Analytics.Tests.Tests._Base;
 using Microsoft.ApplicationInsights.DataContracts;
@@ -24,57 +22,6 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsServ
                 CurrentBuildConfig);
         }
 
-        public class GivenValues : StartRequestOperationTests
-        {
-            
-            [Test]
-            public void SHOULD_set_and_return_CurrentOperation()
-            {
-                //Arrange
-                var operationId = Guid.NewGuid().ToString();
-                var sessionId = Guid.NewGuid().ToString();
-
-                //Act
-                var operation = Sut.StartRequestOperation("RequestName", "MyOperation", operationId, AnalyticsSession.FromExisting(sessionId));
-
-                //Assert
-                Assert.That(operation.Name, Is.EqualTo("MyOperation"));
-                Assert.That(operation.Id, Is.EqualTo(operationId));
-                Assert.That(Sut.CurrentOperation.Name, Is.EqualTo("MyOperation"));
-                Assert.That(Sut.CurrentOperation.Id, Is.EqualTo(operationId));
-            }
-
-            [Test]
-            public void WHEN_Operation_is_disposed_SHOULD_track_dependency()
-            {
-                //Arrange
-                //Arrange
-                var operationId = Guid.NewGuid().ToString();
-                var sessionId = Guid.NewGuid().ToString();
-                var operation = Sut.StartRequestOperation("RequestName", "MyOperation", operationId, AnalyticsSession.FromExisting(sessionId));
-                var decoratedRequestTelemetry = new RequestTelemetry();
-                MockTelemetryDecorator.Where_Decorate_with_metrics_returns(decoratedRequestTelemetry);
-                MockTelemetryClient.Mock.Verify(x => x.TrackRequest(It.IsAny<RequestTelemetry>()), Times.Never);
-
-                //Act
-                operation.Dispose();
-            
-                //Assert
-                MockTelemetryDecorator.Mock.Verify(x => x.DecorateTelemetry(
-                    It.Is<RequestTelemetry>(y => y.Name == "RequestName"),
-                    It.Is<IAnalyticsOperation>(y => y.Name == "MyOperation"), 
-                    Sut.CurrentSession, 
-                    It.IsAny<Dictionary<string, object>>(), It.IsAny<Dictionary<string, double>>()));
-                MockTelemetryClient.Mock.Verify(x => x.TrackRequest(decoratedRequestTelemetry));
-                MockConsoleLogger.Mock.Verify(x => x.LogOperation("RequestName", It.IsAny<TimeSpan>()));
-
-            }
-        }
-
-        
-        public class GivenHttpHeaders : StartRequestOperationTests
-        {
-            
             [Test]
             public void SHOULD_set_and_return_CurrentOperation()
             {
@@ -170,6 +117,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsServ
                 //Assert
                 MockTelemetryDecorator.Mock.Verify(x => x.DecorateTelemetry(
                     It.Is<RequestTelemetry>(y => y.Name == "RequestName"),
+                    nameof(StartRequestOperationTests),
                     It.Is<IAnalyticsOperation>(y => y.Name == "NewRequest"), 
                     Sut.CurrentSession, 
                     It.IsAny<Dictionary<string, object>>(), It.IsAny<Dictionary<string, double>>()));
@@ -195,6 +143,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsServ
                 //Assert
                 MockTelemetryDecorator.Mock.Verify(x => x.DecorateTelemetry(
                     It.Is<RequestTelemetry>(y => y.Name == "RequestName"),
+                    nameof(StartRequestOperationTests),
                     It.Is<IAnalyticsOperation>(y => y.Name == "MyOperation"), 
                     Sut.CurrentSession, 
                     It.IsAny<Dictionary<string, object>>(), It.IsAny<Dictionary<string, double>>()));
@@ -203,4 +152,3 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsServ
             }
         }
     }
-}

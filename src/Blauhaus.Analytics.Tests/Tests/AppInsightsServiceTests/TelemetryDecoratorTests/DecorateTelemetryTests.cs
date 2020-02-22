@@ -37,7 +37,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.TelemetryDecora
             MockConfig.With(x => x.RoleName, "Mata Hari");
 
             //Act
-            var result = Sut.DecorateTelemetry(new EventTelemetry("event"), "Class Name",
+            var result = Sut.DecorateTelemetry(new EventTelemetry("event"), "Class Name", "Method Name",
                 new MockBuilder<IAnalyticsOperation>().Object, new MockBuilder<IAnalyticsSession>().Object, new Dictionary<string, object>());
 
             //Assert
@@ -46,18 +46,19 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.TelemetryDecora
         }
         
         [Test]
-        public void SHOULD_set_class_name_as_cloud_role_instance()
+        public void SHOULD_set_class_and_method_names()
         {
             //Arrange
             MockConfig.With(x => x.InstrumentationKey, "instrument");
             MockConfig.With(x => x.RoleName, "Mata Hari");
 
             //Act
-            var result = Sut.DecorateTelemetry(new EventTelemetry("event"), "Class Name",
+            var result = Sut.DecorateTelemetry(new EventTelemetry("event"), "Class Name", "Method Name",
                 new MockBuilder<IAnalyticsOperation>().Object, new MockBuilder<IAnalyticsSession>().Object, new Dictionary<string, object>());
 
             //Assert
-            Assert.That(result.Context.Cloud.RoleInstance, Is.EqualTo("Class Name"));
+            Assert.That(result.Properties["Class"], Is.EqualTo("Class Name"));
+            Assert.That(result.Properties["Method"], Is.EqualTo("Method Name"));
         }
         
         [Test]
@@ -69,7 +70,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.TelemetryDecora
                 .With(x => x.Id, "Op Id").Object;
 
             //Act
-            var result = Sut.DecorateTelemetry(new EventTelemetry("event"), "Class Name",
+            var result = Sut.DecorateTelemetry(new EventTelemetry("event"), "Class Name", "Method Name",
                currentOperation, new MockBuilder<IAnalyticsSession>().Object, new Dictionary<string, object>());
 
             //Assert
@@ -93,7 +94,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.TelemetryDecora
                 });
 
             //Act
-            var result = Sut.DecorateTelemetry(new EventTelemetry("event"), "Class Name",
+            var result = Sut.DecorateTelemetry(new EventTelemetry("event"), "Class Name", "Method Name",
                 new MockBuilder<IAnalyticsOperation>().Object, currentSession.Object, new Dictionary<string, object>());
 
             //Assert
@@ -115,7 +116,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.TelemetryDecora
             };
 
             //Act
-            var result = Sut.DecorateTelemetry(new EventTelemetry("event"), "Class Name",
+            var result = Sut.DecorateTelemetry(new EventTelemetry("event"), "Class Name", "Method Name",
                 new MockBuilder<IAnalyticsOperation>().Object, new MockBuilder<IAnalyticsSession>().Object, properties);
 
             //Assert
@@ -136,7 +137,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.TelemetryDecora
             };
 
             //Act
-            var result = Sut.DecorateTelemetry(new EventTelemetry("event"), "Class Name",
+            var result = Sut.DecorateTelemetry(new EventTelemetry("event"), "Class Name", "Method Name",
                 new MockBuilder<IAnalyticsOperation>().Object, new MockBuilder<IAnalyticsSession>().Object, properties);
 
             //Assert
@@ -153,7 +154,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.TelemetryDecora
             };
 
             //Act
-            var result = Sut.DecorateTelemetry(new EventTelemetry("event"), "Class Name",
+            var result = Sut.DecorateTelemetry(new EventTelemetry("event"), "Class Name", "Method Name",
                 new MockBuilder<IAnalyticsOperation>().Object, new MockBuilder<IAnalyticsSession>().Object, new Dictionary<string, object>(), metrics);
 
             //Assert

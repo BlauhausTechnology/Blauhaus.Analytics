@@ -38,19 +38,16 @@ namespace Blauhaus.Analytics.Client.Service
         }
 
 
-        public IAnalyticsOperation StartPageViewOperation(string pageName, [CallerMemberName] string callerMember = "")
+        public IAnalyticsOperation StartPageViewOperation(object sender, string pageName, [CallerMemberName] string callerMember = "")
         {
-            var callingClassName = CallingClass.NameOfCallingClass();
-
             CurrentOperation = new AnalyticsOperation(pageName, duration =>
             {
                 var pageViewTelemetry = new PageViewTelemetry(pageName)
                 {
                     Duration = duration
                 };
-                pageViewTelemetry.Context.Cloud.RoleInstance = callingClassName;
 
-                TelemetryClient.TrackPageView(TelemetryDecorator.DecorateTelemetry(pageViewTelemetry, callingClassName, CurrentOperation, CurrentSession,
+                TelemetryClient.TrackPageView(TelemetryDecorator.DecorateTelemetry(pageViewTelemetry, sender.GetType().Name, callerMember, CurrentOperation, CurrentSession,
                     new Dictionary<string, object>(), new Dictionary<string, double>()));
 
                 ConsoleLogger.LogOperation(pageName, duration);
@@ -58,7 +55,7 @@ namespace Blauhaus.Analytics.Client.Service
                 CurrentOperation = null;
             });
 
-            LogTrace($"{pageName} started", LogSeverity.Verbose, new Dictionary<string, object>(), callingClassName);
+            LogTrace($"{pageName} started", LogSeverity.Verbose, new Dictionary<string, object>(), sender.GetType().Name, callerMember);
 
             return CurrentOperation;
         }

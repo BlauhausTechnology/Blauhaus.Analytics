@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
+using System.Runtime.CompilerServices;
 using Blauhaus.Analytics.Abstractions;
 using Blauhaus.Analytics.Abstractions.Config;
 using Blauhaus.Analytics.Abstractions.Http;
@@ -29,10 +30,9 @@ namespace Blauhaus.Analytics.Server.Service
         {
         }
 
-        public IAnalyticsOperation StartRequestOperation(string requestName, IDictionary<string, string> headers)
+        public IAnalyticsOperation StartRequestOperation(object sender, string requestName, IDictionary<string, string> headers, [CallerMemberName] string callingMember = "")
         {
-            var callingClassName = CallingClass.NameOfCallingClass(); 
-
+            
             if (!headers.TryGetValue(AnalyticsHeaders.Operation.Name, out var operationName))
                 operationName = "NewRequest";
 
@@ -76,7 +76,7 @@ namespace Blauhaus.Analytics.Server.Service
                     Name = requestName
                 };
                 
-                TelemetryClient.TrackRequest(TelemetryDecorator.DecorateTelemetry(requestTelemetry, callingClassName, CurrentOperation, CurrentSession, 
+                TelemetryClient.TrackRequest(TelemetryDecorator.DecorateTelemetry(requestTelemetry, sender.GetType().Name, callingMember, CurrentOperation, CurrentSession, 
                     new Dictionary<string, object>(), new Dictionary<string, double>()));
 
                 ConsoleLogger.LogOperation(requestName, duration);

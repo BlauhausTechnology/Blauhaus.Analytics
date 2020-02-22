@@ -22,7 +22,7 @@ namespace Blauhaus.Analytics.Tests.Tests.ConsoleLoggerServiceTests
             var metrics = new Dictionary<string, double>();
 
             //Act
-            Sut.LogEvent("event name", properties, metrics);
+            Sut.LogEvent(this, "event name", properties, metrics);
 
             //Assert
             MockConsoleLogger.Mock.Verify(x => x.LogEvent("event name", It.IsAny<Dictionary<string, string>>(), metrics));

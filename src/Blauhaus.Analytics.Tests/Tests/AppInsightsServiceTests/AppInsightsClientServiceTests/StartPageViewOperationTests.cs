@@ -29,7 +29,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsClie
         public void SHOULD_set_and_return_CurrentOperation()
         {
             //Act
-            var operation = Sut.StartPageViewOperation("MyOperation");
+            var operation = Sut.StartPageViewOperation(this, "MyOperation");
 
             //Assert
             Assert.That(operation.Name, Is.EqualTo("MyOperation"));
@@ -42,7 +42,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsClie
         public void WHEN_Operation_is_disposed_SHOULD_track_dependency()
         {
             //Arrange
-            var operation = Sut.StartPageViewOperation("MyOperation");
+            var operation = Sut.StartPageViewOperation(this, "MyOperation");
             MockTelemetryClient.Mock.Verify(x => x.TrackPageView(It.IsAny<PageViewTelemetry>()), Times.Never);
             MockTelemetryDecorator.Where_Decorate_with_metrics_returns(new PageViewTelemetry("Decorated"));
 
@@ -53,6 +53,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsClie
             MockTelemetryDecorator.Mock.Verify(x => x.DecorateTelemetry(
                 It.Is<PageViewTelemetry>(y => y.Name == "MyOperation"),
                 nameof(StartPageViewOperationTests),
+                "WHEN_Operation_is_disposed_SHOULD_track_dependency",
                 It.Is<IAnalyticsOperation>(y => y.Name == "MyOperation"), 
                 Sut.CurrentSession, 
                 It.IsAny<Dictionary<string, object>>(), It.IsAny<Dictionary<string, double>>()));
@@ -67,12 +68,13 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsClie
             MockTelemetryDecorator.Where_Decorate_returns(new TraceTelemetry("Decorated"));
 
             //Act
-            Sut.StartPageViewOperation("MyOperation");
+            Sut.StartPageViewOperation(this, "MyOperation");
 
             //Assert
             MockTelemetryDecorator.Mock.Verify(x => x.DecorateTelemetry(
                 It.Is<TraceTelemetry>(y => y.Message == "MyOperation started"),
                 nameof(StartPageViewOperationTests),
+                "SHOULD_trace_pageview_started_before_disposed",
                 It.Is<IAnalyticsOperation>(y => y.Name == "MyOperation"), 
                 Sut.CurrentSession, 
                 It.IsAny<Dictionary<string, object>>()));

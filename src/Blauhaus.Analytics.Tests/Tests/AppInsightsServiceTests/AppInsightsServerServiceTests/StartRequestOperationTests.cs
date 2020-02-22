@@ -34,7 +34,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsServ
                 };
 
                 //Act
-                var operation = Sut.StartRequestOperation("RequestName", headers);
+                var operation = Sut.StartRequestOperation(this, "RequestName", headers);
 
                 //Assert
                 Assert.That(operation.Name, Is.EqualTo("MyOperation"));
@@ -58,7 +58,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsServ
                 };
 
                 //Act
-                Sut.StartRequestOperation("RequestName", headers);
+                Sut.StartRequestOperation(this, "RequestName", headers);
 
                 //Assert
                 Assert.That(Sut.CurrentSession.Id, Is.EqualTo("sessionId"));
@@ -79,7 +79,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsServ
                 };
 
                 //Act
-                Sut.StartRequestOperation("RequestName", headers);
+                Sut.StartRequestOperation(this, "RequestName", headers);
 
                 //Assert
                 Assert.That(Sut.CurrentSession.Id, Is.EqualTo("sessionId"));
@@ -96,7 +96,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsServ
                 var headers = new Dictionary<string, string>();
 
                 //Act
-                Sut.StartRequestOperation("RequestName", headers);
+                Sut.StartRequestOperation(this, "RequestName", headers);
 
                 //Assert
                 Assert.That(Sut.CurrentSession.Id.Length, Is.EqualTo(Guid.NewGuid().ToString().Length));
@@ -107,7 +107,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsServ
             public void IF_Operation_details_not_provided_WHEN_Operation_is_disposed_SHOULD_log_new_operation()
             {
                 //Arrange
-                var operation = Sut.StartRequestOperation("RequestName", new Dictionary<string, string>());
+                var operation = Sut.StartRequestOperation(this, "RequestName", new Dictionary<string, string>());
                 var decoratedRequestTelemetry = new RequestTelemetry();
                 MockTelemetryDecorator.Where_Decorate_with_metrics_returns(decoratedRequestTelemetry);
 
@@ -118,6 +118,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsServ
                 MockTelemetryDecorator.Mock.Verify(x => x.DecorateTelemetry(
                     It.Is<RequestTelemetry>(y => y.Name == "RequestName"),
                     nameof(StartRequestOperationTests),
+                    "IF_Operation_details_not_provided_WHEN_Operation_is_disposed_SHOULD_log_new_operation",
                     It.Is<IAnalyticsOperation>(y => y.Name == "NewRequest"), 
                     Sut.CurrentSession, 
                     It.IsAny<Dictionary<string, object>>(), It.IsAny<Dictionary<string, double>>()));
@@ -133,7 +134,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsServ
                 {
                     {AnalyticsHeaders.Operation.Name,  "MyOperation"}
                 };
-                var operation = Sut.StartRequestOperation("RequestName", headers);
+                var operation = Sut.StartRequestOperation(this, "RequestName", headers);
                 var decoratedRequestTelemetry = new RequestTelemetry();
                 MockTelemetryDecorator.Where_Decorate_with_metrics_returns(decoratedRequestTelemetry);
 
@@ -144,6 +145,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsServ
                 MockTelemetryDecorator.Mock.Verify(x => x.DecorateTelemetry(
                     It.Is<RequestTelemetry>(y => y.Name == "RequestName"),
                     nameof(StartRequestOperationTests),
+                    "WHEN_Operation_is_disposed_SHOULD_track_dependency",
                     It.Is<IAnalyticsOperation>(y => y.Name == "MyOperation"), 
                     Sut.CurrentSession, 
                     It.IsAny<Dictionary<string, object>>(), It.IsAny<Dictionary<string, double>>()));

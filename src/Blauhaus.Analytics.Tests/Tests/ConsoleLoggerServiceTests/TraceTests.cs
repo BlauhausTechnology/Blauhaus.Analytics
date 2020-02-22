@@ -22,7 +22,7 @@ namespace Blauhaus.Analytics.Tests.Tests.ConsoleLoggerServiceTests
             var properties = new Dictionary<string, object>();
 
             //Act
-            Sut.Trace("event name", LogSeverity.Critical, properties);
+            Sut.Trace(this, "event name", LogSeverity.Critical, properties);
 
             //Assert
             MockConsoleLogger.Mock.Verify(x => x.LogTrace("event name", LogSeverity.Critical, It.IsAny<Dictionary<string, string>>()));

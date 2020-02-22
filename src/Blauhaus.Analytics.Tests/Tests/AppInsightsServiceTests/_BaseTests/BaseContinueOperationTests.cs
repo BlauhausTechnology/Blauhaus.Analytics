@@ -17,7 +17,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests._BaseTests
         public void IF_no_operation_exists_SHOULD_start_new_one()
         {
             //Act
-            var operation = Sut.ContinueOperation("MyOperation");
+            var operation = Sut.ContinueOperation(this, "MyOperation");
 
             //Assert
             Assert.That(operation.Name, Is.EqualTo("MyOperation"));
@@ -30,7 +30,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests._BaseTests
         public void IF_no_operation_exists_and_Operation_is_disposed_SHOULD_track_dependency()
         {
             //Arrange
-            var operation = Sut.ContinueOperation("MyOperation", new Dictionary<string, object>{{"key", "1"}});
+            var operation = Sut.ContinueOperation(this, "MyOperation", new Dictionary<string, object>{{"key", "1"}});
             MockTelemetryClient.Mock.Verify(x => x.TrackDependency(It.IsAny<DependencyTelemetry>()), Times.Never);
 
             //Act
@@ -38,10 +38,10 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests._BaseTests
             
             //Assert
             MockTelemetryDecorator.Mock.Verify(x => x.DecorateTelemetry(It.IsAny<DependencyTelemetry>(),
-                It.IsAny<string>(),
+                It.IsAny<string>(), It.IsAny<string>(),
                     It.Is<IAnalyticsOperation>(y => 
-                    y.Id == operation.Id &&
-                    y.Name == "MyOperation"), 
+                        y.Id == operation.Id &&
+                        y.Name == "MyOperation"), 
                 Sut.CurrentSession, It.Is<Dictionary<string, object>>(y => (string) y["key"] == "1")));
             MockTelemetryClient.Mock.Verify(x => x.TrackDependency(It.Is<DependencyTelemetry>(y => 
                 y.Name == "MyOperation")));
@@ -52,10 +52,10 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests._BaseTests
         public void IF_an_operation_already_exists_SHOULD_start_and_return_new_one_with_same_name_but_keep_current_operation_the_same()
         {
             //Arrange
-            var firstOperation = Sut.StartOperation("MyFirstOperation");
+            var firstOperation = Sut.StartOperation(this, "MyFirstOperation");
 
             //Act
-            var result = Sut.ContinueOperation("MySecondOperation");
+            var result = Sut.ContinueOperation(this, "MySecondOperation");
 
             //Assert
             Assert.That(result.Name, Is.EqualTo("MyFirstOperation"));
@@ -69,17 +69,20 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests._BaseTests
         public void IF_an_operation_already_exists__and_new_one_is_disposed_SHOULD_log_dependency_with_new_operation()
         {
             //Arrange
-            var firstOperation = Sut.StartOperation("MyFirstOperation");
-            var result = Sut.ContinueOperation("MySecondOperation", new Dictionary<string, object>{{"key", "1"}});
+            var firstOperation = Sut.StartOperation(this, "MyFirstOperation");
+            var result = Sut.ContinueOperation(this, "MySecondOperation", new Dictionary<string, object>{{"key", "1"}});
 
             //Act
             result.Dispose();
 
             //Assert
             MockTelemetryDecorator.Mock.Verify(x => x.DecorateTelemetry(It.Is<DependencyTelemetry>(y => 
-                    y.Name == "MySecondOperation"), It.IsAny<string>(), It.Is<IAnalyticsOperation>(y => 
-                    y.Id == firstOperation.Id && y.Name == "MyFirstOperation"), Sut.CurrentSession, It.Is<Dictionary<string, object>>(y => 
-                    (string) y["key"] == "1")));
+                y.Name == "MySecondOperation"),
+                It.IsAny<string>(),
+                It.IsAny<string>(),
+                It.Is<IAnalyticsOperation>(y => 
+                y.Id == firstOperation.Id && y.Name == "MyFirstOperation"), Sut.CurrentSession, It.Is<Dictionary<string, object>>(y => 
+                (string) y["key"] == "1")));
             MockTelemetryClient.Mock.Verify(x => x.TrackDependency(It.Is<DependencyTelemetry>(y => 
                 y.Name == "MySecondOperation")));
             MockConsoleLogger.Mock.Verify(x => x.LogOperation("MySecondOperation", It.IsAny<TimeSpan>()));

@@ -16,7 +16,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests._BaseTests
         public void SHOULD_set_and_return_CurrentOperation()
         {
             //Act
-            var operation = Sut.StartOperation("MyOperation");
+            var operation = Sut.StartOperation(this, "MyOperation");
 
             //Assert
             Assert.That(operation.Name, Is.EqualTo("MyOperation"));
@@ -29,7 +29,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests._BaseTests
         public void WHEN_Operation_is_disposed_SHOULD_track_dependency()
         {
             //Arrange
-            var operation = Sut.StartOperation("MyOperation", new Dictionary<string, object>
+            var operation = Sut.StartOperation(this, "MyOperation", new Dictionary<string, object>
             {
                 {"key", "1" }
             });
@@ -39,9 +39,12 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests._BaseTests
             operation.Dispose();
             
             //Assert
-            MockTelemetryDecorator.Mock.Verify(x => x.DecorateTelemetry(It.IsAny<DependencyTelemetry>(), It.Is<IAnalyticsOperation>(y => 
-                y.Id == operation.Id &&
-                y.Name == "MyOperation"), 
+            MockTelemetryDecorator.Mock.Verify(x => x.DecorateTelemetry(It.IsAny<DependencyTelemetry>(), 
+                It.IsAny<string>(),
+                It.IsAny<string>(),
+                It.Is<IAnalyticsOperation>(y => 
+                    y.Id == operation.Id &&
+                    y.Name == "MyOperation"), 
                 Sut.CurrentSession, It.Is<Dictionary<string, object>>(y => (string) y["key"] == "1")));
             MockTelemetryClient.Mock.Verify(x => x.TrackDependency(It.Is<DependencyTelemetry>(y => 
                 y.Name == "MyOperation")));

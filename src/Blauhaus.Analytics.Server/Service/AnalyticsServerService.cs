@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
+using System.Runtime.CompilerServices;
+using Blauhaus.Analytics.Abstractions;
 using Blauhaus.Analytics.Abstractions.Config;
 using Blauhaus.Analytics.Abstractions.Http;
 using Blauhaus.Analytics.Abstractions.Operation;
@@ -28,31 +30,9 @@ namespace Blauhaus.Analytics.Server.Service
         {
         }
 
-        public IAnalyticsOperation StartRequestOperation(string requestName, string operationName, string operationId, IAnalyticsSession session)
+        public IAnalyticsOperation StartRequestOperation(object sender, string requestName, IDictionary<string, string> headers, [CallerMemberName] string callingMember = "")
         {
-            CurrentSession = session;
-
-            CurrentOperation = new AnalyticsOperation(operationName, operationId, duration =>
-            {
-                var requestTelemetry = new RequestTelemetry
-                {
-                    Duration = duration,
-                    Name = requestName
-                };
-                
-                TelemetryClient.TrackRequest(TelemetryDecorator.DecorateTelemetry(requestTelemetry, CurrentOperation, CurrentSession, 
-                    new Dictionary<string, object>(), new Dictionary<string, double>()));
-
-                ConsoleLogger.LogOperation(requestName, duration);
-
-                CurrentOperation = null;
-            });
-
-            return CurrentOperation;
-        }
-
-        public IAnalyticsOperation StartRequestOperation(string requestName, IDictionary<string, string> headers)
-        {
+            
             if (!headers.TryGetValue(AnalyticsHeaders.Operation.Name, out var operationName))
                 operationName = "NewRequest";
 
@@ -85,9 +65,27 @@ namespace Blauhaus.Analytics.Server.Service
                 }
             }
 
+            CurrentSession = session;
 
-            return StartRequestOperation(requestName, operationName, operationId, session);
 
+            CurrentOperation = new AnalyticsOperation(operationName, operationId, duration =>
+            {
+                var requestTelemetry = new RequestTelemetry
+                {
+                    Duration = duration,
+                    Name = requestName
+                };
+                
+                TelemetryClient.TrackRequest(TelemetryDecorator.DecorateTelemetry(requestTelemetry, sender.GetType().Name, callingMember, CurrentOperation, CurrentSession, 
+                    new Dictionary<string, object>(), new Dictionary<string, double>()));
+
+                ConsoleLogger.LogOperation(requestName, duration);
+
+                CurrentOperation = null;
+            });
+
+            return CurrentOperation;
         }
+
     }
 }

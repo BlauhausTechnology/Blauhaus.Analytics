@@ -23,7 +23,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsClie
         public void SHOULD_nullify_CurrentOperation()
         {
             //Arrange
-            Sut.StartPageViewOperation("MyOperation");
+            Sut.StartPageViewOperation(this, "MyOperation");
 
             //Act
             Sut.ClearCurrentSession();
@@ -36,7 +36,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsClie
         public void SHOULD_clear_Current_session_but_keep_same_id()
         {
             //Arrange
-            Sut.StartOperation("Operation");
+            Sut.StartOperation(this, "Operation");
             Sut.CurrentSession.UserId = "userId";
             Sut.CurrentSession.AccountId = "accountId";
             Sut.CurrentSession.DeviceId = "deviceId";

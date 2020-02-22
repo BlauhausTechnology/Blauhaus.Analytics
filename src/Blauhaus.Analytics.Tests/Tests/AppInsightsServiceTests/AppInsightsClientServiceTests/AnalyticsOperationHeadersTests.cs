@@ -24,7 +24,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AppInsightsServiceTests.AppInsightsClie
         public void SHOULD_add_operation_and_session_details()
         {
             //Arrange
-            var currentOperation = Sut.StartOperation("Operation");
+            var currentOperation = Sut.StartOperation(this, "Operation");
             Sut.CurrentSession.UserId = "userId";
             Sut.CurrentSession.AccountId = "accountId";
             Sut.CurrentSession.DeviceId = "deviceId";

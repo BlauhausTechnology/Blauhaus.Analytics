@@ -8,10 +8,10 @@ namespace Blauhaus.Analytics.Common.Telemetry
 {
     public interface ITelemetryDecorator
     {
-        TTelemetry DecorateTelemetry<TTelemetry>(TTelemetry telemetry, IAnalyticsOperation currentOperation,
+        TTelemetry DecorateTelemetry<TTelemetry>(TTelemetry telemetry, string className, string callerMemberName, IAnalyticsOperation currentOperation,
             IAnalyticsSession currentSession, Dictionary<string, object> properties) where TTelemetry : ITelemetry, ISupportProperties;
         
-        TTelemetry DecorateTelemetry<TTelemetry>(TTelemetry telemetry, IAnalyticsOperation currentOperation,
+        TTelemetry DecorateTelemetry<TTelemetry>(TTelemetry telemetry, string className, string callerMemberName, IAnalyticsOperation currentOperation,
             IAnalyticsSession currentSession, Dictionary<string, object> properties, Dictionary<string, double> metrics) 
             where TTelemetry : ITelemetry, ISupportProperties, ISupportMetrics;
     }

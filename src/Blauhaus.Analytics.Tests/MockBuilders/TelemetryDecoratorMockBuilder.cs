@@ -21,6 +21,8 @@ namespace Blauhaus.Analytics.Tests.MockBuilders
         {
             Mock.Setup(x => x.DecorateTelemetry(
                 It.IsAny<TTelemetry>(), 
+                It.IsAny<string>(),
+                It.IsAny<string>(),
                 It.IsAny<IAnalyticsOperation>(), 
                 It.IsAny<IAnalyticsSession>(), 
                 It.IsAny<Dictionary<string, object>>()))
@@ -34,6 +36,8 @@ namespace Blauhaus.Analytics.Tests.MockBuilders
         {
             Mock.Setup(x => x.DecorateTelemetry(
                 It.IsAny<TTelemetry>(), 
+                It.IsAny<string>(),
+                It.IsAny<string>(),
                 It.IsAny<IAnalyticsOperation>(), 
                 It.IsAny<IAnalyticsSession>(), 
                 It.IsAny<Dictionary<string, object>>(),

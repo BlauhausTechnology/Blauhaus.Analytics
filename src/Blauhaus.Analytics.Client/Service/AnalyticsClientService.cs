@@ -37,6 +37,7 @@ namespace Blauhaus.Analytics.Client.Service
 
         public IAnalyticsOperation StartPageViewOperation(string pageName)
         {
+
             CurrentOperation = new AnalyticsOperation(pageName, duration =>
             {
                 var pageViewTelemetry = new PageViewTelemetry(pageName)
@@ -51,6 +52,8 @@ namespace Blauhaus.Analytics.Client.Service
                 
                 CurrentOperation = null;
             });
+
+            Trace($"{pageName} started");
 
             return CurrentOperation;
         }

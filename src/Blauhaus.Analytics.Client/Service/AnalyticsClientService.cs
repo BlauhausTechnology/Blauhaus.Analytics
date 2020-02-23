@@ -38,28 +38,6 @@ namespace Blauhaus.Analytics.Client.Service
         }
 
 
-        public IAnalyticsOperation StartPageViewOperation(object sender, string pageName, [CallerMemberName] string callerMember = "")
-        {
-            CurrentOperation = new AnalyticsOperation(pageName, duration =>
-            {
-                var pageViewTelemetry = new PageViewTelemetry(pageName)
-                {
-                    Duration = duration
-                };
-
-                TelemetryClient.TrackPageView(TelemetryDecorator.DecorateTelemetry(pageViewTelemetry, sender.GetType().Name, callerMember, CurrentOperation, CurrentSession,
-                    new Dictionary<string, object>(), new Dictionary<string, double>()));
-
-                ConsoleLogger.LogOperation(pageName, duration);
-                
-                CurrentOperation = null;
-            });
-
-            LogTrace($"{pageName} started", LogSeverity.Verbose, new Dictionary<string, object>(), sender.GetType().Name, callerMember);
-
-            return CurrentOperation;
-        }
-
         private readonly Dictionary<string, string> _analyticsOperationHeaders = new Dictionary<string, string>();
         public IDictionary<string, string> AnalyticsOperationHeaders
         {

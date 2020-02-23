@@ -24,6 +24,18 @@ namespace Blauhaus.Analytics.Console.Service
         public IAnalyticsOperation? CurrentOperation { get; private set; }
         public IAnalyticsSession CurrentSession { get; private set; }
 
+        public IAnalyticsOperation StartPageViewOperation(object sender, string viewName, string callingMember = "")
+        {
+              
+            CurrentOperation = new AnalyticsOperation(viewName, duration =>
+            {
+                ConsoleLogger.LogOperation(viewName, duration);
+                CurrentOperation = null;
+            });
+
+            return CurrentOperation;
+        }
+
         public IAnalyticsOperation StartOperation(object sender, string operationName, Dictionary<string, object> properties = null, [CallerMemberName] string callerMemberName = "")
         {
             

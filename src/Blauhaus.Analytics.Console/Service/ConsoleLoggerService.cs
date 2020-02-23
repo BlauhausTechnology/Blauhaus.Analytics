@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Http.Headers;
 using System.Runtime.CompilerServices;
 using Blauhaus.Analytics.Abstractions.Extensions;
-using Blauhaus.Analytics.Abstractions.Http;
 using Blauhaus.Analytics.Abstractions.Operation;
 using Blauhaus.Analytics.Abstractions.Service;
 using Blauhaus.Analytics.Abstractions.Session;
@@ -23,6 +21,23 @@ namespace Blauhaus.Analytics.Console.Service
 
         public IAnalyticsOperation? CurrentOperation { get; private set; }
         public IAnalyticsSession CurrentSession { get; private set; }
+        public IDictionary<string, string> AnalyticsOperationHeaders { get; } = new Dictionary<string, string>();
+
+        public void ClearCurrentSession()
+        {
+            CurrentSession = AnalyticsSession.New;
+        }
+
+        public IAnalyticsOperation StartRequestOperation(object sender, string requestName, IDictionary<string, string> headers, string callingMember = "")
+        {
+            CurrentOperation = new AnalyticsOperation(requestName, duration =>
+            {
+                ConsoleLogger.LogOperation(requestName, duration);
+                CurrentOperation = null;
+            });
+
+            return CurrentOperation;
+        }
 
         public IAnalyticsOperation StartPageViewOperation(object sender, string viewName, string callingMember = "")
         {

@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blauhaus.Analytics.Abstractions", "Blauhaus.Analytics.Abstractions\Blauhaus.Analytics.Abstractions.csproj", "{8D5641CB-7191-4A32-BBB9-99A1AAE630F8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blauhaus.Analytics.Client", "Blauhaus.Analytics.Client\Blauhaus.Analytics.Client.csproj", "{739B0DB7-C5DB-47F2-8BD2-A8CAEEAEFEF2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blauhaus.Analytics.Xamarin", "Blauhaus.Analytics.Xamarin\Blauhaus.Analytics.Xamarin.csproj", "{739B0DB7-C5DB-47F2-8BD2-A8CAEEAEFEF2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blauhaus.Analytics.Server", "Blauhaus.Analytics.Server\Blauhaus.Analytics.Server.csproj", "{B64A36EC-E93C-4E45-A886-4FF527FD24AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blauhaus.Analytics.AspNetCore", "Blauhaus.Analytics.AspNetCore\Blauhaus.Analytics.AspNetCore.csproj", "{B64A36EC-E93C-4E45-A886-4FF527FD24AD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blauhaus.Analytics.Tests", "Blauhaus.Analytics.Tests\Blauhaus.Analytics.Tests.csproj", "{4667D1C5-BC5F-42B4-B1D6-C2D6A89FF293}"
 EndProject

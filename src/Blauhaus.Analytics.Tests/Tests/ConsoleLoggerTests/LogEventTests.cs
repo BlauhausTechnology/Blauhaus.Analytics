@@ -7,7 +7,7 @@ using NUnit.Framework;
 
 namespace Blauhaus.Analytics.Tests.Tests.ConsoleLoggerTests
 {
-    public class LogEventTests : BaseAnalyticsServiceTest<ConsoleLogger>
+    public class LogEventTests : BaseAnalyticsTest<ConsoleLogger>
     {
 
 

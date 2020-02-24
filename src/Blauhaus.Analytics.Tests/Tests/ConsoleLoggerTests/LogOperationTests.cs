@@ -10,7 +10,7 @@ using NUnit.Framework;
 
 namespace Blauhaus.Analytics.Tests.Tests.ConsoleLoggerTests
 {
-    public class LogOperationTests : BaseAnalyticsServiceTest<ConsoleLogger>
+    public class LogOperationTests : BaseAnalyticsTest<ConsoleLogger>
     {
 
         protected override ConsoleLogger ConstructSut()

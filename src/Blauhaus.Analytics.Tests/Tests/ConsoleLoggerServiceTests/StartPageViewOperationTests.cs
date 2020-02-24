@@ -7,7 +7,7 @@ using NUnit.Framework;
 
 namespace Blauhaus.Analytics.Tests.Tests.ConsoleLoggerServiceTests
 {
-    public class StartOperationTests : BaseAnalyticsTest<ConsoleLoggerService>
+    public class StartPageViewOperationTests : BaseAnalyticsTest<ConsoleLoggerService>
     {
         protected override ConsoleLoggerService ConstructSut()
         {
@@ -19,7 +19,7 @@ namespace Blauhaus.Analytics.Tests.Tests.ConsoleLoggerServiceTests
         public void SHOULD_set_and_return_CurrentOperation()
         {
             //Act
-            var operation = Sut.StartOperation(this, "MyOperation");
+            var operation = Sut.StartPageViewOperation(this, "MyOperation");
 
             //Assert
             Assert.That(operation.Name, Is.EqualTo("MyOperation"));
@@ -32,7 +32,7 @@ namespace Blauhaus.Analytics.Tests.Tests.ConsoleLoggerServiceTests
         public void WHEN_Operation_is_disposed_SHOULD_log_operation_to_console()
         {
             //Arrange
-            var operation = Sut.StartOperation(this, "MyOperation");
+            var operation = Sut.StartPageViewOperation(this, "MyOperation");
             MockTelemetryClient.Mock.Verify(x => x.TrackDependency(It.IsAny<DependencyTelemetry>()), Times.Never);
 
             //Act

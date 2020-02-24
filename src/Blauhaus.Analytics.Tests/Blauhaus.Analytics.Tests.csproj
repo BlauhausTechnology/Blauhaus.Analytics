@@ -15,9 +15,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Blauhaus.Analytics.Abstractions\Blauhaus.Analytics.Abstractions.csproj" />
-    <ProjectReference Include="..\Blauhaus.Analytics.Client\Blauhaus.Analytics.Client.csproj" />
+    <ProjectReference Include="..\Blauhaus.Analytics.AspNetCore\Blauhaus.Analytics.AspNetCore.csproj" />
     <ProjectReference Include="..\Blauhaus.Analytics.Common\Blauhaus.Analytics.Common.csproj" />
     <ProjectReference Include="..\Blauhaus.Analytics.Console\Blauhaus.Analytics.Console.csproj" />
-    <ProjectReference Include="..\Blauhaus.Analytics.Server\Blauhaus.Analytics.Server.csproj" />
+    <ProjectReference Include="..\Blauhaus.Analytics.Xamarin\Blauhaus.Analytics.Xamarin.csproj" />
   </ItemGroup>
 </Project>

@@ -5,6 +5,8 @@ using Blauhaus.Analytics.Console._Ioc;
 using Blauhaus.Analytics.Xamarin.Service;
 using Blauhaus.DeviceServices.Abstractions.Application;
 using Blauhaus.DeviceServices.Abstractions.DeviceInfo;
+using Blauhaus.DeviceServices.Application;
+using Blauhaus.DeviceServices.DeviceInfo;
 using Blauhaus.Ioc.Abstractions;
 
 namespace Blauhaus.Analytics.Xamarin._Ioc
@@ -12,15 +14,13 @@ namespace Blauhaus.Analytics.Xamarin._Ioc
     public static class IocServiceExtensions
     {
         
-        public static IIocService RegisterXamarinAnalyticsService<TConfig, TDeviceInfoService, TApplicationInfoService>(this IIocService iocService) 
+        public static IIocService RegisterXamarinAnalyticsService<TConfig>(this IIocService iocService) 
             where TConfig : class, IApplicationInsightsConfig 
-            where TDeviceInfoService : class, IDeviceInfoService 
-            where TApplicationInfoService : class, IApplicationInfoService
         {
             iocService.RegisterConsoleLoggerClientService();
             
-            iocService.RegisterImplementation<IDeviceInfoService, TDeviceInfoService>(IocLifetime.Singleton);
-            iocService.RegisterImplementation<IApplicationInfoService, TApplicationInfoService>(IocLifetime.Singleton);
+            iocService.RegisterImplementation<IDeviceInfoService, DeviceInfoService>(IocLifetime.Singleton);
+            iocService.RegisterImplementation<IApplicationInfoService, ApplicationInfoService>(IocLifetime.Singleton);
 
             iocService.RegisterImplementation<IApplicationInsightsConfig, TConfig>(IocLifetime.Singleton);
             iocService.RegisterImplementation<ITelemetryClientProxy, TelemetryClientProxy>(IocLifetime.Singleton);

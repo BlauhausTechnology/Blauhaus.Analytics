@@ -22,7 +22,6 @@ namespace Blauhaus.Analytics.Tests.Tests._Base
         protected MockBuilder<IDeviceInfoService> MockDeviceInfoService;
         protected MockBuilder<IApplicationInfoService> MockApplicationInfoService;
         protected TelemetryDecoratorMockBuilder MockTelemetryDecorator;
-        protected SessionFactoryMockBuilder MockSessionFactory;
 
         [SetUp]
         public virtual void Setup()
@@ -45,7 +44,6 @@ namespace Blauhaus.Analytics.Tests.Tests._Base
             MockDeviceInfoService = new MockBuilder<IDeviceInfoService>();
             MockApplicationInfoService = new MockBuilder<IApplicationInfoService>();
             MockTelemetryDecorator = new TelemetryDecoratorMockBuilder();
-            MockSessionFactory = new SessionFactoryMockBuilder();
         }
 
     }

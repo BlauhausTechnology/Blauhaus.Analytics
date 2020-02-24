@@ -19,8 +19,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AnalyticsServiceTests
                 MockConsoleLogger.Object,
                 MockTelemetryClient.Object,
                 MockTelemetryDecorator.Object,
-                CurrentBuildConfig,
-                MockSessionFactory.Object);
+                CurrentBuildConfig);
         }
 
          [Test]

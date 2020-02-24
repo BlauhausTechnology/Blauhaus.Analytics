@@ -18,9 +18,8 @@ namespace Blauhaus.Analytics.Xamarin.Service
             ITelemetryDecorator telemetryDecorator,
             IBuildConfig currentBuildConfig,
             IDeviceInfoService deviceInfoService,
-            IApplicationInfoService applicationInfoService,
-            IAnalyticsSessionFactory sessionFactory)
-            : base(config, appInsightsLogger, telemetryClient, telemetryDecorator, currentBuildConfig, sessionFactory)
+            IApplicationInfoService applicationInfoService)
+            : base(config, appInsightsLogger, telemetryClient, telemetryDecorator, currentBuildConfig)
         {
             CurrentSession = AnalyticsSession.New;
             CurrentSession.AppVersion = applicationInfoService.CurrentVersion;

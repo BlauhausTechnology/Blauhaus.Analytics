@@ -17,23 +17,6 @@ namespace Blauhaus.Analytics.Xamarin._Ioc
             where TDeviceInfoService : class, IDeviceInfoService 
             where TApplicationInfoService : class, IApplicationInfoService
         {
-            RegisterCommon<TConfig, TDeviceInfoService, TApplicationInfoService>(iocService);
-            return iocService;
-        }
-
-
-        public static IIocService RegisterXamarinAnalyticsService<TConfig>(this IIocService iocService) 
-            where TConfig : class, IApplicationInsightsConfig 
-        {
-            RegisterCommon<TConfig, DefaultDeviceService, DefaultDeviceService>(iocService);
-            return iocService;
-        }
-
-        private static IIocService RegisterCommon<TConfig, TDeviceInfoService, TApplicationInfoService>(this IIocService iocService) 
-            where TConfig : class, IApplicationInsightsConfig            
-            where TDeviceInfoService : class, IDeviceInfoService 
-            where TApplicationInfoService : class, IApplicationInfoService
-        {
             iocService.RegisterConsoleLoggerClientService();
             
             iocService.RegisterImplementation<IDeviceInfoService, TDeviceInfoService>(IocLifetime.Singleton);
@@ -44,9 +27,9 @@ namespace Blauhaus.Analytics.Xamarin._Ioc
             iocService.RegisterImplementation<ITelemetryDecorator, TelemetryDecorator>();
 
             iocService.RegisterImplementation<IAnalyticsService, XamarinAnalyticsService>(IocLifetime.Singleton);
-            //iocService.RegisterInstance<IAnalyticsService>(iocService.Resolve<IAnalyticsClientService>());
 
             return iocService;
         }
+
     }
 }

@@ -19,7 +19,6 @@ namespace Blauhaus.Analytics.Common.Service
         protected readonly IApplicationInsightsConfig Config;
         protected readonly IConsoleLogger ConsoleLogger;
         protected readonly IBuildConfig CurrentBuildConfig;
-        private readonly IAnalyticsSessionFactory _sessionFactory;
         protected readonly ITelemetryClientProxy TelemetryClient;
         protected readonly ITelemetryDecorator TelemetryDecorator;
 
@@ -28,20 +27,15 @@ namespace Blauhaus.Analytics.Common.Service
             IConsoleLogger consoleLogger, 
             ITelemetryClientProxy telemetryClient, 
             ITelemetryDecorator telemetryDecorator,
-            IBuildConfig currentBuildConfig,
-            IAnalyticsSessionFactory sessionFactory)
+            IBuildConfig currentBuildConfig)
         {
             Config = config;
             ConsoleLogger = consoleLogger;
             TelemetryClient = telemetryClient;
             TelemetryDecorator = telemetryDecorator;
             CurrentBuildConfig = currentBuildConfig;
-            _sessionFactory = sessionFactory;
         }
 
-
-        //TODO sessionfactory must return a new id per instance for Xamarin
-        //TODO sessionFactory must return id from cookie or from headers. 
 
         public IAnalyticsOperation? CurrentOperation { get; protected set; }
         public IAnalyticsSession CurrentSession { get; protected set; } = AnalyticsSession.Empty;

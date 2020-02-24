@@ -23,7 +23,6 @@ namespace Blauhaus.Analytics.AspNetCore._Ioc
 
             services.AddScoped<IAnalyticsService, AnalyticsService>();
 
-
             return services;
         }
     }

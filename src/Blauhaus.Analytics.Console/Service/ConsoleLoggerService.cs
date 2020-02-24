@@ -23,9 +23,12 @@ namespace Blauhaus.Analytics.Console.Service
         public IAnalyticsSession CurrentSession { get; private set; }
         public IDictionary<string, string> AnalyticsOperationHeaders { get; } = new Dictionary<string, string>();
 
-        public void ClearCurrentSession()
+        public void ResetCurrentSession(string newSessionId = "")
         {
-            CurrentSession = AnalyticsSession.New;
+            CurrentOperation?.Dispose();
+            CurrentOperation = null;
+            var sessionId = CurrentSession.Id;
+            CurrentSession = AnalyticsSession.FromExisting(sessionId);
         }
 
         public IAnalyticsOperation StartRequestOperation(object sender, string requestName, IDictionary<string, string> headers, string callingMember = "")

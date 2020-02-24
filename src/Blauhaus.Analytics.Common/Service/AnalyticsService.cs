@@ -74,11 +74,11 @@ namespace Blauhaus.Analytics.Common.Service
             }
         }
 
-        public void ClearCurrentSession()
+        public void ResetCurrentSession(string newSessionId = "")
         {
             CurrentOperation?.Dispose();
             CurrentOperation = null;
-            var sessionId = CurrentSession.Id;
+            var sessionId = string.IsNullOrEmpty(newSessionId) ? CurrentSession.Id : newSessionId;
             CurrentSession = AnalyticsSession.FromExisting(sessionId);
         }
 

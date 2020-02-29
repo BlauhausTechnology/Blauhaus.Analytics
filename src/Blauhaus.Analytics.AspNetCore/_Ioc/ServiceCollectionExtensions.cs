@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using Blauhaus.Analytics.Abstractions.Config;
 using Blauhaus.Analytics.Abstractions.Service;
+using Blauhaus.Analytics.AspNetCore.Service;
 using Blauhaus.Analytics.Common.Service;
 using Blauhaus.Analytics.Common.Telemetry;
 using Blauhaus.Analytics.Console._Ioc;
@@ -21,7 +22,7 @@ namespace Blauhaus.Analytics.AspNetCore._Ioc
             services.AddScoped<ITelemetryDecorator, TelemetryDecorator>();
             services.AddScoped<TelemetryClient>();
 
-            services.AddScoped<IAnalyticsService, AnalyticsService>();
+            services.AddScoped<IAnalyticsService, AspNetCoreAnalyticsService>();
 
             return services;
         }

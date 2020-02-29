@@ -38,7 +38,7 @@ namespace Blauhaus.Analytics.Common.Service
 
 
         public IAnalyticsOperation? CurrentOperation { get; protected set; }
-        public IAnalyticsSession CurrentSession { get; protected set; } = AnalyticsSession.Empty;
+        public virtual IAnalyticsSession CurrentSession { get; protected set; } = AnalyticsSession.Empty;
 
          private readonly Dictionary<string, string> _analyticsOperationHeaders = new Dictionary<string, string>();
         public IDictionary<string, string> AnalyticsOperationHeaders

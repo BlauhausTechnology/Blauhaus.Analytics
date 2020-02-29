@@ -4,20 +4,21 @@
 
 <h1>Hello, world!</h1>
 
+<p>Weather service Id: @ForecastService.Id (constructed @WeatherForecastService.ConstructionCount times)</p>
+
 <p>
     <h4>Analytics headers</h4>
     <ul>
         @if (AnalyticsService.AnalyticsOperationHeaders["X-Analytics-OperationId"] != "")
         {
             @foreach (var header in AnalyticsService.AnalyticsOperationHeaders)
-             {
-                 <li>@header.Key : @header.Value</li>
-             }
+            {
+                <li>@header.Key : @header.Value</li>
+            }
         }
     </ul>
 </p>
 
 
-<p>Weather service Id: @ForecastService.Id (constructed @WeatherForecastService.ConstructionCount times)</p>
 
 Welcome to your new app.

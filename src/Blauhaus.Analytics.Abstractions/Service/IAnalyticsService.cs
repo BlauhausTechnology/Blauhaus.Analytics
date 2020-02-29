@@ -11,7 +11,7 @@ namespace Blauhaus.Analytics.Abstractions.Service
         IAnalyticsOperation? CurrentOperation { get; }
         IAnalyticsSession CurrentSession { get; }
         IDictionary<string, string> AnalyticsOperationHeaders { get; }
-        void ClearCurrentSession();
+        void ResetCurrentSession(string newSessionId = "");
 
         IAnalyticsOperation StartRequestOperation(object sender, string requestName, IDictionary<string, string> headers, [CallerMemberName] string callingMember = "");
         IAnalyticsOperation StartPageViewOperation(object sender, string viewName, [CallerMemberName] string callingMember = "");

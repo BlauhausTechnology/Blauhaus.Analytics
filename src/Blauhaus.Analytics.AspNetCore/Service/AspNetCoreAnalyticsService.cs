@@ -12,7 +12,7 @@ namespace Blauhaus.Analytics.AspNetCore.Service
 {
     public class AspNetCoreAnalyticsService : AnalyticsService
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        protected readonly IHttpContextAccessor HttpContextAccessor;
 
         public AspNetCoreAnalyticsService(
             IApplicationInsightsConfig config,
@@ -23,7 +23,7 @@ namespace Blauhaus.Analytics.AspNetCore.Service
             IHttpContextAccessor httpContextAccessor)
             : base(config, appInsightsLogger, telemetryClient, telemetryDecorator, currentBuildConfig)
         {
-            _httpContextAccessor = httpContextAccessor;
+            HttpContextAccessor = httpContextAccessor;
 
             //this is registered with scoped lifetime so each request gets a new one
 
@@ -42,25 +42,29 @@ namespace Blauhaus.Analytics.AspNetCore.Service
                 {
                     _sessionForCurrentUser = AnalyticsSession.New;
 
-                    if (_httpContextAccessor.HttpContext != null)
+                    if (HttpContextAccessor.HttpContext != null)
                     {
-                        var userId = _httpContextAccessor.HttpContext.Request.Cookies["UserId"];
-                        if (string.IsNullOrEmpty(userId))
-                        {
-                            userId = Guid.NewGuid().ToString();
-                            _httpContextAccessor.HttpContext.Response.Cookies.Append("UserId", userId, new CookieOptions
-                            {
-                                Expires = DateTimeOffset.UtcNow.AddYears(5)
-                            });
-                        }
-
-                        _sessionForCurrentUser.UserId = userId;
+                        _sessionForCurrentUser.UserId = GetUserId();
                     }
-                   
                 }
 
                 return _sessionForCurrentUser;
             }
+        }
+
+        protected virtual string GetUserId()
+        {
+            var userId = HttpContextAccessor.HttpContext.Request.Cookies["UserId"];
+            if (string.IsNullOrEmpty(userId))
+            {
+                userId = Guid.NewGuid().ToString();
+                HttpContextAccessor.HttpContext.Response.Cookies.Append("UserId", userId, new CookieOptions
+                {
+                    Expires = DateTimeOffset.UtcNow.AddYears(5)
+                });
+            }
+
+            return userId;
         }
     }
 }

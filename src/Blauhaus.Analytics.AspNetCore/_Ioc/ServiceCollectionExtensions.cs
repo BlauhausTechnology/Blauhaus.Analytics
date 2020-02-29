@@ -12,7 +12,24 @@ namespace Blauhaus.Analytics.AspNetCore._Ioc
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection RegisterAspNetCoreAnalyticsService<TConfig>(this IServiceCollection services, TraceListener consoleTraceListener) 
+        public static IServiceCollection RegisterAspNetCoreWebAnalyticsService<TConfig>(this IServiceCollection services, TraceListener consoleTraceListener) 
+            where TConfig : class, IApplicationInsightsConfig
+        {
+
+            services.RegisterCommon<TConfig>(consoleTraceListener);
+            services.AddScoped<IAnalyticsService, AspNetCoreWebAnalyticsService>();
+            return services;
+        }
+
+        public static IServiceCollection RegisterAspNetCorApiAnalyticsService<TConfig>(this IServiceCollection services, TraceListener consoleTraceListener) 
+            where TConfig : class, IApplicationInsightsConfig
+        {
+            services.RegisterCommon<TConfig>(consoleTraceListener);
+            services.AddScoped<IAnalyticsService, AspNetCoreApiAnalyticsService>();
+            return services;
+        }
+
+        private static IServiceCollection RegisterCommon<TConfig>(this IServiceCollection services, TraceListener consoleTraceListener) 
             where TConfig : class, IApplicationInsightsConfig
         {
             services.RegisterConsoleLoggerService(consoleTraceListener);
@@ -22,7 +39,6 @@ namespace Blauhaus.Analytics.AspNetCore._Ioc
             services.AddScoped<ITelemetryDecorator, TelemetryDecorator>();
             services.AddScoped<TelemetryClient>();
 
-            services.AddScoped<IAnalyticsService, AspNetCoreAnalyticsService>();
 
             return services;
         }

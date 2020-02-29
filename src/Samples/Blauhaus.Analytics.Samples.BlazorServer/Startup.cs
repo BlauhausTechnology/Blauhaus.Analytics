@@ -32,7 +32,7 @@ namespace Blauhaus.Analytics.Samples.BlazorServer
             
             //analytics
             services.AddHttpContextAccessor();
-            services.RegisterAspNetCoreAnalyticsService<AnalyticsConfig>(new ConsoleTraceListener());
+            services.RegisterAspNetCoreWebAnalyticsService<AnalyticsConfig>(new ConsoleTraceListener());
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IAnalyticsService analyticsService)

@@ -10,8 +10,8 @@ namespace Blauhaus.Analytics.Samples.BlazorServer._Config
     {
         public AnalyticsConfig(IConfiguration configuration) : base("4e647a09-071e-4cb8-85e4-303d5458d6fb", "Blazor Server")
         {
-            MinimumLogToServerSeverity[BuildConfig.Debug] = LogSeverity.Critical;
-            MinimumLogToServerSeverity[BuildConfig.Release] = LogSeverity.Information;
+            MinimumLogToServerSeverity[BuildConfig.Debug] = LogSeverity.Verbose;
+            MinimumLogToServerSeverity[BuildConfig.Release] = LogSeverity.Verbose;
         }
     }
 }

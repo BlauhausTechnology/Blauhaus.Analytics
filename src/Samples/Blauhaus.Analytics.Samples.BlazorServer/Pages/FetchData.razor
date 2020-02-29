@@ -1,7 +1,23 @@
 ﻿@page "/fetchdata"
+@using Blauhaus.Analytics.Samples.BlazorServer.Data
 @inherits FetchDataBase;
 
 <h1>Weather forecast</h1>
+
+<p>Weather service Id: @ForecastService.Id (constructed @WeatherForecastService.ConstructionCount times)</p>
+
+<p>
+    <h4>Analytics headers</h4>
+    <ul>
+        @if (AnalyticsService.AnalyticsOperationHeaders["X-Analytics-OperationId"] != "")
+        {
+            @foreach (var header in AnalyticsService.AnalyticsOperationHeaders)
+             {
+                 <li>@header.Key : @header.Value</li>
+             }
+        }
+    </ul>
+</p>
 
 <p>This component demonstrates fetching data from a service.</p>
 

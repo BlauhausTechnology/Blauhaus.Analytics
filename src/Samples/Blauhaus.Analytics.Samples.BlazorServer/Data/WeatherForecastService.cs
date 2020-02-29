@@ -11,6 +11,14 @@ namespace Blauhaus.Analytics.Samples.BlazorServer.Data
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
+        public WeatherForecastService()
+        {
+            Id = Guid.NewGuid().ToString();
+            ConstructionCount++;
+        }
+        public string Id { get; }
+        public static int ConstructionCount;
+
         public Task<WeatherForecast[]> GetForecastAsync(DateTime startDate)
         {
             var rng = new Random();

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Blauhaus.Analytics.Abstractions.Operation;
 using Blauhaus.Analytics.Abstractions.Service;
 using Blauhaus.Analytics.Samples.BlazorServer.Data;
 using Microsoft.AspNetCore.Components;
@@ -9,6 +10,7 @@ namespace Blauhaus.Analytics.Samples.BlazorServer.Pages
     public class FetchDataBase : ComponentBase
     {
         public WeatherForecast[] Forecasts;
+        private IAnalyticsOperation _pageViewOperation;
 
         [Inject] 
         public WeatherForecastService ForecastService { get; set; }
@@ -18,10 +20,19 @@ namespace Blauhaus.Analytics.Samples.BlazorServer.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            using (var _ = AnalyticsService.StartPageViewOperation(this, "Fetch Data"))
+            _pageViewOperation = AnalyticsService.StartPageViewOperation(this, "Fetch Data");
+            Forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+        }
+
+        protected override void OnAfterRender(bool firstRender)
+        {
+            if (firstRender)
             {
-                Forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+                //just a hack to show analytics info on screen
+                StateHasChanged();
+                _pageViewOperation.Dispose();
             }
+
         }
     }
 }

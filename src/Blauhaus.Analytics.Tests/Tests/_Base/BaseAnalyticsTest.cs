@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Blauhaus.Analytics.Abstractions.Config;
 using Blauhaus.Analytics.Abstractions.Service;
+using Blauhaus.Analytics.Abstractions.Session;
 using Blauhaus.Analytics.Console.ConsoleLoggers;
 using Blauhaus.Analytics.Tests.MockBuilders;
 using Blauhaus.Common.TestHelpers;
@@ -22,6 +23,7 @@ namespace Blauhaus.Analytics.Tests.Tests._Base
         protected MockBuilder<IDeviceInfoService> MockDeviceInfoService;
         protected MockBuilder<IApplicationInfoService> MockApplicationInfoService;
         protected TelemetryDecoratorMockBuilder MockTelemetryDecorator;
+        protected MockBuilder<IAnalyticsSessionFactory> MockAnalyticsSessionFactory;
 
         [SetUp]
         public virtual void Setup()
@@ -44,6 +46,8 @@ namespace Blauhaus.Analytics.Tests.Tests._Base
             MockDeviceInfoService = new MockBuilder<IDeviceInfoService>();
             MockApplicationInfoService = new MockBuilder<IApplicationInfoService>();
             MockTelemetryDecorator = new TelemetryDecoratorMockBuilder();
+            MockAnalyticsSessionFactory = new MockBuilder<IAnalyticsSessionFactory>();
+            MockAnalyticsSessionFactory.Mock.Setup(x => x.CreateSession()).Returns(AnalyticsSession.New);
         }
 
     }

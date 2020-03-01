@@ -1,7 +1,8 @@
 ﻿using System.Diagnostics;
 using Blauhaus.Analytics.Abstractions.Config;
 using Blauhaus.Analytics.Abstractions.Service;
-using Blauhaus.Analytics.AspNetCore.Service;
+using Blauhaus.Analytics.Abstractions.Session;
+using Blauhaus.Analytics.AspNetCore.SessionFactories;
 using Blauhaus.Analytics.Common.Service;
 using Blauhaus.Analytics.Common.Telemetry;
 using Blauhaus.Analytics.Console._Ioc;
@@ -17,7 +18,9 @@ namespace Blauhaus.Analytics.AspNetCore._Ioc
         {
 
             services.RegisterCommon<TConfig>(consoleTraceListener);
-            services.AddScoped<IAnalyticsService, AspNetCoreWebAnalyticsService>();
+
+            services.AddHttpContextAccessor();
+            services.AddScoped<IAnalyticsSessionFactory, AspNetCoreWebSessionFactory>();
             return services;
         }
 
@@ -25,7 +28,7 @@ namespace Blauhaus.Analytics.AspNetCore._Ioc
             where TConfig : class, IApplicationInsightsConfig
         {
             services.RegisterCommon<TConfig>(consoleTraceListener);
-            services.AddScoped<IAnalyticsService, AspNetCoreApiAnalyticsService>();
+            services.AddScoped<IAnalyticsSessionFactory, AspNetCoreApiSessionFactory>();
             return services;
         }
 
@@ -38,6 +41,7 @@ namespace Blauhaus.Analytics.AspNetCore._Ioc
             services.AddScoped<ITelemetryClientProxy, TelemetryClientProxy>();
             services.AddScoped<ITelemetryDecorator, TelemetryDecorator>();
             services.AddScoped<TelemetryClient>();
+            services.AddScoped<IAnalyticsService, AnalyticsService>();
 
 
             return services;

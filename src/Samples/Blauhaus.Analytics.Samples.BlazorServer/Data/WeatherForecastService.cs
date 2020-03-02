@@ -1,18 +1,23 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Blauhaus.Analytics.Abstractions.Service;
+using Blauhaus.Analytics.Abstractions.Session;
 
 namespace Blauhaus.Analytics.Samples.BlazorServer.Data
 {
     public class WeatherForecastService
     {
+        private readonly IAnalyticsService _analyticsService;
+
         private static readonly string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
-        public WeatherForecastService()
+        public WeatherForecastService(IAnalyticsService analyticsService)
         {
+            _analyticsService = analyticsService;
             Id = Guid.NewGuid().ToString();
             ConstructionCount++;
         }
@@ -22,12 +27,16 @@ namespace Blauhaus.Analytics.Samples.BlazorServer.Data
         public Task<WeatherForecast[]> GetForecastAsync(DateTime startDate)
         {
             var rng = new Random();
-            return Task.FromResult(Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            var result = Task.FromResult(Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = startDate.AddDays(index),
                 TemperatureC = rng.Next(-20, 55),
                 Summary = Summaries[rng.Next(Summaries.Length)]
             }).ToArray());
+            
+            _analyticsService.LogEvent(this, "Weather generated!");
+
+            return result;
         }
     }
 }

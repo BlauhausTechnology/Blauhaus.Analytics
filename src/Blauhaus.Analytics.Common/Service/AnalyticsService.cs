@@ -16,9 +16,12 @@ namespace Blauhaus.Analytics.Common.Service
 {
     public class AnalyticsService : IAnalyticsService
     {
+        private IAnalyticsSession _currentSession;
+
         protected readonly IApplicationInsightsConfig Config;
         protected readonly IConsoleLogger ConsoleLogger;
         protected readonly IBuildConfig CurrentBuildConfig;
+        private readonly IAnalyticsSessionFactory _sessionFactory;
         protected readonly ITelemetryClientProxy TelemetryClient;
         protected readonly ITelemetryDecorator TelemetryDecorator;
 
@@ -27,20 +30,39 @@ namespace Blauhaus.Analytics.Common.Service
             IConsoleLogger consoleLogger, 
             ITelemetryClientProxy telemetryClient, 
             ITelemetryDecorator telemetryDecorator,
-            IBuildConfig currentBuildConfig)
+            IBuildConfig currentBuildConfig,
+            IAnalyticsSessionFactory sessionFactory)
         {
             Config = config;
             ConsoleLogger = consoleLogger;
             TelemetryClient = telemetryClient;
             TelemetryDecorator = telemetryDecorator;
             CurrentBuildConfig = currentBuildConfig;
+            _sessionFactory = sessionFactory;
         }
 
+        
 
         public IAnalyticsOperation? CurrentOperation { get; protected set; }
-        public IAnalyticsSession CurrentSession { get; protected set; } = AnalyticsSession.Empty;
 
-         private readonly Dictionary<string, string> _analyticsOperationHeaders = new Dictionary<string, string>();
+        public virtual IAnalyticsSession CurrentSession
+        {
+            get
+            {
+                if (_currentSession == null)
+                {
+                    _currentSession = _sessionFactory.CreateSession();
+                }
+
+                return _currentSession;
+            }
+            protected set
+            {
+                _currentSession = value;
+            }
+        } 
+
+        private readonly Dictionary<string, string> _analyticsOperationHeaders = new Dictionary<string, string>();
         public IDictionary<string, string> AnalyticsOperationHeaders
         {
             get

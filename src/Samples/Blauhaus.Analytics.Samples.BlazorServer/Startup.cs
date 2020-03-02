@@ -29,7 +29,9 @@ namespace Blauhaus.Analytics.Samples.BlazorServer
             services.AddServerSideBlazor();
             services.AddScoped<WeatherForecastService>();
 
-            services.RegisterAspNetCoreAnalyticsService<AnalyticsConfig>(new ConsoleTraceListener());
+            
+            //analytics
+            services.RegisterAspNetCoreWebAnalyticsService<AnalyticsConfig>(new ConsoleTraceListener());
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IAnalyticsService analyticsService)

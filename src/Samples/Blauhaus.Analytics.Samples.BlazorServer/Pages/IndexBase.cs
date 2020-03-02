@@ -13,6 +13,10 @@ namespace Blauhaus.Analytics.Samples.BlazorServer.Pages
         [Inject] 
         public WeatherForecastService ForecastService { get; set; }
 
+        protected override Task OnInitializedAsync()
+        {
+            return base.OnInitializedAsync();
+        }
 
         //the index page must only log page views after render is called else it logs every time;
         protected override void OnAfterRender(bool firstRender)

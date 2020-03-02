@@ -1,9 +1,10 @@
 ﻿using System.Diagnostics;
 using Blauhaus.Analytics.Abstractions.Config;
 using Blauhaus.Analytics.Abstractions.Service;
+using Blauhaus.Analytics.Abstractions.Session;
 using Blauhaus.Analytics.Common.Telemetry;
 using Blauhaus.Analytics.Console._Ioc;
-using Blauhaus.Analytics.Xamarin.Service;
+using Blauhaus.Analytics.Xamarin.SessionFactories;
 using Blauhaus.DeviceServices.Abstractions.Application;
 using Blauhaus.DeviceServices.Abstractions.DeviceInfo;
 using Blauhaus.DeviceServices.Application;
@@ -26,7 +27,7 @@ namespace Blauhaus.Analytics.Xamarin._Ioc
             services.AddScoped<ITelemetryClientProxy, TelemetryClientProxy>();
             services.AddScoped<ITelemetryDecorator, TelemetryDecorator>();
 
-            services.AddScoped<IAnalyticsService, XamarinAnalyticsService>();
+            services.AddScoped<IAnalyticsSessionFactory, XamarinSessionFactory>();
             return services;
         }
 

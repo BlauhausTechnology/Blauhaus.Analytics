@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Blauhaus.Identity\src\Blauhaus\Blauhaus.Analytics.Server.AspNetCore\Blauhaus.Analytics.Server.AspNetCore.csproj" />
     <ProjectReference Include="..\..\Blauhaus.Analytics.AspNetCore\Blauhaus.Analytics.AspNetCore.csproj" />
   </ItemGroup>
 

@@ -1,7 +1,8 @@
 ﻿using System.Diagnostics;
 using Blauhaus.Analytics.Abstractions.Config;
 using Blauhaus.Analytics.Abstractions.Service;
-using Blauhaus.Analytics.AspNetCore.Service;
+using Blauhaus.Analytics.Abstractions.Session;
+using Blauhaus.Analytics.AspNetCore.SessionFactories;
 using Blauhaus.Analytics.Common.Service;
 using Blauhaus.Analytics.Common.Telemetry;
 using Blauhaus.Analytics.Console._Ioc;
@@ -12,7 +13,26 @@ namespace Blauhaus.Analytics.AspNetCore._Ioc
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection RegisterAspNetCoreAnalyticsService<TConfig>(this IServiceCollection services, TraceListener consoleTraceListener) 
+        public static IServiceCollection RegisterAspNetCoreWebAnalyticsService<TConfig>(this IServiceCollection services, TraceListener consoleTraceListener) 
+            where TConfig : class, IApplicationInsightsConfig
+        {
+
+            services.RegisterCommon<TConfig>(consoleTraceListener);
+
+            services.AddHttpContextAccessor();
+            services.AddScoped<IAnalyticsSessionFactory, AspNetCoreWebSessionFactory>();
+            return services;
+        }
+
+        public static IServiceCollection RegisterAspNetCorApiAnalyticsService<TConfig>(this IServiceCollection services, TraceListener consoleTraceListener) 
+            where TConfig : class, IApplicationInsightsConfig
+        {
+            services.RegisterCommon<TConfig>(consoleTraceListener);
+            services.AddScoped<IAnalyticsSessionFactory, AspNetCoreApiSessionFactory>();
+            return services;
+        }
+
+        private static IServiceCollection RegisterCommon<TConfig>(this IServiceCollection services, TraceListener consoleTraceListener) 
             where TConfig : class, IApplicationInsightsConfig
         {
             services.RegisterConsoleLoggerService(consoleTraceListener);
@@ -21,8 +41,8 @@ namespace Blauhaus.Analytics.AspNetCore._Ioc
             services.AddScoped<ITelemetryClientProxy, TelemetryClientProxy>();
             services.AddScoped<ITelemetryDecorator, TelemetryDecorator>();
             services.AddScoped<TelemetryClient>();
+            services.AddScoped<IAnalyticsService, AnalyticsService>();
 
-            services.AddScoped<IAnalyticsService, AspNetCoreAnalyticsService>();
 
             return services;
         }

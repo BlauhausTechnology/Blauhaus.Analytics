@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Blauhaus.DeviceServices" Version="0.1.8" />
-    <PackageReference Include="Microsoft.ApplicationInsights" Version="2.12.1" />
+    <PackageReference Include="Microsoft.ApplicationInsights" Version="2.13.1" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Blauhaus.Common.ValueObjects.DeviceType;
+using Blauhaus.Common.ValueObjects.RuntimePlatforms;
 
 namespace Blauhaus.Analytics.Abstractions.Session
 {
@@ -17,6 +19,11 @@ namespace Blauhaus.Analytics.Abstractions.Session
         public string? AccountId { get; set; }
         public string? DeviceId { get; set; }
         public string? AppVersion { get; set; }
+        public IDeviceType DeviceType { get; set; }
+        public IRuntimePlatform Platform { get; set; }
+        public string OperatingSystemVersion { get; set; }
+        public string Manufacturer { get; set; }
+        public string Model { get; set; }
         public IReadOnlyDictionary<string, string> Properties => _properties;
         public void SetProperty(string key, string value)
         {

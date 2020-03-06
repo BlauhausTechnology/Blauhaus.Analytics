@@ -4,6 +4,8 @@ using Blauhaus.Analytics.Abstractions.Session;
 using Blauhaus.Analytics.Common.Telemetry;
 using Blauhaus.Analytics.Tests.Tests._Base;
 using Blauhaus.Common.TestHelpers;
+using Blauhaus.Common.ValueObjects.DeviceType;
+using Blauhaus.Common.ValueObjects.RuntimePlatforms;
 using Microsoft.ApplicationInsights.DataContracts;
 using Newtonsoft.Json;
 using NUnit.Framework;
@@ -102,6 +104,29 @@ namespace Blauhaus.Analytics.Tests.Tests.TelemetryDecoratorTests
             Assert.That(result.Context.User.AuthenticatedUserId, Is.EqualTo("use"));
             Assert.That(result.Context.Device.Id, Is.EqualTo("dev"));
             Assert.That(result.Properties["key"], Is.EqualTo("value"));
+        }
+
+        [Test]
+        public void WHEN_session_device_detail_is_provided_SHOULD_add_them()
+        {
+            //Arrange
+            var currentSession = new MockBuilder<IAnalyticsSession>()
+                .With(x => x.DeviceType, DeviceType.PC)
+                .With(x => x.Platform, RuntimePlatform.Android)
+                .With(x => x.OperatingSystemVersion, "1.2.3")
+                .With(x => x.Manufacturer, "Samsung")
+                .With(x => x.Model, "iPhoneX");
+
+            //Act
+            var result = Sut.DecorateTelemetry(new EventTelemetry("event"), "Class Name", "Method Name",
+                new MockBuilder<IAnalyticsOperation>().Object, currentSession.Object, new Dictionary<string, object>());
+
+            //Assert
+            Assert.That(result.Context.Device.Type, Is.EqualTo("PC"));
+            Assert.That(result.Context.Device.OperatingSystem, Is.EqualTo("Android"));
+            Assert.That(result.Context.Device.OemName, Is.EqualTo("Samsung"));
+            Assert.That(result.Context.Device.Model, Is.EqualTo("iPhoneX"));
+            Assert.That(result.Properties["OperatingSystemVersion"], Is.EqualTo("1.2.3"));
         }
 
         [Test]

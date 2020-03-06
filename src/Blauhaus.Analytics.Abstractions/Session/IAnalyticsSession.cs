@@ -1,15 +1,23 @@
 ﻿using System.Collections.Generic;
+using Blauhaus.Common.ValueObjects.DeviceType;
+using Blauhaus.Common.ValueObjects.RuntimePlatforms;
 
 namespace Blauhaus.Analytics.Abstractions.Session
 {
     public interface IAnalyticsSession
     {
-        string Id { get; }
+        string Id { get; }                                  // telemetry.Context.Session.Id
         
-        string? UserId { get; set; }
-        string? AccountId { get; set; }
-        string? DeviceId { get; set; }
-        string? AppVersion { get; set; }
+        string? UserId { get; set; }                        // telemetry.Context.User.AuthenticatedUserId
+        string? AccountId { get; set; }                     // telemetry.Context.User.AccountId
+        string? DeviceId { get; set; }                      // telemetry.Context.Device.Id
+        string? AppVersion { get; set; }                    // telemetry.Context.Component.Version
+
+        IDeviceType DeviceType { get; set; }                // todo telemetry.Context.Device.Type
+        IRuntimePlatform Platform { get; set; }             // todo telemetry.Context.Device.OperatingSystem
+        string OperatingSystemVersion { get; set; }         // todo Properties
+        string Manufacturer { get; set; }                   // todo telemetry.Context.Device.OemName
+        string Model { get; set; }                          // todo telemetry.Context.Device.Model
 
         IReadOnlyDictionary<string, string> Properties { get; }
         void SetProperty(string key, string value);

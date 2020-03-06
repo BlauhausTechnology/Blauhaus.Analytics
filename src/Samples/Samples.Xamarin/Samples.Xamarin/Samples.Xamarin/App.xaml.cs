@@ -4,13 +4,14 @@ using Blauhaus.Common.ValueObjects.BuildConfigs;
 using Blauhaus.Ioc.Abstractions;
 using Blauhaus.Ioc.DotNetCoreIocService;
 using Microsoft.Extensions.DependencyInjection;
+using Prism.DryIoc;
 using Samples.Xamarin._Config;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace Samples.Xamarin
 {
-    public partial class App : Application
+    public partial class App
     {
         public App()
         {

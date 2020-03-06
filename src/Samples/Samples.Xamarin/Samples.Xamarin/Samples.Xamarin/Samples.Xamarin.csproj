@@ -18,4 +18,10 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Blauhaus.Analytics.Xamarin\Blauhaus.Analytics.Xamarin.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="MainView.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>

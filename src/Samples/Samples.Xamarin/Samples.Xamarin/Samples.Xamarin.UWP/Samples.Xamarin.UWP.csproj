@@ -152,6 +152,10 @@
       <Project>{8d5641cb-7191-4a32-bbb9-99a1aae630f8}</Project>
       <Name>Blauhaus.Analytics.Abstractions</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Blauhaus.Analytics.Xamarin\Blauhaus.Analytics.Xamarin.csproj">
+      <Project>{739b0db7-c5db-47f2-8bd2-a8caeeaefef2}</Project>
+      <Name>Blauhaus.Analytics.Xamarin</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Samples.Xamarin\Samples.Xamarin.csproj">
       <Project>{28490562-A556-4BEF-B849-F7C0788F57BA}</Project>
       <Name>Samples.Xamarin</Name>

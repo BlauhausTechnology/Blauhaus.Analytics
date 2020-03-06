@@ -1,6 +1,8 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using Blauhaus.Analytics.Abstractions.Service;
 using Blauhaus.Ioc.Abstractions;
 using Xamarin.Forms;
 
@@ -12,9 +14,15 @@ namespace Samples.Xamarin
         public MainViewModel(IIocService iocService)
         {
             var numberGenerator = iocService.Resolve<NumberGenerator>();
+            var analytics = iocService.Resolve<IAnalyticsService>();
+
             ChangeNumberCommand = new Command(async () =>
             {
-                Number = await numberGenerator.GenerateAsync();
+                using (var _ = analytics.StartOperation(this, "Generate Number"))
+                {
+                    analytics.Trace(this, "Starting number generation", LogSeverity.Information);
+                    Number = await numberGenerator.GenerateAsync();
+                }
             });
         }
 

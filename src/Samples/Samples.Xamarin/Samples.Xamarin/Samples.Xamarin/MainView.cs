@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using Blauhaus.Analytics.Abstractions.Service;
 using Blauhaus.Ioc.Abstractions;
 using Blauhaus.Ioc.DotNetCoreIocService;
 using Xamarin.Forms;
@@ -8,10 +9,12 @@ namespace Samples.Xamarin
     [DesignTimeVisible(false)]
     public partial class MainView : ContentPage
     {
+        private IAnalyticsService _analytics;
+
         public MainView(IIocService iocService)
         {
             BindingContext = new MainViewModel(iocService);
-
+            _analytics = iocService.Resolve<IAnalyticsService>();
 
             var label = new Label();
             label.SetBinding(Label.TextProperty, new Binding(nameof(MainViewModel.Number)));
@@ -31,6 +34,14 @@ namespace Samples.Xamarin
                     button
                 }
             };
+        }
+
+        protected override void OnAppearing()
+        {
+            using (var _ = _analytics.StartPageViewOperation(this, "Main View"))
+            {
+                base.OnAppearing();
+            }
         }
     }
 }

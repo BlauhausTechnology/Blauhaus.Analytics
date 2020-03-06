@@ -122,11 +122,15 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="4.3.0.908675" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.3.1" />
+    <PackageReference Include="Xamarin.Forms" Version="4.5.0.356" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.5.1" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Blauhaus.Analytics.Abstractions\Blauhaus.Analytics.Abstractions.csproj">
+      <Project>{8d5641cb-7191-4a32-bbb9-99a1aae630f8}</Project>
+      <Name>Blauhaus.Analytics.Abstractions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Samples.Xamarin\Samples.Xamarin.csproj">
       <Project>{28490562-A556-4BEF-B849-F7C0788F57BA}</Project>
       <Name>Samples.Xamarin</Name>

@@ -8,13 +8,13 @@ namespace Samples.Xamarin
     {
         public MainView()
         {
-            BindingContext = new MainViewModel();
+            BindingContext = new MainViewModel(new NumberGenerator());
 
 
             var label = new Label();
             label.SetBinding(Label.TextProperty, new Binding(nameof(MainViewModel.Number)));
 
-            var button = new Button();
+            var button = new Button{Text = "Click Me!"};
             button.SetBinding(Button.CommandProperty, new Binding(nameof(MainViewModel.ChangeNumberCommand)));
 
             Content = new StackLayout

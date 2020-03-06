@@ -20,7 +20,6 @@ namespace Samples.Xamarin.UWP
         public MainPage()
         {
             this.InitializeComponent();
-
             LoadApplication(new Samples.Xamarin.App());
         }
     }

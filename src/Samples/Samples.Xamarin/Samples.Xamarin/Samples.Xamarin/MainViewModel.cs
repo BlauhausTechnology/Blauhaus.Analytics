@@ -8,11 +8,11 @@ namespace Samples.Xamarin
     public class MainViewModel : INotifyPropertyChanged
     {
 
-        public MainViewModel()
+        public MainViewModel(NumberGenerator numberGenerator)
         {
             ChangeNumberCommand = new Command(async () =>
             {
-
+                Number = await numberGenerator.GenerateAsync();
             });
         }
 

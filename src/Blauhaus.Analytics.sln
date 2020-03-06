@@ -30,7 +30,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Blazor", "Blazor", "{3D46D6
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Xamarin", "Xamarin", "{1B275E5C-0B6B-4722-96D3-3316D87DB3A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.Xamarin.Prism", "Samples\Samples.Xamarin\Samples.Xamarin.Prism\Samples.Xamarin.Prism.csproj", "{B35B9F5C-C50E-4C57-9910-D6EE9D3B5766}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samples.Xamarin.Prism", "Samples\Samples.Xamarin\Samples.Xamarin.Prism\Samples.Xamarin.Prism.csproj", "{B35B9F5C-C50E-4C57-9910-D6EE9D3B5766}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.Xamarin.Prism.Android", "Samples\Samples.Xamarin\Samples.Xamarin.Prism.Android\Samples.Xamarin.Prism.Android.csproj", "{CC35CBAC-B1B9-4530-AD6F-8D60C8F89696}"
 EndProject
@@ -391,7 +391,6 @@ Global
 		{FC5D8DE4-3C7B-4976-BA9E-03565E260695}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{FC5D8DE4-3C7B-4976-BA9E-03565E260695}.Debug|x86.Build.0 = Debug|Any CPU
 		{FC5D8DE4-3C7B-4976-BA9E-03565E260695}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FC5D8DE4-3C7B-4976-BA9E-03565E260695}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FC5D8DE4-3C7B-4976-BA9E-03565E260695}.Release|ARM.ActiveCfg = Release|Any CPU
 		{FC5D8DE4-3C7B-4976-BA9E-03565E260695}.Release|ARM.Build.0 = Release|Any CPU
 		{FC5D8DE4-3C7B-4976-BA9E-03565E260695}.Release|iPhone.ActiveCfg = Release|Any CPU
@@ -439,7 +438,6 @@ Global
 		{45FE43A6-DB28-4C19-97BF-7A80C7B4C402}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{45FE43A6-DB28-4C19-97BF-7A80C7B4C402}.Debug|x86.Build.0 = Debug|Any CPU
 		{45FE43A6-DB28-4C19-97BF-7A80C7B4C402}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{45FE43A6-DB28-4C19-97BF-7A80C7B4C402}.Release|Any CPU.Build.0 = Release|Any CPU
 		{45FE43A6-DB28-4C19-97BF-7A80C7B4C402}.Release|ARM.ActiveCfg = Release|Any CPU
 		{45FE43A6-DB28-4C19-97BF-7A80C7B4C402}.Release|ARM.Build.0 = Release|Any CPU
 		{45FE43A6-DB28-4C19-97BF-7A80C7B4C402}.Release|iPhone.ActiveCfg = Release|Any CPU
@@ -487,7 +485,6 @@ Global
 		{B35B9F5C-C50E-4C57-9910-D6EE9D3B5766}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{B35B9F5C-C50E-4C57-9910-D6EE9D3B5766}.Debug|x86.Build.0 = Debug|Any CPU
 		{B35B9F5C-C50E-4C57-9910-D6EE9D3B5766}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B35B9F5C-C50E-4C57-9910-D6EE9D3B5766}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B35B9F5C-C50E-4C57-9910-D6EE9D3B5766}.Release|ARM.ActiveCfg = Release|Any CPU
 		{B35B9F5C-C50E-4C57-9910-D6EE9D3B5766}.Release|ARM.Build.0 = Release|Any CPU
 		{B35B9F5C-C50E-4C57-9910-D6EE9D3B5766}.Release|iPhone.ActiveCfg = Release|Any CPU
@@ -553,8 +550,6 @@ Global
 		{CC35CBAC-B1B9-4530-AD6F-8D60C8F89696}.Debug|x86.Build.0 = Debug|Any CPU
 		{CC35CBAC-B1B9-4530-AD6F-8D60C8F89696}.Debug|x86.Deploy.0 = Debug|Any CPU
 		{CC35CBAC-B1B9-4530-AD6F-8D60C8F89696}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CC35CBAC-B1B9-4530-AD6F-8D60C8F89696}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CC35CBAC-B1B9-4530-AD6F-8D60C8F89696}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{CC35CBAC-B1B9-4530-AD6F-8D60C8F89696}.Release|ARM.ActiveCfg = Release|Any CPU
 		{CC35CBAC-B1B9-4530-AD6F-8D60C8F89696}.Release|ARM.Build.0 = Release|Any CPU
 		{CC35CBAC-B1B9-4530-AD6F-8D60C8F89696}.Release|ARM.Deploy.0 = Release|Any CPU

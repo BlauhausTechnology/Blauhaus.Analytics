@@ -30,13 +30,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Blazor", "Blazor", "{3D46D6
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Xamarin", "Xamarin", "{1B275E5C-0B6B-4722-96D3-3316D87DB3A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.Xamarin.Prism", "Samples\Samples.Xamarin\Samples.Xamarin\Samples.Xamarin.Prism\Samples.Xamarin.Prism\Samples.Xamarin.Prism.csproj", "{B35B9F5C-C50E-4C57-9910-D6EE9D3B5766}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.Xamarin.Prism", "Samples\Samples.Xamarin\Samples.Xamarin.Prism\Samples.Xamarin.Prism.csproj", "{B35B9F5C-C50E-4C57-9910-D6EE9D3B5766}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.Xamarin.Prism.Android", "Samples\Samples.Xamarin\Samples.Xamarin\Samples.Xamarin.Prism\Samples.Xamarin.Prism.Android\Samples.Xamarin.Prism.Android.csproj", "{CC35CBAC-B1B9-4530-AD6F-8D60C8F89696}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.Xamarin.Prism.Android", "Samples\Samples.Xamarin\Samples.Xamarin.Prism.Android\Samples.Xamarin.Prism.Android.csproj", "{CC35CBAC-B1B9-4530-AD6F-8D60C8F89696}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.Xamarin.Prism.iOS", "Samples\Samples.Xamarin\Samples.Xamarin\Samples.Xamarin.Prism\Samples.Xamarin.Prism.iOS\Samples.Xamarin.Prism.iOS.csproj", "{56E14C90-24EA-4806-BA04-6D8C288244BF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.Xamarin.Prism.iOS", "Samples\Samples.Xamarin\Samples.Xamarin.Prism.iOS\Samples.Xamarin.Prism.iOS.csproj", "{56E14C90-24EA-4806-BA04-6D8C288244BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.Xamarin.Prism.UWP", "Samples\Samples.Xamarin\Samples.Xamarin\Samples.Xamarin.Prism\Samples.Xamarin.Prism.UWP\Samples.Xamarin.Prism.UWP.csproj", "{12277A95-5114-4F1D-B684-1A3A2384A507}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.Xamarin.Prism.UWP", "Samples\Samples.Xamarin\Samples.Xamarin.Prism.UWP\Samples.Xamarin.Prism.UWP.csproj", "{12277A95-5114-4F1D-B684-1A3A2384A507}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

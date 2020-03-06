@@ -32,7 +32,6 @@ namespace Samples.Xamarin.Prism
             _iocService.RegisterType<NumberGenerator>();
             _iocService.RegisterXamarinAnalyticsService<AnalyticsConfig>();
             RegisterBuildConfig();
-            var sa = _iocService.Resolve<IBuildConfig>();
 
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
@@ -42,12 +41,8 @@ namespace Samples.Xamarin.Prism
         protected override async void OnInitialized()
         {
             InitializeComponent();
-
-            var sa = _iocService.Resolve<IBuildConfig>();
-            var a = _iocService.Resolve<IAnalyticsService>();
-            var a1 = _iocService.Resolve<NumberGenerator>();
-
             var nav = await NavigationService.NavigateAsync("NavigationPage/MainPage");
+            if (!nav.Success) throw nav.Exception;
         }
 
 

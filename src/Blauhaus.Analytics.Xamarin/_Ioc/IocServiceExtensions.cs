@@ -29,7 +29,7 @@ namespace Blauhaus.Analytics.Xamarin._Ioc
             iocService.RegisterImplementation<ITelemetryDecorator, TelemetryDecorator>();
 
             iocService.RegisterImplementation<IAnalyticsSessionFactory, XamarinSessionFactory>(IocLifetime.Singleton);
-            iocService.RegisterImplementation<IAnalyticsService, AnalyticsService>();
+            iocService.RegisterImplementation<IAnalyticsService, AnalyticsService>(IocLifetime.Singleton);
 
             return iocService;
         }

@@ -9,6 +9,8 @@ namespace Blauhaus.Analytics.Xamarin.SessionFactories
         private readonly IDeviceInfoService _deviceInfoService;
         private readonly IApplicationInfoService _applicationInfoService;
 
+        private AnalyticsSession _session;
+
         public XamarinSessionFactory(
             IDeviceInfoService deviceInfoService,
             IApplicationInfoService applicationInfoService)
@@ -19,10 +21,20 @@ namespace Blauhaus.Analytics.Xamarin.SessionFactories
 
         public IAnalyticsSession CreateSession()
         {
-            var session = AnalyticsSession.New;
-            session.DeviceId = _deviceInfoService.DeviceUniqueIdentifier;
-            session.AppVersion = _applicationInfoService.CurrentVersion;
-            return session;
+            if (_session == null)
+            {
+                _session = AnalyticsSession.New;
+                _session.DeviceId = _deviceInfoService.DeviceUniqueIdentifier;
+                _session.AppVersion = _applicationInfoService.CurrentVersion;
+                _session.DeviceType = _deviceInfoService.Type;
+                _session.Platform = _deviceInfoService.Platform;
+                _session.OperatingSystemVersion = _deviceInfoService.OperatingSystemVersion;
+                _session.Manufacturer = _deviceInfoService.Manufacturer;
+                _session.Model = _deviceInfoService.Model;
+
+            }
+
+            return _session;
         }
     }
 }

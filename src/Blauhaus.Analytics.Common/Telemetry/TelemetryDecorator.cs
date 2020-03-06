@@ -50,6 +50,21 @@ namespace Blauhaus.Analytics.Common.Telemetry
             if (currentSession.DeviceId != null)
                 telemetry.Context.Device.Id = currentSession.DeviceId;
 
+            if (currentSession.DeviceType != null)
+                telemetry.Context.Device.Type = currentSession.DeviceType.Value;
+
+            if (currentSession.Platform != null)
+                telemetry.Context.Device.OperatingSystem = currentSession.Platform.Value;
+
+            if (currentSession.OperatingSystemVersion != null)
+                telemetry.Properties["OperatingSystemVersion"] = currentSession.OperatingSystemVersion;
+
+            if (currentSession.Manufacturer != null)
+                telemetry.Context.Device.OemName = currentSession.Manufacturer;
+
+            if (currentSession.Model != null)
+                telemetry.Context.Device.Model = currentSession.Model;
+
             if (currentSession.Properties != null)
             {
                 foreach (var sessionProperty in currentSession.Properties)

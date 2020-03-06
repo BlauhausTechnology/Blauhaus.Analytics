@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel;
+using Blauhaus.Ioc.Abstractions;
+using Blauhaus.Ioc.DotNetCoreIocService;
 using Xamarin.Forms;
 
 namespace Samples.Xamarin
@@ -6,9 +8,9 @@ namespace Samples.Xamarin
     [DesignTimeVisible(false)]
     public partial class MainView : ContentPage
     {
-        public MainView()
+        public MainView(IIocService iocService)
         {
-            BindingContext = new MainViewModel(new NumberGenerator());
+            BindingContext = new MainViewModel(iocService);
 
 
             var label = new Label();

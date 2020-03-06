@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using Blauhaus.Ioc.Abstractions;
 using Xamarin.Forms;
 
 namespace Samples.Xamarin
@@ -8,8 +9,9 @@ namespace Samples.Xamarin
     public class MainViewModel : INotifyPropertyChanged
     {
 
-        public MainViewModel(NumberGenerator numberGenerator)
+        public MainViewModel(IIocService iocService)
         {
+            var numberGenerator = iocService.Resolve<NumberGenerator>();
             ChangeNumberCommand = new Command(async () =>
             {
                 Number = await numberGenerator.GenerateAsync();

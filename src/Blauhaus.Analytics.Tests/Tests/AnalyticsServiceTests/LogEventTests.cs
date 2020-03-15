@@ -13,11 +13,10 @@ namespace Blauhaus.Analytics.Tests.Tests.AnalyticsServiceTests
         {
             //Arrange
             var properties = new Dictionary<string, object>{{"Property", "value"}};
-            var metrics = new Dictionary<string, double>{{"Metric", 12}};
-            MockTelemetryDecorator.Where_Decorate_with_metrics_returns(new EventTelemetry("Decorated"));
+            MockTelemetryDecorator.Where_Decorate_returns(new EventTelemetry("Decorated"));
 
             //Act
-            Sut.LogEvent(this, "Event Name", properties, metrics);
+            Sut.LogEvent(this, "Event Name", properties);
 
             //Assert
             MockTelemetryDecorator.Mock.Verify<EventTelemetry>(x => x.DecorateTelemetry(
@@ -25,9 +24,9 @@ namespace Blauhaus.Analytics.Tests.Tests.AnalyticsServiceTests
                 It.IsAny<string>(),
                 It.IsAny<string>(),
                 Sut.CurrentOperation, Sut.CurrentSession, It.Is<Dictionary<string, object>>(y => 
-                    (string) y["Property"] ==  "value"), metrics));
+                    (string) y["Property"] ==  "value")));
             MockTelemetryClient.Mock.Verify(x => x.TrackEvent(It.Is<EventTelemetry>(y => y.Name == "Decorated")));
-            MockConsoleLogger.Mock.Verify(x => x.LogEvent("Event Name", It.Is<Dictionary<string, string>>(y => y["Property"] == "\"value\""), metrics));
+            MockConsoleLogger.Mock.Verify(x => x.LogEvent("Event Name", It.Is<Dictionary<string, string>>(y => y["Property"] == "\"value\"")));
         }
 
         

@@ -167,21 +167,5 @@ namespace Blauhaus.Analytics.Tests.Tests.TelemetryDecoratorTests
             Assert.That(result.Properties["key"], Is.EqualTo(JsonConvert.SerializeObject(objectProperty)));
         }
 
-        [Test]
-        public void WHEN_metrics_are_provided_SHOULD_add_them()
-        {
-            //Arrange
-            var metrics = new Dictionary<string, double>
-            {
-                {"key", 122}
-            };
-
-            //Act
-            var result = Sut.DecorateTelemetry(new EventTelemetry("event"), "Class Name", "Method Name",
-                new MockBuilder<IAnalyticsOperation>().Object, new MockBuilder<IAnalyticsSession>().Object, new Dictionary<string, object>(), metrics);
-
-            //Assert
-            Assert.That(result.Metrics["key"], Is.EqualTo(122));
-        }
     }
 }

@@ -30,7 +30,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AnalyticsServiceTests
             //Arrange
             var operation = Sut.StartPageViewOperation(this, "MyOperation");
             MockTelemetryClient.Mock.Verify(x => x.TrackPageView(It.IsAny<PageViewTelemetry>()), Times.Never);
-            MockTelemetryDecorator.Where_Decorate_with_metrics_returns(new PageViewTelemetry("Decorated"));
+            MockTelemetryDecorator.Where_Decorate_returns(new PageViewTelemetry("Decorated"));
 
             //Act
             operation.Dispose();
@@ -42,9 +42,32 @@ namespace Blauhaus.Analytics.Tests.Tests.AnalyticsServiceTests
                 "WHEN_Operation_is_disposed_SHOULD_track_dependency",
                 It.Is<IAnalyticsOperation>(y => y.Name == "MyOperation"), 
                 Sut.CurrentSession, 
-                It.IsAny<Dictionary<string, object>>(), It.IsAny<Dictionary<string, double>>()));
+                It.IsAny<Dictionary<string, object>>()));
             MockTelemetryClient.Mock.Verify(x => x.TrackPageView(It.Is<PageViewTelemetry>(y => y.Name == "Decorated")));
             MockConsoleLogger.Mock.Verify(x => x.LogOperation("MyOperation", It.IsAny<TimeSpan>()));
+        }
+
+        [Test]
+        public void IF_PageName_is_empty_SHOULD_use_class_name()
+        {
+            //Arrange
+            var operation = Sut.StartPageViewOperation(this);
+            MockTelemetryClient.Mock.Verify(x => x.TrackPageView(It.IsAny<PageViewTelemetry>()), Times.Never);
+            MockTelemetryDecorator.Where_Decorate_returns(new PageViewTelemetry("Decorated"));
+
+            //Act
+            operation.Dispose();
+            
+            //Assert
+            MockTelemetryDecorator.Mock.Verify<PageViewTelemetry>(x => x.DecorateTelemetry(
+                It.Is<PageViewTelemetry>(y => y.Name == GetType().Name),
+                It.IsAny<string>(),
+                It.IsAny<string>(),
+                It.IsAny<IAnalyticsOperation>(), 
+                Sut.CurrentSession, 
+                It.IsAny<Dictionary<string, object>>()));
+            MockTelemetryClient.Mock.Verify(x => x.TrackPageView(It.Is<PageViewTelemetry>(y => y.Name == "Decorated")));
+            MockConsoleLogger.Mock.Verify(x => x.LogOperation(GetType().Name, It.IsAny<TimeSpan>()));
         }
         
         [Test]

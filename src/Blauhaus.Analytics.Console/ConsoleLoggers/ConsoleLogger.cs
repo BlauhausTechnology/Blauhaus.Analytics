@@ -19,7 +19,7 @@ namespace Blauhaus.Analytics.Console.ConsoleLoggers
             _currentBuildConfig = currentBuildConfig;
         }
 
-        public void LogEvent(string eventName, Dictionary<string, string>? properties = null, Dictionary<string, double>? metrics = null)
+        public void LogEvent(string eventName, Dictionary<string, string>? properties = null)
         {
 
             if (_currentBuildConfig.Value == BuildConfig.Release.Value)
@@ -39,18 +39,9 @@ namespace Blauhaus.Analytics.Console.ConsoleLoggers
                 }
             }
 
-            if (metrics != null)
-            {
-                foreach (var metric in metrics)
-                {
-                    _traceProxy.Write($" + {metric.Key}: {metric.Value}");
-                }
-            }
-
-
         }
 
-        public void LogException(Exception exception, Dictionary<string, string>? properties, Dictionary<string, double>? metrics)
+        public void LogException(Exception exception, Dictionary<string, string>? properties)
         {
             if (_currentBuildConfig.Value == BuildConfig.Release.Value)
             {
@@ -70,14 +61,6 @@ namespace Blauhaus.Analytics.Console.ConsoleLoggers
                 foreach (var property in properties)
                 {
                     _traceProxy.Write($" !*! {property.Key}: {property.Value}");
-                }
-            }
-
-            if (metrics != null)
-            {
-                foreach (var metric in metrics)
-                {
-                    _traceProxy.Write($" !+! {metric.Key}: {metric.Value}");
                 }
             }
 

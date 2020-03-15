@@ -13,11 +13,11 @@ namespace Blauhaus.Analytics.Abstractions.Session
         string? DeviceId { get; set; }                      // telemetry.Context.Device.Id
         string? AppVersion { get; set; }                    // telemetry.Context.Component.Version
 
-        IDeviceType DeviceType { get; set; }                // todo telemetry.Context.Device.Type
-        IRuntimePlatform Platform { get; set; }             // todo telemetry.Context.Device.OperatingSystem
-        string OperatingSystemVersion { get; set; }         // todo Properties
-        string Manufacturer { get; set; }                   // todo telemetry.Context.Device.OemName
-        string Model { get; set; }                          // todo telemetry.Context.Device.Model
+        IDeviceType DeviceType { get; set; }                // telemetry.Context.Device.Type
+        IRuntimePlatform Platform { get; set; }             // telemetry.Context.Device.OperatingSystem
+        string OperatingSystemVersion { get; set; }         // Properties
+        string Manufacturer { get; set; }                   // telemetry.Context.Device.OemName
+        string Model { get; set; }                          // telemetry.Context.Device.Model
 
         IReadOnlyDictionary<string, string> Properties { get; }
         void SetProperty(string key, string value);

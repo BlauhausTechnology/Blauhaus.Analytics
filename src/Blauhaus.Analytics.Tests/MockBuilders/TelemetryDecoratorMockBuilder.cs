@@ -11,11 +11,6 @@ namespace Blauhaus.Analytics.Tests.MockBuilders
 {
     public class TelemetryDecoratorMockBuilder : BaseMockBuilder<TelemetryDecoratorMockBuilder, ITelemetryDecorator>
     {
-
-        public TelemetryDecoratorMockBuilder()
-        {
-        }
-
         public TelemetryDecoratorMockBuilder Where_Decorate_returns<TTelemetry>(TTelemetry telemetry) 
             where TTelemetry : ITelemetry, ISupportProperties
         {
@@ -30,20 +25,5 @@ namespace Blauhaus.Analytics.Tests.MockBuilders
             return this;
         }
 
-        
-        public TelemetryDecoratorMockBuilder Where_Decorate_with_metrics_returns<TTelemetry>(TTelemetry telemetry) 
-            where TTelemetry : ITelemetry, ISupportProperties, ISupportMetrics
-        {
-            Mock.Setup(x => x.DecorateTelemetry(
-                It.IsAny<TTelemetry>(), 
-                It.IsAny<string>(),
-                It.IsAny<string>(),
-                It.IsAny<IAnalyticsOperation>(), 
-                It.IsAny<IAnalyticsSession>(), 
-                It.IsAny<Dictionary<string, object>>(),
-                It.IsAny<Dictionary<string, double>>()))
-                .Returns(telemetry);
-            return this;
-        }
     }
 }

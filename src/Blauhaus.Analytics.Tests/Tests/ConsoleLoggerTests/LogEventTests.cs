@@ -57,21 +57,5 @@ namespace Blauhaus.Analytics.Tests.Tests.ConsoleLoggerTests
             MockTraceProxy.Mock.Verify(x => x.Write(" * EventProperty2: EventValue2"));
         }
 
-        [Test]
-        public void IF_metrics_are_specified_SHOULD_write_them()
-        {
-            //Act
-            Sut.LogEvent("EventName", null, new Dictionary<string, double>
-            {
-                {"EventMetric1", 1 },
-                {"EventMetric2", 2 }
-            });
-
-            //Assert
-            MockTraceProxy.Mock.Verify(x => x.Write(" + EventMetric1: 1"));
-            MockTraceProxy.Mock.Verify(x => x.Write(" + EventMetric2: 2"));
-        }
-
-
     }
 }

@@ -19,13 +19,12 @@ namespace Blauhaus.Analytics.Tests.Tests.ConsoleLoggerServiceTests
         {
             //Arrange
             var properties = new Dictionary<string, object>();
-            var metrics = new Dictionary<string, double>();
 
             //Act
-            Sut.LogEvent(this, "event name", properties, metrics);
+            Sut.LogEvent(this, "event name", properties);
 
             //Assert
-            MockConsoleLogger.Mock.Verify(x => x.LogEvent("event name", It.IsAny<Dictionary<string, string>>(), metrics));
+            MockConsoleLogger.Mock.Verify(x => x.LogEvent("event name", It.IsAny<Dictionary<string, string>>()));
         }
 
     }

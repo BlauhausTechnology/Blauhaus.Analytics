@@ -24,7 +24,7 @@ namespace Blauhaus.Analytics.Tests.Tests.ConsoleLoggerTests
             CurrentBuildConfig = BuildConfig.Release;
 
             //Act
-            Sut.LogException(new Exception("oops"), new Dictionary<string, string>(), new Dictionary<string, double>());
+            Sut.LogException(new Exception("oops"), new Dictionary<string, string>());
 
             //Assert
             MockTraceProxy.Mock.Verify(x => x.Write(It.IsAny<string>()), Times.Never);
@@ -46,7 +46,7 @@ namespace Blauhaus.Analytics.Tests.Tests.ConsoleLoggerTests
             }
 
             //Act
-            Sut.LogException(thrownException, new Dictionary<string, string>(), new Dictionary<string, double>());
+            Sut.LogException(thrownException, new Dictionary<string, string>());
 
             //Assert
             MockTraceProxy.Mock.Verify(x => x.SetColour(ConsoleColours.ExceptionColour));
@@ -63,26 +63,11 @@ namespace Blauhaus.Analytics.Tests.Tests.ConsoleLoggerTests
             {
                 {"EventProperty1", "EventValue1" },
                 {"EventProperty2", "EventValue2" },
-            }, new Dictionary<string, double>());
+            });
 
             //Assert
             MockTraceProxy.Mock.Verify(x => x.Write(" !*! EventProperty1: EventValue1"));
             MockTraceProxy.Mock.Verify(x => x.Write(" !*! EventProperty2: EventValue2"));
-        }
-
-        [Test]
-        public void IF_metrics_are_specified_SHOULD_write_them()
-        {
-            //Act
-            Sut.LogException(new Exception("oops"), null, new Dictionary<string, double>
-            {
-                {"EventMetric1", 1 },
-                {"EventMetric2", 2 }
-            });
-
-            //Assert
-            MockTraceProxy.Mock.Verify(x => x.Write(" !+! EventMetric1: 1"));
-            MockTraceProxy.Mock.Verify(x => x.Write(" !+! EventMetric2: 2"));
         }
 
 

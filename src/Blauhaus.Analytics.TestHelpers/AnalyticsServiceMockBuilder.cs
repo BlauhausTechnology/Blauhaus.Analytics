@@ -57,7 +57,7 @@ namespace Blauhaus.Analytics.TestHelpers
             return this;
         }
 
-        public AnalyticsServiceMockBuilder VerifyTraceProperty<T>(Expression<Func<Dictionary<string, object>, bool>> match) where T : class
+        public AnalyticsServiceMockBuilder VerifyTraceProperty(Expression<Func<Dictionary<string, object>, bool>> match)
         {
             Mock.Verify(x => x.Trace(It.IsAny<object>(), It.IsAny<string>(), It.IsAny<LogSeverity>(), It.Is(match), It.IsAny<string>()));
             return this;
@@ -100,7 +100,7 @@ namespace Blauhaus.Analytics.TestHelpers
             return this;
         }
 
-        public AnalyticsServiceMockBuilder VerifyLogExceptionProperty<T>(Expression<Func<Dictionary<string, object>, bool>> match) where T : class
+        public AnalyticsServiceMockBuilder VerifyLogExceptionProperty(Expression<Func<Dictionary<string, object>, bool>> match)
         {
             Mock.Verify(x => x.LogException(It.IsAny<object>(), It.IsAny<Exception>(), It.Is(match), It.IsAny<string>()));
             return this;

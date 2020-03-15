@@ -93,20 +93,5 @@ namespace Blauhaus.Analytics.Common.Telemetry
 
             return telemetry;
         }
-
-        public TTelemetry DecorateTelemetry<TTelemetry>(TTelemetry telemetry, string className, string memberName, IAnalyticsOperation currentOperation, IAnalyticsSession currentSession, Dictionary<string, object> properties, Dictionary<string, double> metrics) where TTelemetry : ITelemetry, ISupportProperties, ISupportMetrics
-        {
-            telemetry = DecorateTelemetry(telemetry, className, memberName, currentOperation, currentSession, properties);
-
-            if (metrics != null)
-            {
-                foreach (var metric in metrics)
-                {
-                    telemetry.Metrics[metric.Key] = metric.Value;
-                }
-            }
-
-            return telemetry;
-        }
     }
 }

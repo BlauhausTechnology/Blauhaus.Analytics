@@ -16,10 +16,10 @@ namespace Blauhaus.Analytics.Tests.Tests.AnalyticsServiceTests
             var properties = new Dictionary<string, object>{{"Property", "value"}};
             var metrics = new Dictionary<string, double>{{"Metric", 12}};
             var exception = new Exception("oops");
-            MockTelemetryDecorator.Where_Decorate_with_metrics_returns(new ExceptionTelemetry(exception));
+            MockTelemetryDecorator.Where_Decorate_returns(new ExceptionTelemetry(exception));
 
             //Act
-            Sut.LogException(this, exception, properties, metrics);
+            Sut.LogException(this, exception, properties);
 
             //Assert
             MockTelemetryDecorator.Mock.Verify<ExceptionTelemetry>(x => x.DecorateTelemetry(
@@ -27,9 +27,9 @@ namespace Blauhaus.Analytics.Tests.Tests.AnalyticsServiceTests
                 It.IsAny<string>(),
                 It.IsAny<string>(),
                 Sut.CurrentOperation, Sut.CurrentSession, It.Is<Dictionary<string, object>>(y => 
-                    (string) y["Property"] ==  "value"), metrics));
+                    (string) y["Property"] ==  "value")));
             MockTelemetryClient.Mock.Verify(x => x.TrackException(It.Is<ExceptionTelemetry>(y => y.Exception== exception)));
-            MockConsoleLogger.Mock.Verify(x => x.LogException(exception, It.Is<Dictionary<string, string>>(y => y["Property"] == "\"value\""), metrics));
+            MockConsoleLogger.Mock.Verify(x => x.LogException(exception, It.Is<Dictionary<string, string>>(y => y["Property"] == "\"value\"")));
         }
 
     }

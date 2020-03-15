@@ -85,14 +85,14 @@ namespace Blauhaus.Analytics.Console.Service
             ConsoleLogger.LogTrace(message, logSeverityLevel, properties.ToDictionaryOfStrings());
         }
 
-        public void LogEvent(object sender, string eventName, Dictionary<string, object>? properties = null, Dictionary<string, double>? metrics = null, [CallerMemberName] string callerMemberName = "")
+        public void LogEvent(object sender, string eventName, Dictionary<string, object>? properties = null, [CallerMemberName] string callerMemberName = "")
         {
-            ConsoleLogger.LogEvent(eventName, properties.ToDictionaryOfStrings(), metrics);
+            ConsoleLogger.LogEvent(eventName, properties.ToDictionaryOfStrings());
         }
 
-        public void LogException(object sender, Exception exception, Dictionary<string, object>? properties = null, Dictionary<string, double>? metrics = null, [CallerMemberName] string callerMemberName = "")
+        public void LogException(object sender, Exception exception, Dictionary<string, object>? properties = null, [CallerMemberName] string callerMemberName = "")
         {
-            ConsoleLogger.LogException(exception, properties.ToDictionaryOfStrings(), metrics);
+            ConsoleLogger.LogException(exception, properties.ToDictionaryOfStrings());
         }
     }
 }

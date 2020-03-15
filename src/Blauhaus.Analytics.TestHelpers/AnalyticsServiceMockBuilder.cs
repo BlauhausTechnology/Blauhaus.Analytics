@@ -11,7 +11,7 @@ namespace Blauhaus.Analytics.TestHelpers
     {
         public void VerifyLogEvent(string eventName)
         {
-            Mock.Verify(x => x.LogEvent(It.IsAny<object>(), eventName, It.IsAny<Dictionary<string, object>>(), It.IsAny<Dictionary<string, double>>(), It.IsAny<string>()));
+            Mock.Verify(x => x.LogEvent(It.IsAny<object>(), eventName, It.IsAny<Dictionary<string, object>>(), It.IsAny<string>()));
         }
 
         public void VerifyTrace(string traceMessage, LogSeverity severity)
@@ -32,24 +32,21 @@ namespace Blauhaus.Analytics.TestHelpers
         {
             Mock.Verify(x => x.LogEvent(It.IsAny<object>(), It.IsAny<string>(), 
                 It.Is<Dictionary<string, object>>(y => 
-                    ((T)y[key] ).Equals(value)), 
-                It.IsAny<Dictionary<string, double>>(), It.IsAny<string>()));
+                    ((T)y[key] ).Equals(value)), It.IsAny<string>()));
         }
 
         public void VerifyEventProperty<T>(string key, Expression<Func<T,bool>> predicate) where T : class
         {
             Mock.Verify(x => x.LogEvent(It.IsAny<object>(), It.IsAny<string>(), 
                 It.Is<Dictionary<string, object>>(y => 
-                    (y[key] as T) == It.Is<T>(predicate)), 
-                It.IsAny<Dictionary<string, double>>(), It.IsAny<string>()));
+                    (y[key] as T) == It.Is<T>(predicate)), It.IsAny<string>()));
         }
 
 
         public void VerifyEventProperty(Expression<Func<Dictionary<string, object>, bool>> match) 
         {
             Mock.Verify(x => x.LogEvent(It.IsAny<object>(), It.IsAny<string>(), 
-                It.Is(match), 
-                It.IsAny<Dictionary<string, double>>(), It.IsAny<string>()));
+                It.Is(match), It.IsAny<string>()));
         }
     }
 }

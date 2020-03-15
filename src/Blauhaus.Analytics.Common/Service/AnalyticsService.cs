@@ -151,8 +151,7 @@ namespace Blauhaus.Analytics.Common.Service
                     Name = requestName
                 };
                 
-                TelemetryClient.TrackRequest(TelemetryDecorator.DecorateTelemetry(requestTelemetry, sender.GetType().Name, callingMember, CurrentOperation, CurrentSession, 
-                    new Dictionary<string, object>(), new Dictionary<string, double>()));
+                TelemetryClient.TrackRequest(TelemetryDecorator.DecorateTelemetry(requestTelemetry, sender.GetType().Name, callingMember, CurrentOperation, CurrentSession, new Dictionary<string, object>()));
 
                 ConsoleLogger.LogOperation(requestName, duration);
 
@@ -172,7 +171,7 @@ namespace Blauhaus.Analytics.Common.Service
                 };
 
                 TelemetryClient.TrackPageView(TelemetryDecorator.DecorateTelemetry(pageViewTelemetry, sender.GetType().Name, callerMember, CurrentOperation, CurrentSession,
-                    new Dictionary<string, object>(), new Dictionary<string, double>()));
+                    new Dictionary<string, object>()));
 
                 ConsoleLogger.LogOperation(pageName, duration);
                 
@@ -235,20 +234,20 @@ namespace Blauhaus.Analytics.Common.Service
 
         }
         
-        public void LogEvent(object sender, string eventName, Dictionary<string, object> properties = null, Dictionary<string, double> metrics = null, [CallerMemberName] string callerMemberName = "")
+        public void LogEvent(object sender, string eventName, Dictionary<string, object> properties = null, [CallerMemberName] string callerMemberName = "")
         {
             TelemetryClient.TrackEvent(TelemetryDecorator
-                .DecorateTelemetry(new EventTelemetry(eventName), sender.GetType().Name, callerMemberName, CurrentOperation, CurrentSession, properties, metrics));
+                .DecorateTelemetry(new EventTelemetry(eventName), sender.GetType().Name, callerMemberName, CurrentOperation, CurrentSession, properties));
 
-            ConsoleLogger.LogEvent(eventName, properties.ToDictionaryOfStrings(), metrics);
+            ConsoleLogger.LogEvent(eventName, properties.ToDictionaryOfStrings());
         }
 
-        public void LogException(object sender, Exception exception, Dictionary<string, object> properties = null, Dictionary<string, double> metrics = null, [CallerMemberName] string callerMemberName = "")
+        public void LogException(object sender, Exception exception, Dictionary<string, object> properties = null, [CallerMemberName] string callerMemberName = "")
         {
             TelemetryClient.TrackException(TelemetryDecorator
-                .DecorateTelemetry(new ExceptionTelemetry(exception), sender.GetType().Name, callerMemberName, CurrentOperation, CurrentSession, properties, metrics));
+                .DecorateTelemetry(new ExceptionTelemetry(exception), sender.GetType().Name, callerMemberName, CurrentOperation, CurrentSession, properties));
             
-            ConsoleLogger.LogException(exception, properties.ToDictionaryOfStrings(), metrics);
+            ConsoleLogger.LogException(exception, properties.ToDictionaryOfStrings());
         }
 
 

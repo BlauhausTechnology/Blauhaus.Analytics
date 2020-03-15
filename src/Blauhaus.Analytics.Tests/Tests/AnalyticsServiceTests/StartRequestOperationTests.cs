@@ -110,7 +110,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AnalyticsServiceTests
                 //Arrange
                 var operation = Sut.StartRequestOperation(this, "RequestName", new Dictionary<string, string>());
                 var decoratedRequestTelemetry = new RequestTelemetry();
-                MockTelemetryDecorator.Where_Decorate_with_metrics_returns(decoratedRequestTelemetry);
+                MockTelemetryDecorator.Where_Decorate_returns(decoratedRequestTelemetry);
 
                 //Act
                 operation.Dispose();
@@ -122,7 +122,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AnalyticsServiceTests
                     "IF_Operation_details_not_provided_WHEN_Operation_is_disposed_SHOULD_log_new_operation",
                     It.Is<IAnalyticsOperation>(y => y.Name == "NewRequest"), 
                     Sut.CurrentSession, 
-                    It.IsAny<Dictionary<string, object>>(), It.IsAny<Dictionary<string, double>>()));
+                    It.IsAny<Dictionary<string, object>>()));
                 MockTelemetryClient.Mock.Verify(x => x.TrackRequest(decoratedRequestTelemetry));
                 MockConsoleLogger.Mock.Verify(x => x.LogOperation("RequestName", It.IsAny<TimeSpan>()));
             }
@@ -137,19 +137,19 @@ namespace Blauhaus.Analytics.Tests.Tests.AnalyticsServiceTests
                 };
                 var operation = Sut.StartRequestOperation(this, "RequestName", headers);
                 var decoratedRequestTelemetry = new RequestTelemetry();
-                MockTelemetryDecorator.Where_Decorate_with_metrics_returns(decoratedRequestTelemetry);
+                MockTelemetryDecorator.Where_Decorate_returns(decoratedRequestTelemetry);
 
                 //Act
                 operation.Dispose();
             
                 //Assert
-                MockTelemetryDecorator.Mock.Verify<RequestTelemetry>(x => x.DecorateTelemetry(
+                MockTelemetryDecorator.Mock.Verify(x => x.DecorateTelemetry(
                     It.Is<RequestTelemetry>(y => y.Name == "RequestName"),
                     nameof(StartRequestOperationTests),
                     "WHEN_Operation_is_disposed_SHOULD_track_dependency",
                     It.Is<IAnalyticsOperation>(y => y.Name == "MyOperation"), 
                     Sut.CurrentSession, 
-                    It.IsAny<Dictionary<string, object>>(), It.IsAny<Dictionary<string, double>>()));
+                    It.IsAny<Dictionary<string, object>>()));
                 MockTelemetryClient.Mock.Verify(x => x.TrackRequest(decoratedRequestTelemetry));
                 MockConsoleLogger.Mock.Verify(x => x.LogOperation("RequestName", It.IsAny<TimeSpan>()));
             }

@@ -42,9 +42,13 @@ namespace Blauhaus.Analytics.Console.Service
             return CurrentOperation;
         }
 
-        public IAnalyticsOperation StartPageViewOperation(object sender, string viewName, string callingMember = "")
+        public IAnalyticsOperation StartPageViewOperation(object sender, string viewName = "", Dictionary<string, object>? properties = null, string callingMember = "")
         {
-              
+            if (string.IsNullOrWhiteSpace(viewName))
+            {
+                viewName = sender.GetType().Name;
+            }  
+
             CurrentOperation = new AnalyticsOperation(viewName, duration =>
             {
                 ConsoleLogger.LogOperation(viewName, duration);

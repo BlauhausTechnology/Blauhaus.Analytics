@@ -14,7 +14,7 @@ namespace Blauhaus.Analytics.Abstractions.Service
         void ResetCurrentSession(string newSessionId = "");
 
         IAnalyticsOperation StartRequestOperation(object sender, string requestName, IDictionary<string, string> headers, [CallerMemberName] string callingMember = "");
-        IAnalyticsOperation StartPageViewOperation(object sender, string viewName, [CallerMemberName] string callingMember = "");
+        IAnalyticsOperation StartPageViewOperation(object sender, string viewName = "", Dictionary<string, object>? properties = null,  [CallerMemberName] string callingMember = "");
         IAnalyticsOperation StartOperation(object sender, string operationName, Dictionary<string, object>? properties = null, [CallerMemberName] string callingMember = "");
         IAnalyticsOperation ContinueOperation(object sender, string operationName, Dictionary<string, object>? properties = null, [CallerMemberName] string callingMember = "");
 

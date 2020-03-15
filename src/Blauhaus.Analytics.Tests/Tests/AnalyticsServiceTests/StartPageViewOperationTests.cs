@@ -46,6 +46,29 @@ namespace Blauhaus.Analytics.Tests.Tests.AnalyticsServiceTests
             MockTelemetryClient.Mock.Verify(x => x.TrackPageView(It.Is<PageViewTelemetry>(y => y.Name == "Decorated")));
             MockConsoleLogger.Mock.Verify(x => x.LogOperation("MyOperation", It.IsAny<TimeSpan>()));
         }
+
+        [Test]
+        public void IF_PageName_is_empty_SHOULD_use_class_name()
+        {
+            //Arrange
+            var operation = Sut.StartPageViewOperation(this);
+            MockTelemetryClient.Mock.Verify(x => x.TrackPageView(It.IsAny<PageViewTelemetry>()), Times.Never);
+            MockTelemetryDecorator.Where_Decorate_returns(new PageViewTelemetry("Decorated"));
+
+            //Act
+            operation.Dispose();
+            
+            //Assert
+            MockTelemetryDecorator.Mock.Verify<PageViewTelemetry>(x => x.DecorateTelemetry(
+                It.Is<PageViewTelemetry>(y => y.Name == GetType().Name),
+                It.IsAny<string>(),
+                It.IsAny<string>(),
+                It.IsAny<IAnalyticsOperation>(), 
+                Sut.CurrentSession, 
+                It.IsAny<Dictionary<string, object>>()));
+            MockTelemetryClient.Mock.Verify(x => x.TrackPageView(It.Is<PageViewTelemetry>(y => y.Name == "Decorated")));
+            MockConsoleLogger.Mock.Verify(x => x.LogOperation(GetType().Name, It.IsAny<TimeSpan>()));
+        }
         
         [Test]
         public void SHOULD_trace_pageview_started_before_disposed()

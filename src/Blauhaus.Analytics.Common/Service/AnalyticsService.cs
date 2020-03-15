@@ -161,17 +161,24 @@ namespace Blauhaus.Analytics.Common.Service
             return CurrentOperation;
         }
 
-        public IAnalyticsOperation StartPageViewOperation(object sender, string pageName, [CallerMemberName] string callerMember = "")
+        public IAnalyticsOperation StartPageViewOperation(object sender, string pageName = "", Dictionary<string, object>? properties = null, [CallerMemberName] string callerMember = "")
         {
+            
+            if (string.IsNullOrWhiteSpace(pageName))
+            {
+                pageName = sender.GetType().Name;
+            }  
+
             CurrentOperation = new AnalyticsOperation(pageName, duration =>
             {
                 var pageViewTelemetry = new PageViewTelemetry(pageName)
                 {
                     Duration = duration
                 };
+                
+                if(properties == null) properties = new Dictionary<string, object>();
 
-                TelemetryClient.TrackPageView(TelemetryDecorator.DecorateTelemetry(pageViewTelemetry, sender.GetType().Name, callerMember, CurrentOperation, CurrentSession,
-                    new Dictionary<string, object>()));
+                TelemetryClient.TrackPageView(TelemetryDecorator.DecorateTelemetry(pageViewTelemetry, sender.GetType().Name, callerMember, CurrentOperation, CurrentSession, properties));
 
                 ConsoleLogger.LogOperation(pageName, duration);
                 

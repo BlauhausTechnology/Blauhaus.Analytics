@@ -56,8 +56,9 @@ namespace Blauhaus.Analytics.TestHelpers
         public AnalyticsServiceMockBuilder VerifyTraceProperty<T>(string key, T value)
         {
             Mock.Verify(x => x.Trace(It.IsAny<object>(), It.IsAny<string>(), It.IsAny<LogSeverity>(), 
-                It.Is<Dictionary<string, object>>(y => 
-                    ((T) y[key]).Equals(value)), 
+                It.Is<Dictionary<string, object>>(y =>
+                    y.ContainsKey(key) &&
+                    ((T)y[key]).Equals(value)),
                 It.IsAny<string>()));
             return this;
         }
@@ -99,8 +100,10 @@ namespace Blauhaus.Analytics.TestHelpers
         
         public AnalyticsServiceMockBuilder VerifyLogExceptionProperty<T>(string key, T value) 
         {
-            Mock.Verify(x => x.LogException(It.IsAny<object>(), It.IsAny<Exception>(),It.Is<Dictionary<string, object>>(y => 
-                    ((T) y[key]).Equals(value)), 
+            Mock.Verify(x => x.LogException(It.IsAny<object>(), It.IsAny<Exception>(),
+                It.Is<Dictionary<string, object>>(y =>
+                    y.ContainsKey(key) &&
+                    ((T)y[key]).Equals(value)),
                 It.IsAny<string>()));
             return this;
         }
@@ -124,8 +127,10 @@ namespace Blauhaus.Analytics.TestHelpers
         public AnalyticsServiceMockBuilder VerifyStartOperationProperty<T>(string key, T value) 
         {
             Mock.Verify(x => x.StartOperation(It.IsAny<object>(), It.IsAny<string>(), 
-                It.Is<Dictionary<string, object>>(y => 
-                    ((T)y[key] ).Equals(value)), It.IsAny<string>()));
+                It.Is<Dictionary<string, object>>(y =>
+                    y.ContainsKey(key) &&
+                    ((T)y[key]).Equals(value)),
+                It.IsAny<string>()));
             return this;
         }
 
@@ -148,8 +153,9 @@ namespace Blauhaus.Analytics.TestHelpers
         public AnalyticsServiceMockBuilder VerifyContinueOperationProperty<T>(string key, T value) 
         {
             Mock.Verify(x => x.ContinueOperation(It.IsAny<object>(), It.IsAny<string>(), 
-                It.Is<Dictionary<string, object>>(y => 
-                    ((T)y[key] ).Equals(value)), It.IsAny<string>()));
+                It.Is<Dictionary<string, object>>(y =>
+                    y.ContainsKey(key) &&
+                    ((T)y[key]).Equals(value)), It.IsAny<string>()));
             return this;
         }
 
@@ -185,8 +191,9 @@ namespace Blauhaus.Analytics.TestHelpers
         public AnalyticsServiceMockBuilder VerifyStartPageViewOperationProperty<T>(string key, T value) 
         {
             Mock.Verify(x => x.StartPageViewOperation(It.IsAny<object>(), It.IsAny<string>(), 
-                It.Is<Dictionary<string, object>>(y => 
-                    ((T)y[key] ).Equals(value)), It.IsAny<string>()));
+                It.Is<Dictionary<string, object>>(y =>
+                    y.ContainsKey(key) &&
+                    ((T)y[key]).Equals(value)), It.IsAny<string>()));
             return this;
         }
 

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Blauhaus.Analytics.Abstractions.Extensions;
 using Blauhaus.Analytics.Abstractions.Service;
 using Blauhaus.Analytics.Tests.Tests._Base;
 using Blauhaus.Common.ValueObjects.BuildConfigs;
@@ -31,6 +32,46 @@ namespace Blauhaus.Analytics.Tests.Tests.AnalyticsServiceTests
             MockConsoleLogger.Mock.Verify(x => x.LogTrace("Trace message", LogSeverity.Verbose, It.Is<Dictionary<string, string>>(y => y["Property"] == "\"value\"")));
         }
 
+        [Test]
+        public void SHOULD_work_with_extension_string()
+        {
+            //Arrange
+            MockTelemetryDecorator.Where_Decorate_returns(new TraceTelemetry("Decorated"));
+
+            //Act
+            Sut.TraceVerbose(this, "Trace message", "Property", "value");
+
+            //Assert
+            MockTelemetryDecorator.Mock.Verify(x => x.DecorateTelemetry(
+                It.Is<TraceTelemetry>(y => y.Message == "Trace message"),
+                It.IsAny<string>(),
+                It.IsAny<string>(),
+                Sut.CurrentOperation, Sut.CurrentSession, It.Is<Dictionary<string, object>>(y => 
+                    (string) y["Property"] ==  "value")));
+            MockTelemetryClient.Mock.Verify(x => x.TrackTrace(It.Is<TraceTelemetry>(y => y.Message == "Decorated")));
+            MockConsoleLogger.Mock.Verify(x => x.LogTrace("Trace message", LogSeverity.Verbose, It.Is<Dictionary<string, string>>(y => y["Property"] == "\"value\"")));
+        }
+        private class TestObject{}
+
+        [Test]
+        public void SHOULD_work_with_extension_object()
+        {
+            //Arrange
+            MockTelemetryDecorator.Where_Decorate_returns(new TraceTelemetry("Decorated"));
+            var property = new TestObject();
+
+            //Act
+            Sut.TraceVerbose(this, "Trace message", property);
+
+            //Assert
+            MockTelemetryDecorator.Mock.Verify(x => x.DecorateTelemetry(
+                It.Is<TraceTelemetry>(y => y.Message == "Trace message"),
+                It.IsAny<string>(),
+                It.IsAny<string>(),
+                Sut.CurrentOperation, Sut.CurrentSession, It.Is<Dictionary<string, object>>(y => 
+                    (TestObject) y["TestObject"] ==  property)));
+            MockTelemetryClient.Mock.Verify(x => x.TrackTrace(It.Is<TraceTelemetry>(y => y.Message == "Decorated")));
+        }
 
         [Test]
         public void IF_configured_min_logSeverity_is_higher_than_message_SHOULD_not_trace_to_server()

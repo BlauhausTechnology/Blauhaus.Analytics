@@ -2,6 +2,7 @@
 using Blauhaus.Analytics.Abstractions.Config;
 using Blauhaus.Analytics.Abstractions.Service;
 using Blauhaus.Analytics.Abstractions.Session;
+using Blauhaus.Analytics.Common.Service;
 using Blauhaus.Analytics.Common.Telemetry;
 using Blauhaus.Analytics.Console._Ioc;
 using Blauhaus.Analytics.Xamarin.SessionFactories;
@@ -29,6 +30,7 @@ namespace Blauhaus.Analytics.Xamarin._Ioc
             services.AddScoped<ITelemetryDecorator, TelemetryDecorator>();
 
             services.AddScoped<IAnalyticsSessionFactory, XamarinSessionFactory>();
+            services.AddScoped<IAnalyticsService, AnalyticsService>();
             return services;
         }
 

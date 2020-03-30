@@ -5,6 +5,7 @@ using System.Security.Claims;
 using Blauhaus.Analytics.AspNetCore.SessionFactories;
 using Blauhaus.Analytics.Tests.Tests._Base;
 using Blauhaus.Common.TestHelpers;
+using Blauhaus.Common.TestHelpers.MockBuilders;
 using Microsoft.AspNetCore.Http;
 using NUnit.Framework;
 

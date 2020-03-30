@@ -5,6 +5,7 @@ using Blauhaus.Analytics.Abstractions.Session;
 using Blauhaus.Analytics.Console.ConsoleLoggers;
 using Blauhaus.Analytics.Tests.MockBuilders;
 using Blauhaus.Common.TestHelpers;
+using Blauhaus.Common.TestHelpers.MockBuilders;
 using Blauhaus.Common.ValueObjects.BuildConfigs;
 using Blauhaus.DeviceServices.Abstractions.Application;
 using Blauhaus.DeviceServices.Abstractions.DeviceInfo;

@@ -1,5 +1,4 @@
-﻿using System;
-using Blauhaus.Analytics.Tests.Tests._Base;
+﻿using Blauhaus.Analytics.Tests.Tests._Base;
 using NUnit.Framework;
 
 namespace Blauhaus.Analytics.Tests.Tests.AnalyticsServiceTests

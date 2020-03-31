@@ -1,7 +1,4 @@
-﻿using System.Diagnostics;
-using Blauhaus.Analytics.AspNetCore._Ioc;
-using Blauhaus.Analytics.Samples.BlazorClient._Config;
-using Microsoft.AspNetCore.Blazor.Hosting;
+﻿using Microsoft.AspNetCore.Blazor.Hosting;
 
 namespace Blauhaus.Analytics.Samples.BlazorClient
 {

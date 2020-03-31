@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
 using Blauhaus.Analytics.AspNetCore.SessionFactories;
 using Blauhaus.Analytics.Tests.Tests._Base;
-using Blauhaus.Common.TestHelpers;
-using Blauhaus.Common.TestHelpers.MockBuilders;
+using Blauhaus.TestHelpers.MockBuilders;
 using Microsoft.AspNetCore.Http;
 using NUnit.Framework;
 

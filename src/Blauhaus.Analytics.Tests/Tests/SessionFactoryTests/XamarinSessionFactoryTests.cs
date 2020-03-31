@@ -1,5 +1,4 @@
 ﻿using System;
-using Blauhaus.Analytics.AspNetCore.SessionFactories;
 using Blauhaus.Analytics.Tests.Tests._Base;
 using Blauhaus.Analytics.Xamarin.SessionFactories;
 using Blauhaus.Common.ValueObjects.DeviceType;

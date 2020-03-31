@@ -1,6 +1,5 @@
 ﻿using Blauhaus.Analytics.Common.Telemetry;
-using Blauhaus.Common.TestHelpers;
-using Blauhaus.Common.TestHelpers.MockBuilders;
+using Blauhaus.TestHelpers.MockBuilders;
 
 namespace Blauhaus.Analytics.Tests.MockBuilders
 {

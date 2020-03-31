@@ -4,6 +4,7 @@ using Blauhaus.Analytics.Abstractions.Session;
 using Blauhaus.Analytics.Common.Telemetry;
 using Blauhaus.Analytics.Tests.Tests._Base;
 using Blauhaus.Common.TestHelpers;
+using Blauhaus.Common.TestHelpers.MockBuilders;
 using Blauhaus.Common.ValueObjects.DeviceType;
 using Blauhaus.Common.ValueObjects.RuntimePlatforms;
 using Microsoft.ApplicationInsights.DataContracts;

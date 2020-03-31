@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 using Blauhaus.Analytics.Abstractions.Service;
 using Blauhaus.Analytics.Abstractions.Session;
 using Blauhaus.Common.TestHelpers;
+using Blauhaus.Common.TestHelpers.MockBuilders;
 using Moq;
 
 namespace Blauhaus.Analytics.TestHelpers

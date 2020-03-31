@@ -3,6 +3,7 @@ using Blauhaus.Analytics.Abstractions.Operation;
 using Blauhaus.Analytics.Abstractions.Session;
 using Blauhaus.Analytics.Common.Telemetry;
 using Blauhaus.Common.TestHelpers;
+using Blauhaus.Common.TestHelpers.MockBuilders;
 using Microsoft.ApplicationInsights.Channel;
 using Microsoft.ApplicationInsights.DataContracts;
 using Moq;

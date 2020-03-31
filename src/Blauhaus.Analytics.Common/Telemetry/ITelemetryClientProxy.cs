@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Blauhaus.Analytics.Abstractions.Operation;
-using Blauhaus.Analytics.Abstractions.Session;
-using Microsoft.ApplicationInsights.DataContracts;
+﻿using Microsoft.ApplicationInsights.DataContracts;
 
 namespace Blauhaus.Analytics.Common.Telemetry
 {

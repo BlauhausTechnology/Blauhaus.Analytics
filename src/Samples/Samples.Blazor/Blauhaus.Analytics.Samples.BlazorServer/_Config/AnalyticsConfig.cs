@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Blauhaus.Analytics.Abstractions.Config;
+﻿using Blauhaus.Analytics.Abstractions.Config;
 using Blauhaus.Analytics.Abstractions.Service;
 using Blauhaus.Common.ValueObjects.BuildConfigs;
 using Microsoft.Extensions.Configuration;

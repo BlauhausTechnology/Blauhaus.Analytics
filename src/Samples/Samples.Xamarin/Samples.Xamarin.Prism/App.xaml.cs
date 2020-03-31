@@ -1,5 +1,4 @@
-﻿using Blauhaus.Analytics.Abstractions.Service;
-using Blauhaus.Analytics.Xamarin._Ioc;
+﻿using Blauhaus.Analytics.Xamarin._Ioc;
 using Blauhaus.Common.ValueObjects.BuildConfigs;
 using Blauhaus.Ioc.Abstractions;
 using Blauhaus.Ioc.DryIocService;

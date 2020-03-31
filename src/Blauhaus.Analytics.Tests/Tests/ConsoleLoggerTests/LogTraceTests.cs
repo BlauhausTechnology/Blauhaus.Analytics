@@ -3,7 +3,6 @@ using Blauhaus.Analytics.Abstractions.Service;
 using Blauhaus.Analytics.Console.ConsoleLoggers;
 using Blauhaus.Analytics.Tests.Tests._Base;
 using Blauhaus.Common.ValueObjects.BuildConfigs;
-using Microsoft.ApplicationInsights.DataContracts;
 using Moq;
 using NUnit.Framework;
 

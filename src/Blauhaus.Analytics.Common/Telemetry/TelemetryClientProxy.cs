@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Blauhaus.Analytics.Abstractions.Config;
-using Blauhaus.Analytics.Abstractions.Operation;
-using Blauhaus.Analytics.Abstractions.Session;
 using Blauhaus.Common.ValueObjects.BuildConfigs;
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.DataContracts;

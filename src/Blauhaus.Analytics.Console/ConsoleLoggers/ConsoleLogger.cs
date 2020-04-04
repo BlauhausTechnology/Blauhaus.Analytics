@@ -10,6 +10,8 @@ namespace Blauhaus.Analytics.Console.ConsoleLoggers
         private readonly ITraceProxy _traceProxy;
         private readonly IBuildConfig _currentBuildConfig;
 
+        private bool ShouldLog() => _currentBuildConfig != null && _currentBuildConfig.Value != BuildConfig.Release.Value;
+
         public ConsoleLogger(
             ITraceProxy traceProxy,
             IBuildConfig currentBuildConfig)
@@ -21,7 +23,7 @@ namespace Blauhaus.Analytics.Console.ConsoleLoggers
         public void LogEvent(string eventName, Dictionary<string, string>? properties = null)
         {
 
-            if (_currentBuildConfig.Value == BuildConfig.Release.Value)
+            if (!ShouldLog())
             {
                 return;
             }
@@ -42,7 +44,8 @@ namespace Blauhaus.Analytics.Console.ConsoleLoggers
 
         public void LogException(Exception exception, Dictionary<string, string>? properties)
         {
-            if (_currentBuildConfig.Value == BuildConfig.Release.Value)
+
+            if (!ShouldLog())
             {
                 return;
             }
@@ -67,7 +70,7 @@ namespace Blauhaus.Analytics.Console.ConsoleLoggers
 
         public void LogOperation(string operationName, TimeSpan duration)
         {
-            if (_currentBuildConfig.Value == BuildConfig.Release.Value)
+            if (!ShouldLog())
             {
                 return;
             }
@@ -79,8 +82,7 @@ namespace Blauhaus.Analytics.Console.ConsoleLoggers
 
         public void LogTrace(string message, LogSeverity severityLevel = LogSeverity.Verbose, Dictionary<string, string>? properties = null)
         {
-
-            if (_currentBuildConfig.Value == BuildConfig.Release.Value)
+            if (!ShouldLog())
             {
                 return;
             }

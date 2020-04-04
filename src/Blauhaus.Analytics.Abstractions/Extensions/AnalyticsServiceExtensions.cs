@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Blauhaus.Analytics.Abstractions.Errors;
 using Blauhaus.Analytics.Abstractions.Service;
 
 namespace Blauhaus.Analytics.Abstractions.Extensions

@@ -14,6 +14,19 @@ namespace Blauhaus.Analytics.Tests.Tests.ConsoleLoggerTests
         {
             return new ConsoleLogger(MockTraceProxy.Object, CurrentBuildConfig);
         }
+        
+        [Test]
+        public void IF_CurrentBuildConfig_is_null_SHOULD_not_log_event()
+        {
+            //Arrange
+            CurrentBuildConfig = null;
+
+            //Act
+            Sut.LogOperation("operation gigolo", TimeSpan.FromTicks(11121221212211));
+
+            //Assert
+            MockTraceProxy.Mock.Verify(x => x.Write(It.IsAny<string>()), Times.Never);
+        }
 
         [Test]
         public void IF_CurrentBuildConfig_is_release_SHOULD_not_log_event()

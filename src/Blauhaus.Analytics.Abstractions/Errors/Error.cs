@@ -1,19 +1,14 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace Blauhaus.Analytics.Abstractions.Errors
 {
     public class Error : IEquatable<Error>
     {
 
-        private Error(string code, string description)
+        public Error(string description, [CallerMemberName] string code = "")
         {
             Code = code;
-            Description = description;
-        }
-
-        public Error(string description)
-        {
-            Code = GetType().Name;
             Description = description;
         }
 

@@ -7,7 +7,7 @@ using Blauhaus.Analytics.Tests.MockBuilders;
 using Blauhaus.Common.ValueObjects.BuildConfigs;
 using Blauhaus.DeviceServices.Abstractions.Application;
 using Blauhaus.DeviceServices.Abstractions.DeviceInfo;
-using Blauhaus.TestHelpers;
+using Blauhaus.TestHelpers.BaseTests;
 using Blauhaus.TestHelpers.MockBuilders;
 using NUnit.Framework;
 

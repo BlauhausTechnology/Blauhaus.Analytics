@@ -17,6 +17,19 @@ namespace Blauhaus.Analytics.Tests.Tests.ConsoleLoggerTests
         }
 
         [Test]
+        public void IF_CurrentBuildConfig_is_null_SHOULD_not_trace_event()
+        {
+            //Arrange
+            CurrentBuildConfig = null;
+
+            //Act
+            Sut.LogEvent("EventName");
+
+            //Assert
+            MockTraceProxy.Mock.Verify(x => x.Write(It.IsAny<string>()), Times.Never);
+        }
+
+        [Test]
         public void IF_CurrentBuildConfig_is_release_SHOULD_not_trace_event()
         {
             //Arrange

@@ -7,8 +7,8 @@ using Blauhaus.Analytics.Console._Ioc;
 using Blauhaus.Analytics.Xamarin.SessionFactories;
 using Blauhaus.DeviceServices.Abstractions.Application;
 using Blauhaus.DeviceServices.Abstractions.DeviceInfo;
-using Blauhaus.DeviceServices.Application;
-using Blauhaus.DeviceServices.DeviceInfo;
+using Blauhaus.DeviceServices.Common.Application;
+using Blauhaus.DeviceServices.Common.DeviceInfo;
 using Blauhaus.Ioc.Abstractions;
 
 namespace Blauhaus.Analytics.Xamarin._Ioc

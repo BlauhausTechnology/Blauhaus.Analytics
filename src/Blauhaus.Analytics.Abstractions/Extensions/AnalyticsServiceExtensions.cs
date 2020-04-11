@@ -95,18 +95,24 @@ namespace Blauhaus.Analytics.Abstractions.Extensions
         public static string TraceError(this IAnalyticsService analyticsService, object sender, Error error,
             LogSeverity logSeverity = LogSeverity.Error, [CallerMemberName] string caller = "")
         {
-            analyticsService.Trace(sender, error.Code, logSeverity, new Dictionary<string, object>(), caller);
+            analyticsService.Trace(sender, error.Code, logSeverity, new Dictionary<string, object> 
+                {{"ErrorDescription", error.Description }}, caller);
             return error.ToString();
         } 
         public static string TraceError(this IAnalyticsService analyticsService, object sender, Error error, string propertyName, string propertyValue,
             LogSeverity logSeverity = LogSeverity.Error, [CallerMemberName] string caller = "")
         {
-            analyticsService.Trace(sender, error.Code, logSeverity, new Dictionary<string, object> {{propertyName, propertyValue}}, caller);
+            analyticsService.Trace(sender, error.Code, logSeverity, new Dictionary<string, object>
+            {
+                {"ErrorDescription", error.Description },
+                {propertyName, propertyValue}
+            }, caller);
             return error.ToString();
         }
         public static string TraceError(this IAnalyticsService analyticsService, object sender, Error error, Dictionary<string, object> properties,
             LogSeverity logSeverity = LogSeverity.Error, [CallerMemberName] string caller = "")
         {
+            properties["ErrorDescription"] = error.Description;
             analyticsService.Trace(sender, error.Code, logSeverity, properties, caller);
             return error.ToString();
         }

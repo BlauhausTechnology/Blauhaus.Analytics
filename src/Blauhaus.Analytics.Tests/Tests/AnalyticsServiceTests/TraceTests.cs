@@ -61,7 +61,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AnalyticsServiceTests
             var property = new TestObject();
 
             //Act
-            Sut.TraceVerbose(this, "Trace message", property);
+            Sut.TraceVerbose(this, "Trace message", property.ToObjectDictionary());
 
             //Assert
             MockTelemetryDecorator.Mock.Verify(x => x.DecorateTelemetry(

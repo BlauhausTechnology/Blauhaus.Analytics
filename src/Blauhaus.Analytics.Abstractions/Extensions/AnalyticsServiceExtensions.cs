@@ -145,7 +145,7 @@ namespace Blauhaus.Analytics.Abstractions.Extensions
             analyticsService.Trace(sender, error.Code, logSeverity, new Dictionary<string, object>{{propertyName, propertyValue}}, caller);
             return error.ToString();
         }
-        
+         
         //Error + Result extensions
         public static Result TraceErrorResult(this IAnalyticsService analyticsService, object sender, Error error, 
             LogSeverity logSeverity = LogSeverity.Error, [CallerMemberName] string caller = "")

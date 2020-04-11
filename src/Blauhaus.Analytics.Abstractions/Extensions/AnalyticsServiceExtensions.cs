@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using Blauhaus.Analytics.Abstractions.Service;
 using Blauhaus.Common.ValueObjects.Errors;
+using CSharpFunctionalExtensions;
 
 namespace Blauhaus.Analytics.Abstractions.Extensions
 {
@@ -124,20 +125,64 @@ namespace Blauhaus.Analytics.Abstractions.Extensions
             analyticsService.Trace(sender, message, LogSeverity.Error, new Dictionary<string, object>{{propertyName, propertyValue}}, caller);
             return analyticsService;
         }
-        public static string TraceError(this IAnalyticsService analyticsService, object sender, Error error, [CallerMemberName] string caller = "")
+
+        //Error extensions
+        public static string TraceError(this IAnalyticsService analyticsService, object sender, Error error, 
+            LogSeverity logSeverity = LogSeverity.Error, [CallerMemberName] string caller = "")
         {
-            analyticsService.Trace(sender, error.Code, LogSeverity.Error, new Dictionary<string, object>(), caller);
+            analyticsService.Trace(sender, error.Code, logSeverity, new Dictionary<string, object>(), caller);
             return error.ToString();
         }
-        public static string TraceError(this IAnalyticsService analyticsService, object sender, Error error, object property, [CallerMemberName] string caller = "")
+        public static string TraceError(this IAnalyticsService analyticsService, object sender, Error error, object property, 
+            LogSeverity logSeverity = LogSeverity.Error, [CallerMemberName] string caller = "")
         {
-            analyticsService.Trace(sender, error.Code, LogSeverity.Error, property.ToObjectDictionary(), caller);
+            analyticsService.Trace(sender, error.Code, logSeverity, property.ToObjectDictionary(), caller);
             return error.ToString();
         }
-        public static string TraceError(this IAnalyticsService analyticsService, object sender, Error error, string propertyName, string propertyValue, [CallerMemberName] string caller = "")
+        public static string TraceError(this IAnalyticsService analyticsService, object sender, Error error, string propertyName, string propertyValue,
+            LogSeverity logSeverity = LogSeverity.Error, [CallerMemberName] string caller = "")
         {
-            analyticsService.Trace(sender, error.Code, LogSeverity.Error, new Dictionary<string, object>{{propertyName, propertyValue}}, caller);
+            analyticsService.Trace(sender, error.Code, logSeverity, new Dictionary<string, object>{{propertyName, propertyValue}}, caller);
             return error.ToString();
+        }
+        
+        //Error + Result extensions
+        public static Result TraceErrorResult(this IAnalyticsService analyticsService, object sender, Error error, 
+            LogSeverity logSeverity = LogSeverity.Error, [CallerMemberName] string caller = "")
+        {
+            analyticsService.Trace(sender, error.Code, logSeverity, new Dictionary<string, object>(), caller);
+            return Result.Failure(error.ToString());
+        }
+        public static Result TraceErrorResult(this IAnalyticsService analyticsService, object sender, Error error, object property, 
+            LogSeverity logSeverity = LogSeverity.Error, [CallerMemberName] string caller = "")
+        {
+            analyticsService.Trace(sender, error.Code, logSeverity, property.ToObjectDictionary(), caller);
+            return Result.Failure(error.ToString());
+        }
+        public static Result TraceErrorResult(this IAnalyticsService analyticsService, object sender, Error error, string propertyName, string propertyValue,
+            LogSeverity logSeverity = LogSeverity.Error, [CallerMemberName] string caller = "")
+        {
+            analyticsService.Trace(sender, error.Code, logSeverity, new Dictionary<string, object>{{propertyName, propertyValue}}, caller);
+            return Result.Failure(error.ToString());
+        }
+
+        public static Result<T> TraceErrorResult<T>(this IAnalyticsService analyticsService, object sender, Error error, 
+            LogSeverity logSeverity = LogSeverity.Error, [CallerMemberName] string caller = "")
+        {
+            analyticsService.Trace(sender, error.Code, logSeverity, new Dictionary<string, object>(), caller);
+            return Result.Failure<T>(error.ToString());
+        }
+        public static Result<T> TraceErrorResult<T>(this IAnalyticsService analyticsService, object sender, Error error, object property, 
+            LogSeverity logSeverity = LogSeverity.Error, [CallerMemberName] string caller = "")
+        {
+            analyticsService.Trace(sender, error.Code, logSeverity, property.ToObjectDictionary(), caller);
+            return Result.Failure<T>(error.ToString());
+        }
+        public static Result<T> TraceErrorResult<T>(this IAnalyticsService analyticsService, object sender, Error error, string propertyName, string propertyValue,
+            LogSeverity logSeverity = LogSeverity.Error, [CallerMemberName] string caller = "")
+        {
+            analyticsService.Trace(sender, error.Code, logSeverity, new Dictionary<string, object>{{propertyName, propertyValue}}, caller);
+            return Result.Failure<T>(error.ToString());
         }
     }
 }

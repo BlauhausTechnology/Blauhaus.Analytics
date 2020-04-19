@@ -29,6 +29,26 @@ namespace Blauhaus.Analytics.Tests.Tests.AnalyticsServiceTests
             MockConsoleLogger.Mock.Verify(x => x.LogEvent("Event Name", It.Is<Dictionary<string, string>>(y => y["Property"] == "\"value\"")));
         }
 
+        [Test]
+        public void IF_properties_null_SHOULD_log_empty()
+        {
+            //Arrange
+            MockTelemetryDecorator.Where_Decorate_returns(new EventTelemetry("Decorated"));
+
+            //Act
+            Sut.LogEvent(this, "Event Name", null);
+
+            //Assert
+            MockTelemetryDecorator.Mock.Verify<EventTelemetry>(x => x.DecorateTelemetry(
+                It.Is<EventTelemetry>(y => y.Name == "Event Name"),
+                It.IsAny<string>(),
+                It.IsAny<string>(),
+                Sut.CurrentOperation, Sut.CurrentSession, It.Is<Dictionary<string, object>>(y => y.Count == 0)));
+            MockTelemetryClient.Mock.Verify(x => x.TrackEvent(It.Is<EventTelemetry>(y => y.Name == "Decorated")));
+            MockConsoleLogger.Mock.Verify(x => x.LogEvent("Event Name", 
+                It.Is<Dictionary<string, string>>(y => y.Count == 0)));
+        }
+
         
     }
 }

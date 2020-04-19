@@ -17,6 +17,7 @@ namespace Blauhaus.Analytics.Common.Service
     public class AnalyticsService : IAnalyticsService
     {
         private IAnalyticsSession _currentSession;
+        private static readonly Dictionary<string, object> EmptyProperties = new Dictionary<string, object>();
 
         protected readonly IApplicationInsightsConfig Config;
         protected readonly IConsoleLogger ConsoleLogger;
@@ -163,7 +164,8 @@ namespace Blauhaus.Analytics.Common.Service
 
         public IAnalyticsOperation StartPageViewOperation(object sender, string pageName = "", Dictionary<string, object>? properties = null, [CallerMemberName] string callerMember = "")
         {
-            
+            if (properties == null) properties = EmptyProperties;
+
             if (string.IsNullOrWhiteSpace(pageName))
             {
                 pageName = sender.GetType().Name;
@@ -194,6 +196,8 @@ namespace Blauhaus.Analytics.Common.Service
         public IAnalyticsOperation StartOperation(object sender, string operationName, Dictionary<string, object>? properties = null, [CallerMemberName] string callerMemberName = "")
         {
             var callingClassName = sender.GetType().Name;
+            
+            if (properties == null) properties = EmptyProperties;
 
             CurrentOperation = new AnalyticsOperation(operationName, duration =>
             {
@@ -217,6 +221,8 @@ namespace Blauhaus.Analytics.Common.Service
 
         public IAnalyticsOperation ContinueOperation(object sender, string operationName, Dictionary<string, object>? properties = null, [CallerMemberName] string callerMemberName = "")
         {
+            if (properties == null) properties = EmptyProperties;
+
             var callingClassName = sender.GetType().Name;
 
             if (CurrentOperation == null)
@@ -243,6 +249,8 @@ namespace Blauhaus.Analytics.Common.Service
         
         public void LogEvent(object sender, string eventName, Dictionary<string, object> properties = null, [CallerMemberName] string callerMemberName = "")
         {
+            if (properties == null) properties = EmptyProperties;
+
             TelemetryClient.TrackEvent(TelemetryDecorator
                 .DecorateTelemetry(new EventTelemetry(eventName), sender.GetType().Name, callerMemberName, CurrentOperation, CurrentSession, properties));
 
@@ -251,6 +259,8 @@ namespace Blauhaus.Analytics.Common.Service
 
         public void LogException(object sender, Exception exception, Dictionary<string, object> properties = null, [CallerMemberName] string callerMemberName = "")
         {
+            if (properties == null) properties = EmptyProperties;
+
             TelemetryClient.TrackException(TelemetryDecorator
                 .DecorateTelemetry(new ExceptionTelemetry(exception), sender.GetType().Name, callerMemberName, CurrentOperation, CurrentSession, properties));
             
@@ -260,6 +270,8 @@ namespace Blauhaus.Analytics.Common.Service
 
         public void Trace(object sender, string message, LogSeverity logSeverity = LogSeverity.Verbose, Dictionary<string, object> properties = null, [CallerMemberName] string callerMemberName = "")
         {
+            if (properties == null) properties = EmptyProperties;
+
             LogTrace(message, logSeverity, properties, sender.GetType().Name, callerMemberName);
         }   
 

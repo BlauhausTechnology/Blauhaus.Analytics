@@ -33,6 +33,26 @@ namespace Blauhaus.Analytics.Tests.Tests.AnalyticsServiceTests
         }
 
         [Test]
+        public void IF_properties_is_null_SHOULD_log_empty()
+        {
+            //Arrange
+            MockTelemetryDecorator.Where_Decorate_returns(new TraceTelemetry("Decorated"));
+
+            //Act
+            Sut.Trace(this, "Trace message", LogSeverity.Verbose, null);
+
+            //Assert
+            MockTelemetryDecorator.Mock.Verify<TraceTelemetry>(x => x.DecorateTelemetry(
+                It.Is<TraceTelemetry>(y => y.Message == "Trace message"),
+                It.IsAny<string>(),
+                It.IsAny<string>(),
+                Sut.CurrentOperation, Sut.CurrentSession, It.Is<Dictionary<string, object>>(y => y.Count == 0)));
+            MockTelemetryClient.Mock.Verify(x => x.TrackTrace(It.Is<TraceTelemetry>(y => y.Message == "Decorated")));
+            MockConsoleLogger.Mock.Verify(x => x.LogTrace("Trace message", LogSeverity.Verbose, It.Is<Dictionary<string, string>>(y => y.Count == 0)));
+        }
+
+
+        [Test]
         public void SHOULD_work_with_extension_string()
         {
             //Arrange

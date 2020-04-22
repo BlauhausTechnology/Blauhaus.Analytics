@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Blauhaus.DeviceServices" Version="0.4.11" />
+    <PackageReference Include="Blauhaus.DeviceServices" Version="0.5.3" />
     <PackageReference Include="Microsoft.ApplicationInsights" Version="2.13.1" />
   </ItemGroup>
 

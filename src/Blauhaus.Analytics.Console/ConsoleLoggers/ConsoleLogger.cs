@@ -76,8 +76,8 @@ namespace Blauhaus.Analytics.Console.ConsoleLoggers
             }
 
             _traceProxy.SetColour(ConsoleColours.OperationColour);
-            _traceProxy.Write(""); //newline per operation
             _traceProxy.Write($"OPERATION: {operationName} completed in {Math.Round((double) duration.Milliseconds)} ms");
+            _traceProxy.Write(""); //newline after operation completes
         }
 
         public void LogTrace(string message, LogSeverity severityLevel = LogSeverity.Verbose, Dictionary<string, string>? properties = null)

@@ -16,6 +16,8 @@ namespace Blauhaus.Analytics.Abstractions.Service
         IAnalyticsOperation StartRequestOperation(object sender, string requestName, IDictionary<string, string> headers, [CallerMemberName] string callingMember = "");
         IAnalyticsOperation StartPageViewOperation(object sender, string viewName = "", Dictionary<string, object>? properties = null,  [CallerMemberName] string callingMember = "");
         IAnalyticsOperation StartOperation(object sender, string operationName, Dictionary<string, object>? properties = null, [CallerMemberName] string callingMember = "");
+        
+        [Obsolete("We should only have one operation per operation, as it were. Mostly everything should be a page view or a request. Server-originated events could be operations")]
         IAnalyticsOperation ContinueOperation(object sender, string operationName, Dictionary<string, object>? properties = null, [CallerMemberName] string callingMember = "");
 
         void Trace(object sender, string message, LogSeverity logSeverityLevel = 0, Dictionary<string, object>? properties = null, [CallerMemberName] string callingMember = "");

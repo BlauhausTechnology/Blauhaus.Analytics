@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Blauhaus.Ioc.DryIocService" Version="0.7.1" />
-    <PackageReference Include="Xamarin.Forms" Version="4.5.0.617" />
+    <PackageReference Include="Xamarin.Forms" Version="4.6.0.726" />
     <PackageReference Include="Prism.DryIoc.Forms" Version="7.2.0.1422" />
   </ItemGroup>
 

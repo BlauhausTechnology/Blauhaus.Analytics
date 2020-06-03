@@ -103,6 +103,7 @@ namespace Blauhaus.Analytics.Tests.Tests.TelemetryDecoratorTests
             Assert.That(result.Context.User.AccountId, Is.EqualTo("acc"));
             Assert.That(result.Context.User.AuthenticatedUserId, Is.EqualTo("use"));
             Assert.That(result.Context.Device.Id, Is.EqualTo("dev"));
+            Assert.That(result.Properties["DeviceIdentifier"], Is.EqualTo("dev"));
             Assert.That(result.Properties["key"], Is.EqualTo("value"));
         }
 

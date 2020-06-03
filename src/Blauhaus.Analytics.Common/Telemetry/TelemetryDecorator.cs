@@ -48,7 +48,10 @@ namespace Blauhaus.Analytics.Common.Telemetry
                 telemetry.Context.User.AuthenticatedUserId = currentSession.UserId;
 
             if (currentSession.DeviceId != null)
+            {
                 telemetry.Context.Device.Id = currentSession.DeviceId;
+                telemetry.Properties["DeviceIdentifier"] = currentSession.DeviceId;
+            }
 
             if (currentSession.DeviceType != null)
                 telemetry.Context.Device.Type = currentSession.DeviceType.Value;

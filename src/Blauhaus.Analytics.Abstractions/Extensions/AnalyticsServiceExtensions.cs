@@ -117,6 +117,15 @@ namespace Blauhaus.Analytics.Abstractions.Extensions
             return error.ToString();
         }
 
+        public static string LogExceptionError(this IAnalyticsService analyticsService, object sender, 
+            Exception e, Error error, Dictionary<string, object> properties, [CallerMemberName] string caller = "")
+        {
+            properties["ErrorCode"] = error.Code;
+            properties["ErrorDescription"] = error.Description;
+            analyticsService.LogException(sender, e, properties, caller);
+            return error.ToString();
+        }
+
     
     }
 }

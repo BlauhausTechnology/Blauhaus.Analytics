@@ -118,7 +118,7 @@ namespace Blauhaus.Analytics.Abstractions.Extensions
         }
 
         public static string LogExceptionError(this IAnalyticsService analyticsService, object sender, 
-            Exception e, Error error, Dictionary<string, object> properties, [CallerMemberName] string caller = "")
+            Exception e, Error error, Dictionary<string, object> properties = null, [CallerMemberName] string caller = "")
         {
             properties["ErrorCode"] = error.Code;
             properties["ErrorDescription"] = error.Description;
@@ -127,5 +127,6 @@ namespace Blauhaus.Analytics.Abstractions.Extensions
         }
 
     
+        //todo add Result return vals?
     }
 }

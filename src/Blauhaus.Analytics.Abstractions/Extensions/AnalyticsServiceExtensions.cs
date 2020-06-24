@@ -127,6 +127,6 @@ namespace Blauhaus.Analytics.Abstractions.Extensions
         }
 
     
-        //todo add Result return vals?
+        // Result return values are part of Blauhaus.Common.Results.AnalyticsServiceExtensions
     }
 }

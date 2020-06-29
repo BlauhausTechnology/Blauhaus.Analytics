@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using Blauhaus.Analytics.Abstractions.Operation;
 using Blauhaus.Analytics.Abstractions.Service;
 using Blauhaus.TestHelpers.MockBuilders;
 using Moq;
@@ -117,6 +118,18 @@ namespace Blauhaus.Analytics.TestHelpers
         
         #region StartOperation
 
+        
+        public MockBuilder<IAnalyticsOperation> Where_StartOperation_returns_operation()
+        {
+            var operation = new MockBuilder<IAnalyticsOperation>();
+
+            Mock.Setup(x => x.StartOperation(It.IsAny<object>(), It.IsAny<string>(),
+                It.IsAny<Dictionary<string, object>>(), It.IsAny<string>())).Returns(operation.Object);
+
+            return operation;
+        }
+
+
         public AnalyticsServiceMockBuilder VerifyStartOperation(string operationName)
         {
             Mock.Verify(x => x.StartOperation(It.IsAny<object>(), operationName, It.IsAny<Dictionary<string, object>>(), It.IsAny<string>()));
@@ -167,6 +180,18 @@ namespace Blauhaus.Analytics.TestHelpers
         #endregion
         
         #region StartPageViewOperation
+
+        
+        public MockBuilder<IAnalyticsOperation> Where_StartPageViewOperation_returns_operation()
+        {
+            var operation = new MockBuilder<IAnalyticsOperation>();
+
+            Mock.Setup(x => x.StartPageViewOperation(It.IsAny<object>(), It.IsAny<string>(),
+                It.IsAny<Dictionary<string, object>>(), It.IsAny<string>())).Returns(operation.Object);
+
+            return operation;
+        }
+
 
         public AnalyticsServiceMockBuilder VerifyStartPageViewOperation(string pageName = "")
         {

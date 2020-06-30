@@ -10,15 +10,17 @@ namespace Blauhaus.Analytics.TestHelpers
 {
      public class AnalyticsServiceMockBuilder : BaseMockBuilder<AnalyticsServiceMockBuilder, IAnalyticsService>
      {
-        #region Session
-
-         private AnalyticsSessionMockBuilder _mockCurrentSession;
-         public AnalyticsSessionMockBuilder MockCurrentSession => _mockCurrentSession ??= new AnalyticsSessionMockBuilder();
 
          public AnalyticsServiceMockBuilder()
          {
              Mock.Setup(x => x.CurrentSession).Returns(MockCurrentSession.Object);
+             Where_StartOperation_returns_operation();
          }
+         
+        #region Session
+
+         private AnalyticsSessionMockBuilder _mockCurrentSession;
+         public AnalyticsSessionMockBuilder MockCurrentSession => _mockCurrentSession ??= new AnalyticsSessionMockBuilder();
 
         #endregion
 

@@ -19,17 +19,39 @@ namespace Blauhaus.Analytics.Tests.Tests.AnalyticsServiceTests
             MockTelemetryDecorator.Where_Decorate_returns(new TraceTelemetry("Decorated"));
 
             //Act
-            Sut.Trace(this, "Trace message", LogSeverity.Verbose, properties);
+            Sut.Trace(this, "Trace message", LogSeverity.Critical, properties);
 
             //Assert
-            MockTelemetryDecorator.Mock.Verify<TraceTelemetry>(x => x.DecorateTelemetry(
-                It.Is<TraceTelemetry>(y => y.Message == "Trace message"),
+            MockTelemetryDecorator.Mock.Verify(x => x.DecorateTelemetry(
+                It.Is<TraceTelemetry>(y => 
+                    y.Message == "Trace message" && 
+                    y.SeverityLevel == SeverityLevel.Critical),
                 It.IsAny<string>(),
                 It.IsAny<string>(),
                 Sut.CurrentOperation, Sut.CurrentSession, It.Is<Dictionary<string, object>>(y => 
                     (string) y["Property"] ==  "value")));
             MockTelemetryClient.Mock.Verify(x => x.TrackTrace(It.Is<TraceTelemetry>(y => y.Message == "Decorated")));
-            MockConsoleLogger.Mock.Verify(x => x.LogTrace("Trace message", LogSeverity.Verbose, It.Is<Dictionary<string, string>>(y => y["Property"] == "\"value\"")));
+            MockConsoleLogger.Mock.Verify(x => x.LogTrace("Trace message", LogSeverity.Critical, It.Is<Dictionary<string, string>>(y => y["Property"] == "\"value\"")));
+        }
+
+        [TestCase(LogSeverity.Verbose, SeverityLevel.Verbose)]
+        [TestCase(LogSeverity.Information, SeverityLevel.Information)]
+        [TestCase(LogSeverity.Warning, SeverityLevel.Warning)]
+        [TestCase(LogSeverity.Critical, SeverityLevel.Critical)]
+        [TestCase(LogSeverity.Error, SeverityLevel.Error)]
+        public void SHOULD_convert_log_severity(LogSeverity logSeverity, SeverityLevel severityLevel)
+        { 
+            //Act
+            Sut.Trace(this, "Trace message", logSeverity);
+
+            //Assert
+            MockTelemetryDecorator.Mock.Verify(x => x.DecorateTelemetry(
+                It.Is<TraceTelemetry>(y => 
+                    y.Message == "Trace message" && 
+                    y.SeverityLevel == severityLevel),
+                It.IsAny<string>(),
+                It.IsAny<string>(),
+                Sut.CurrentOperation, Sut.CurrentSession, It.IsAny<Dictionary<string, object>>()));
         }
 
         [Test]

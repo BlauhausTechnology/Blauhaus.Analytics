@@ -155,34 +155,8 @@ namespace Blauhaus.Analytics.TestHelpers
         }
 
         #endregion
-        
-        #region ContinueOperation
-
-        public AnalyticsServiceMockBuilder VerifyContinueOperation(string operationName)
-        {
-            Mock.Verify(x => x.ContinueOperation(It.IsAny<object>(), operationName, It.IsAny<Dictionary<string, object>>(), It.IsAny<string>()));
-            return this;
-        }
-        
-        public AnalyticsServiceMockBuilder VerifyContinueOperationProperty<T>(string key, T value) 
-        {
-            Mock.Verify(x => x.ContinueOperation(It.IsAny<object>(), It.IsAny<string>(), 
-                It.Is<Dictionary<string, object>>(y =>
-                    y.ContainsKey(key) &&
-                    ((T)y[key]).Equals(value)), It.IsAny<string>()));
-            return this;
-        }
-
-        public AnalyticsServiceMockBuilder VerifyContinueOperationProperty(Expression<Func<Dictionary<string, object>, bool>> match) 
-        {
-            Mock.Verify(x => x.ContinueOperation(It.IsAny<object>(), It.IsAny<string>(), It.Is(match), It.IsAny<string>()));
-            return this;
-        }
-
-        #endregion
-        
+         
         #region StartPageViewOperation
-
         
         public MockBuilder<IAnalyticsOperation> Where_StartPageViewOperation_returns_operation()
         {

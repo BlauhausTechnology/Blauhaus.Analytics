@@ -165,7 +165,7 @@ namespace Blauhaus.Analytics.Common.Service
 
         public IAnalyticsOperation StartPageViewOperation(object sender, string pageName = "", Dictionary<string, object>? properties = null, [CallerMemberName] string callerMember = "")
         {
-            if (properties == null) properties = EmptyProperties;
+            properties ??= EmptyProperties;
 
             if (string.IsNullOrWhiteSpace(pageName))
             {
@@ -179,7 +179,7 @@ namespace Blauhaus.Analytics.Common.Service
                     Duration = duration
                 };
                 
-                if(properties == null) properties = new Dictionary<string, object>();
+                properties ??= new Dictionary<string, object>();
 
                 TelemetryClient.TrackPageView(TelemetryDecorator.DecorateTelemetry(pageViewTelemetry, sender.GetType().Name, callerMember, CurrentOperation, CurrentSession, properties));
 
@@ -187,8 +187,6 @@ namespace Blauhaus.Analytics.Common.Service
                 
                 CurrentOperation = null;
             });
-
-            LogTrace($"{pageName} started", LogSeverity.Verbose, new Dictionary<string, object>(), sender.GetType().Name, callerMember);
 
             return CurrentOperation;
         }

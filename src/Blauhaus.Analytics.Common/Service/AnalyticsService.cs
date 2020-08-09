@@ -238,13 +238,24 @@ namespace Blauhaus.Analytics.Common.Service
             ConsoleLogger.LogException(exception, properties.ToDictionaryOfStrings());
         }
 
-
         public void Trace(object sender, string message, LogSeverity logSeverity = LogSeverity.Verbose, Dictionary<string, object> properties = null, [CallerMemberName] string callerMemberName = "")
         {
+            
             if (properties == null) properties = EmptyProperties;
 
             LogTrace(message, logSeverity, properties, sender.GetType().Name, callerMemberName);
-        }   
+        }
+
+        public IAnalyticsOperation StartTrace(object sender, string message, LogSeverity logSeverity = LogSeverity.Verbose, Dictionary<string, object> properties = null, [CallerMemberName] string callerMemberName = "")
+        {
+            if (properties == null) properties = new Dictionary<string, object>();
+
+            return new AnalyticsOperation(message, duration =>
+            {
+                properties["Duration"] = duration;
+                LogTrace(message, logSeverity, properties, sender.GetType().Name, callerMemberName);
+            });
+        }
 
         protected void LogTrace(string message, LogSeverity logSeverity, Dictionary<string, object> properties, string callingClassName, string callerMemberName)
         {

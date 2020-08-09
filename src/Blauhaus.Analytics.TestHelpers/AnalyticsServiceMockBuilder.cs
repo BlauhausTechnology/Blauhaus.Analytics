@@ -73,6 +73,42 @@ namespace Blauhaus.Analytics.TestHelpers
 
         #endregion
         
+        #region StartTrace
+
+        public AnalyticsServiceMockBuilder VerifyStartTrace(string traceMessage, LogSeverity severity = LogSeverity.Verbose)
+        {
+            Mock.Verify(x => x.StartTrace(It.IsAny<object>(), traceMessage, severity, It.IsAny<Dictionary<string, object>>(), It.IsAny<string>()));
+            return this;
+        }
+        
+        public AnalyticsServiceMockBuilder VerifyStartTraceProperty<T>(string key, T value)
+        {
+            Mock.Verify(x => x.StartTrace(It.IsAny<object>(), It.IsAny<string>(), It.IsAny<LogSeverity>(), 
+                It.Is<Dictionary<string, object>>(y =>
+                    y.ContainsKey(key) &&
+                    ((T)y[key]).Equals(value)),
+                It.IsAny<string>()));
+            return this;
+        }
+
+        public AnalyticsServiceMockBuilder VerifyStartTraceProperty(Expression<Func<Dictionary<string, object>, bool>> match)
+        {
+            Mock.Verify(x => x.StartTrace(It.IsAny<object>(), It.IsAny<string>(), It.IsAny<LogSeverity>(), It.Is(match), It.IsAny<string>()));
+            return this;
+        }
+
+        public MockBuilder<IAnalyticsOperation> Where_StartTrace_returns_operation()
+        {
+            var operation = new MockBuilder<IAnalyticsOperation>();
+            
+            Mock.Verify(x => x.StartTrace(It.IsAny<object>(), 
+                It.IsAny<string>(), It.IsAny<LogSeverity>(), It.IsAny<Dictionary<string, object>>(), It.IsAny<string>()));
+
+            return operation;
+        }
+
+        #endregion
+        
         #region LogException
 
         public AnalyticsServiceMockBuilder VerifyLogException(Exception exception)

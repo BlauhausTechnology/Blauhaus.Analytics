@@ -70,6 +70,17 @@ namespace Blauhaus.Analytics.Console.Service
             return CurrentOperation;
         }
 
+        public IAnalyticsOperation StartTrace(object sender, string message, LogSeverity logSeverity = LogSeverity.Verbose, Dictionary<string, object> properties = null, string callerMemberName = "")
+        {
+            properties ??= new Dictionary<string, object>();
+            return new AnalyticsOperation(message, duration =>
+            {
+                properties["Duration"] = duration;
+                var p = properties.ToDictionaryOfStrings();
+                ConsoleLogger.LogTrace(message, logSeverity, properties.ToDictionaryOfStrings());
+            });
+        }
+
         public IAnalyticsOperation ContinueOperation(object sender, string operationName, Dictionary<string, object> properties = null, [CallerMemberName] string callerMemberName = "")
         {
             if (CurrentOperation == null)

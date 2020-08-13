@@ -6,7 +6,7 @@ using Blauhaus.Analytics.Abstractions.Service;
 using Blauhaus.TestHelpers.MockBuilders;
 using Moq;
 
-namespace Blauhaus.Analytics.TestHelpers
+namespace Blauhaus.Analytics.TestHelpers.MockBuilders
 {
      public class AnalyticsServiceMockBuilder : BaseMockBuilder<AnalyticsServiceMockBuilder, IAnalyticsService>
      {

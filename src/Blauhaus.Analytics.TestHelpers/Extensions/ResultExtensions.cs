@@ -1,4 +1,5 @@
 ﻿using Blauhaus.Analytics.Abstractions.Service;
+using Blauhaus.Analytics.TestHelpers.MockBuilders;
 using Blauhaus.Errors;
 using Blauhaus.Errors.Extensions;
 using CSharpFunctionalExtensions;

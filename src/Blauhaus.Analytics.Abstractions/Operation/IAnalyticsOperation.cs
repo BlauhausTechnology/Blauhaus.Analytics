@@ -6,5 +6,6 @@ namespace Blauhaus.Analytics.Abstractions.Operation
     {
          string Id { get; }
          string Name { get; }
+
     }
 }

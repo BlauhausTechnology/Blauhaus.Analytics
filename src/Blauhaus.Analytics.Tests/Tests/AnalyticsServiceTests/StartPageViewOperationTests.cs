@@ -48,6 +48,29 @@ namespace Blauhaus.Analytics.Tests.Tests.AnalyticsServiceTests
         }
 
         [Test]
+        public void WHEN_Operation_is_replaced_SHOULD_track_dependency()
+        {
+            //Arrange
+            Sut.StartPageViewOperation(this, "MyOperation");
+            MockTelemetryClient.Mock.Verify(x => x.TrackPageView(It.IsAny<PageViewTelemetry>()), Times.Never);
+            MockTelemetryDecorator.Where_Decorate_returns(new PageViewTelemetry("Decorated"));
+
+            //Act
+            Sut.StartPageViewOperation(this, "New");
+            
+            //Assert
+            MockTelemetryDecorator.Mock.Verify<PageViewTelemetry>(x => x.DecorateTelemetry(
+                It.Is<PageViewTelemetry>(y => y.Name == "MyOperation"),
+                It.IsAny<string>(),
+                "WHEN_Operation_is_replaced_SHOULD_track_dependency",
+                It.Is<IAnalyticsOperation>(y => y.Name == "MyOperation"), 
+                Sut.CurrentSession, 
+                It.IsAny<Dictionary<string, object>>()));
+            MockTelemetryClient.Mock.Verify(x => x.TrackPageView(It.Is<PageViewTelemetry>(y => y.Name == "Decorated")));
+            MockConsoleLogger.Mock.Verify(x => x.LogOperation("MyOperation", It.IsAny<TimeSpan>()));
+        }
+
+        [Test]
         public void IF_PageName_is_empty_SHOULD_use_class_name()
         {
             //Arrange

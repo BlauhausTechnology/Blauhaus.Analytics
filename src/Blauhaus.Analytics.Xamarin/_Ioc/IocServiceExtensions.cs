@@ -6,11 +6,7 @@ using Blauhaus.Analytics.Common.Telemetry;
 using Blauhaus.Analytics.Console._Ioc;
 using Blauhaus.Analytics.Xamarin.SessionFactories;
 using Blauhaus.DeviceServices.Abstractions.Application;
-using Blauhaus.DeviceServices.Abstractions.DeviceInfo;
-using Blauhaus.DeviceServices.Abstractions.SecureStorage;
 using Blauhaus.DeviceServices.Common.Application;
-using Blauhaus.DeviceServices.Common.DeviceInfo;
-using Blauhaus.DeviceServices.Common.SecureStorage;
 using Blauhaus.Ioc.Abstractions;
 
 namespace Blauhaus.Analytics.Xamarin._Ioc

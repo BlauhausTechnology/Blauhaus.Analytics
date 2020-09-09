@@ -5,11 +5,7 @@ using Blauhaus.Analytics.Common.Service;
 using Blauhaus.Analytics.Common.Telemetry;
 using Blauhaus.Analytics.Console._Ioc;
 using Blauhaus.Analytics.Xamarin.SessionFactories;
-using Blauhaus.DeviceServices.Abstractions.Application;
-using Blauhaus.DeviceServices.Abstractions.DeviceInfo;
 using Blauhaus.DeviceServices.Common._Ioc;
-using Blauhaus.DeviceServices.Common.Application;
-using Blauhaus.DeviceServices.Common.DeviceInfo;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Blauhaus.Analytics.Xamarin._Ioc
@@ -17,18 +13,18 @@ namespace Blauhaus.Analytics.Xamarin._Ioc
     public static class ServiceCollectionExtensions
     {
         
-        public static IServiceCollection RegisterXamarinAnalyticsService<TConfig>(this IServiceCollection services) 
+        public static IServiceCollection AddXamarinAnalyticsService<TConfig>(this IServiceCollection services) 
             where TConfig : class, IApplicationInsightsConfig
         {
             services.RegisterConsoleLoggerClientService();
             services.AddDeviceServices();
 
-            services.AddScoped<IApplicationInsightsConfig, TConfig>();
-            services.AddScoped<ITelemetryClientProxy, TelemetryClientProxy>();
-            services.AddScoped<ITelemetryDecorator, TelemetryDecorator>();
+            services.AddSingleton<IApplicationInsightsConfig, TConfig>();
+            services.AddSingleton<ITelemetryClientProxy, TelemetryClientProxy>();
+            services.AddSingleton<ITelemetryDecorator, TelemetryDecorator>();
 
-            services.AddScoped<IAnalyticsSessionFactory, XamarinSessionFactory>();
-            services.AddScoped<IAnalyticsService, AnalyticsService>();
+            services.AddSingleton<IAnalyticsSessionFactory, XamarinSessionFactory>();
+            services.AddSingleton<IAnalyticsService, AnalyticsService>();
             return services;
         }
 

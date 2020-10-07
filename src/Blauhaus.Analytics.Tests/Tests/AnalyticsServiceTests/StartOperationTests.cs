@@ -22,7 +22,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AnalyticsServiceTests
             Assert.That(Sut.CurrentOperation.Id.Length, Is.EqualTo(Guid.NewGuid().ToString().Length));
             Assert.That(operation.Id.Length, Is.EqualTo(Guid.NewGuid().ToString().Length));
         }
-
+ 
         [Test]
         public void WHEN_Operation_is_disposed_SHOULD_track_dependency()
         {
@@ -35,6 +35,32 @@ namespace Blauhaus.Analytics.Tests.Tests.AnalyticsServiceTests
 
             //Act
             operation.Dispose();
+            
+            //Assert
+            MockTelemetryDecorator.Mock.Verify<DependencyTelemetry>(x => x.DecorateTelemetry(It.IsAny<DependencyTelemetry>(), 
+                It.IsAny<string>(),
+                It.IsAny<string>(),
+                It.Is<IAnalyticsOperation>(y => 
+                    y.Id == operation.Id &&
+                    y.Name == "MyOperation"), 
+                Sut.CurrentSession, It.Is<Dictionary<string, object>>(y => (string) y["key"] == "1")));
+            MockTelemetryClient.Mock.Verify(x => x.TrackDependency(It.Is<DependencyTelemetry>(y => 
+                y.Name == "MyOperation")));
+            MockConsoleLogger.Mock.Verify(x => x.LogOperation("MyOperation", It.IsAny<TimeSpan>()));
+        }
+
+        [Test]
+        public void WHEN_Operation_is_replaced_SHOULD_track_dependency()
+        {
+            //Arrange
+            var operation = Sut.StartOperation(this, "MyOperation", new Dictionary<string, object>
+            {
+                {"key", "1" }
+            });
+            MockTelemetryClient.Mock.Verify(x => x.TrackDependency(It.IsAny<DependencyTelemetry>()), Times.Never);
+
+            //Act
+            Sut.StartOperation(this, "New Operation");
             
             //Assert
             MockTelemetryDecorator.Mock.Verify<DependencyTelemetry>(x => x.DecorateTelemetry(It.IsAny<DependencyTelemetry>(), 

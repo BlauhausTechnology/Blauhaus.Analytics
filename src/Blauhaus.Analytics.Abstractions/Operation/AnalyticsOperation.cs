@@ -37,9 +37,17 @@ namespace Blauhaus.Analytics.Abstractions.Operation
 
         public void Dispose()
         {
-            _stopwatch.Stop();
+            Stop();
             GC.SuppressFinalize(this);
-            _onStopAction.Invoke(_stopwatch.Elapsed);
+        }
+
+        public void Stop()
+        {
+            if (_stopwatch.IsRunning)
+            {
+                _stopwatch.Stop(); 
+                _onStopAction.Invoke(_stopwatch.Elapsed);
+            }
         }
     }
 }

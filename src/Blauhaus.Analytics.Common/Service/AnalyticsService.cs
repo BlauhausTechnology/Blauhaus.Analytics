@@ -18,6 +18,7 @@ namespace Blauhaus.Analytics.Common.Service
     public class AnalyticsService : IAnalyticsService
     {
         private IAnalyticsSession _currentSession;
+        private IAnalyticsOperation? _currentOperation;
         private static readonly Dictionary<string, object> EmptyProperties = new Dictionary<string, object>();
 
         protected readonly IApplicationInsightsConfig Config;
@@ -45,7 +46,15 @@ namespace Blauhaus.Analytics.Common.Service
 
         
 
-        public IAnalyticsOperation? CurrentOperation { get; protected set; }
+        public IAnalyticsOperation? CurrentOperation
+        {
+            get => _currentOperation;
+            protected set
+            {
+                _currentOperation?.Dispose();
+                _currentOperation = value;
+            }
+        }
 
         public virtual IAnalyticsSession CurrentSession
         {
@@ -157,7 +166,7 @@ namespace Blauhaus.Analytics.Common.Service
 
                 ConsoleLogger.LogOperation(requestName, duration);
 
-                CurrentOperation = null;
+                _currentOperation = null;
             });
 
             return CurrentOperation;
@@ -185,7 +194,7 @@ namespace Blauhaus.Analytics.Common.Service
 
                 ConsoleLogger.LogOperation(pageName, duration);
                 
-                CurrentOperation = null;
+                _currentOperation = null;
             });
 
             return CurrentOperation;
@@ -212,7 +221,7 @@ namespace Blauhaus.Analytics.Common.Service
                 TelemetryClient.TrackDependency(dependencyTelemetry);
                 ConsoleLogger.LogOperation(operationName, duration);
 
-                CurrentOperation = null;
+                _currentOperation = null;
             });
 
             return CurrentOperation;

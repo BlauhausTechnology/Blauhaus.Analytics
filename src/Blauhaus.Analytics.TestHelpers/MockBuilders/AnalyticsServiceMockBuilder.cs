@@ -45,6 +45,7 @@ namespace Blauhaus.Analytics.TestHelpers.MockBuilders
             Mock.Verify(x => x.LogEvent(It.IsAny<object>(), It.IsAny<string>(), It.Is(match), It.IsAny<string>()));
             return this;
         }
+         
 
         #endregion
 

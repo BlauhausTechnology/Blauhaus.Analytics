@@ -97,16 +97,20 @@ namespace Blauhaus.Analytics.Abstractions.Extensions
         public static string TraceError(this IAnalyticsService analyticsService, object sender, Error error,
             LogSeverity logSeverity = LogSeverity.Error, [CallerMemberName] string caller = "")
         {
-            analyticsService.Trace(sender, error.Code, logSeverity, new Dictionary<string, object> 
-                {{"ErrorDescription", error.Description }}, caller);
+            analyticsService.Trace(sender, error.ToString(), logSeverity, new Dictionary<string, object>
+            {
+                {"ErrorDescription", error.Description },
+                {"ErrorCode", error.Code}
+            }, caller);
             return error.ToString();
         } 
         public static string TraceError(this IAnalyticsService analyticsService, object sender, Error error, string propertyName, string propertyValue,
             LogSeverity logSeverity = LogSeverity.Error, [CallerMemberName] string caller = "")
         {
-            analyticsService.Trace(sender, error.Code, logSeverity, new Dictionary<string, object>
+            analyticsService.Trace(sender, error.ToString(), logSeverity, new Dictionary<string, object>
             {
                 {"ErrorDescription", error.Description },
+                {"ErrorCode", error.Code},
                 {propertyName, propertyValue}
             }, caller);
             return error.ToString();
@@ -115,7 +119,8 @@ namespace Blauhaus.Analytics.Abstractions.Extensions
             LogSeverity logSeverity = LogSeverity.Error, [CallerMemberName] string caller = "")
         {
             properties["ErrorDescription"] = error.Description;
-            analyticsService.Trace(sender, error.Code, logSeverity, properties, caller);
+            properties["ErrorCode"] = error.Code;
+            analyticsService.Trace(sender, error.ToString(), logSeverity, properties, caller);
             return error.ToString();
         }
 
@@ -207,7 +212,6 @@ namespace Blauhaus.Analytics.Abstractions.Extensions
             analyticsService.TraceError(sender, error, properties, logSeverity, caller);
             return Response.Failure(error);
         } 
-
         public static Response<T> TraceErrorResponse<T>(this IAnalyticsService analyticsService, object sender, Error error,
             LogSeverity logSeverity = LogSeverity.Error, [CallerMemberName] string caller = "")
         {

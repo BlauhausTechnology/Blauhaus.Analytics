@@ -12,13 +12,13 @@ namespace Blauhaus.Analytics.TestHelpers.Extensions
         public static void VerifyResultError(this Result result, Error error, AnalyticsServiceMockBuilder mockAnalyticsService, LogSeverity logSeverity = LogSeverity.Error)
         {
             Assert.That(result.Error.IsError(error));
-            mockAnalyticsService.VerifyTrace(error.Code, logSeverity);
+            mockAnalyticsService.VerifyTrace(error.ToString(), logSeverity);
         }
 
         public static void VerifyResultError<T>(this Result<T> result, Error error, AnalyticsServiceMockBuilder mockAnalyticsService, LogSeverity logSeverity = LogSeverity.Error)
         {
             Assert.That(result.Error.IsError(error));
-            mockAnalyticsService.VerifyTrace(error.Code, logSeverity);
+            mockAnalyticsService.VerifyTrace(error.ToString(), logSeverity);
         }
 
         public static void VerifyResultException<T>(this Result<T> result, Error error, string exceptionMessage, AnalyticsServiceMockBuilder mockAnalyticsService)

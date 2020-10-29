@@ -124,6 +124,12 @@ namespace Blauhaus.Analytics.TestHelpers.MockBuilders
             return this;
         }
 
+        public AnalyticsServiceMockBuilder VerifyLogExceptionWithMessage(Expression<Func<Exception, bool>> predicate)
+        {
+            Mock.Verify(x => x.LogException(It.IsAny<object>(), It.Is(predicate), It.IsAny<Dictionary<string, object>>(), It.IsAny<string>()));
+            return this;
+        }
+
         public AnalyticsServiceMockBuilder VerifyLogException<TException>(string message = null) where TException : Exception
         {
             if (message == null)

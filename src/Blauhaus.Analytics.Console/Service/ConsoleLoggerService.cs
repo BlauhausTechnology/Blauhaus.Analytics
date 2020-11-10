@@ -12,6 +12,8 @@ namespace Blauhaus.Analytics.Console.Service
     public class ConsoleLoggerService: IAnalyticsService
     {
         protected readonly IConsoleLogger ConsoleLogger;
+        private IAnalyticsOperation? _currentOperation;
+        private IAnalyticsSession? _currentSession;
 
         public ConsoleLoggerService(
             IConsoleLogger consoleLogger)
@@ -19,8 +21,22 @@ namespace Blauhaus.Analytics.Console.Service
             ConsoleLogger = consoleLogger;
         }
 
-        public IAnalyticsOperation? CurrentOperation { get; private set; }
-        public IAnalyticsSession CurrentSession { get; private set; }
+        public IAnalyticsOperation? CurrentOperation
+        {
+            get => _currentOperation;
+            protected set
+            {
+                _currentOperation?.Dispose();
+                _currentOperation = value;
+            }
+        }
+
+        public virtual IAnalyticsSession CurrentSession
+        {
+            get => _currentSession ??= AnalyticsSession.New;
+            protected set => _currentSession = value;
+        } 
+
         public IDictionary<string, string> AnalyticsOperationHeaders { get; } = new Dictionary<string, string>();
 
         public void ResetCurrentSession(string newSessionId = "")

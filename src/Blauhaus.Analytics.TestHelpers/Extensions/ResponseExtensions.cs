@@ -13,6 +13,21 @@ namespace Blauhaus.Analytics.TestHelpers.Extensions
 {
     public static class ResponseExtensions
     {
+        public static void VerifyExactResponseError(this Response result, Error error, AnalyticsServiceMockBuilder mockAnalyticsService, LogSeverity logSeverity = LogSeverity.Error)
+        {
+            Assert.That(result.Error.Code.Equals(error.Code));
+            Assert.That(result.Error.Description.Equals(error.Description));
+            mockAnalyticsService.Mock.Verify(x => x.Trace(It.IsAny<object>(), error.ToString(), logSeverity, It.IsAny<Dictionary<string, object>>(), It.IsAny<string>()));
+        }
+
+        public static void VerifyExactResponseError<T>(this Response<T> result, Error error, AnalyticsServiceMockBuilder mockAnalyticsService, LogSeverity logSeverity = LogSeverity.Error)
+        {
+            Assert.That(result.Error.Code.Equals(error.Code));
+            Assert.That(result.Error.Description.Equals(error.Description));
+            mockAnalyticsService.Mock.Verify(x => x.Trace(It.IsAny<object>(), error.ToString(), logSeverity, It.IsAny<Dictionary<string, object>>(), It.IsAny<string>()));
+        }
+
+
         public static void VerifyResponseError(this Response result, Error error, AnalyticsServiceMockBuilder mockAnalyticsService, LogSeverity logSeverity = LogSeverity.Error)
         {
             Assert.That(result.Error.Equals(error));

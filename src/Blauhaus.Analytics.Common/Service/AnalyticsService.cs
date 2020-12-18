@@ -114,7 +114,6 @@ namespace Blauhaus.Analytics.Common.Service
             var sessionId = string.IsNullOrEmpty(newSessionId) ? CurrentSession.Id : newSessionId;
             CurrentSession = AnalyticsSession.FromExisting(sessionId);
         }
-
         
         public IAnalyticsOperation StartRequestOperation(object sender, string requestName, IDictionary<string, string> headers, [CallerMemberName] string callingMember = "")
         {
@@ -153,7 +152,8 @@ namespace Blauhaus.Analytics.Common.Service
 
             CurrentSession = session;
 
-
+            HandleNewRequest(session, operationName, operationId);
+            
             CurrentOperation = new AnalyticsOperation(operationName, operationId, duration =>
             {
                 var requestTelemetry = new RequestTelemetry
@@ -170,6 +170,10 @@ namespace Blauhaus.Analytics.Common.Service
             });
 
             return CurrentOperation;
+        }
+
+        protected virtual void HandleNewRequest(AnalyticsSession session, string operationName, string operationId)
+        {
         }
 
         public IAnalyticsOperation StartPageViewOperation(object sender, string pageName = "", Dictionary<string, object>? properties = null, [CallerMemberName] string callerMember = "")
@@ -199,7 +203,6 @@ namespace Blauhaus.Analytics.Common.Service
 
             return CurrentOperation;
         }
-
 
         public IAnalyticsOperation StartOperation(object sender, string operationName, Dictionary<string, object>? properties = null, [CallerMemberName] string callerMemberName = "")
         {

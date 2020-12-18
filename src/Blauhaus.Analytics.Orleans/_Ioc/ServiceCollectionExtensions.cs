@@ -12,15 +12,17 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Blauhaus.Analytics.Orleans._Ioc
 {
-    public static class ServiceCollectionExtensions 
+    public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddOrleansAnalytics<TConfig>(this IServiceCollection services, TraceListener? consoleTraceListener)
+        private static TraceListener? _traceListener;
+        
+        public static IServiceCollection AddOrleansAnalytics<TConfig>(this IServiceCollection services, TraceListener consoleTraceListener)
             where TConfig : class, IApplicationInsightsConfig
         {
-
-            if (consoleTraceListener != null)
+            if (_traceListener == null)
             {
-                services.RegisterConsoleLoggerService(consoleTraceListener);
+                _traceListener = consoleTraceListener;
+                services.RegisterConsoleLoggerService(_traceListener);
             }
             
             services.AddScoped<IApplicationInsightsConfig, TConfig>();

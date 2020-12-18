@@ -17,15 +17,15 @@ namespace Blauhaus.Analytics.Orleans.Session
         
         public IAnalyticsSession CreateSession()
         {
-            var session = AnalyticsSession.New;
             
+            var session = AnalyticsSession.FromExisting((string) _requestContext.Get(AnalyticsHeaders.Session.Id));
             session.UserId = (string)_requestContext.Get(AnalyticsHeaders.Session.UserId);
             session.DeviceId = (string)_requestContext.Get(AnalyticsHeaders.Session.DeviceId);
             session.AppVersion = (string)_requestContext.Get(AnalyticsHeaders.Session.AppVersion);
             session.AccountId = (string)_requestContext.Get(AnalyticsHeaders.Session.AccountId);
             
-            session.SetProperty(AnalyticsHeaders.Operation.Id, (string)_requestContext.Get(AnalyticsHeaders.Operation.Id));
-            session.SetProperty(AnalyticsHeaders.Operation.Name, (string)_requestContext.Get(AnalyticsHeaders.Operation.Name));
+            session.SetProperty("OperationId", (string)_requestContext.Get(AnalyticsHeaders.Operation.Id));
+            session.SetProperty("OperationName", (string)_requestContext.Get(AnalyticsHeaders.Operation.Name));
 
             return session;
         }

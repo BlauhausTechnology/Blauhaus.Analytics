@@ -14,11 +14,14 @@ namespace Blauhaus.Analytics.Orleans._Ioc
 {
     public static class ServiceCollectionExtensions 
     {
-        public static IServiceCollection AddOrleansAnalytics<TConfig>(this IServiceCollection services, TraceListener consoleTraceListener)
+        public static IServiceCollection AddOrleansAnalytics<TConfig>(this IServiceCollection services, TraceListener? consoleTraceListener)
             where TConfig : class, IApplicationInsightsConfig
         {
-            
-            services.RegisterConsoleLoggerService(consoleTraceListener);
+
+            if (consoleTraceListener != null)
+            {
+                services.RegisterConsoleLoggerService(consoleTraceListener);
+            }
             
             services.AddScoped<IApplicationInsightsConfig, TConfig>();
             services.AddScoped<ITelemetryClientProxy, TelemetryClientProxy>();

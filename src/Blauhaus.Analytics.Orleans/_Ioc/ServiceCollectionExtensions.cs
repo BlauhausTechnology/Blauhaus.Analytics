@@ -20,14 +20,14 @@ namespace Blauhaus.Analytics.Orleans._Ioc
             
             services.RegisterConsoleLoggerService(consoleTraceListener);
             
-            services.AddSingleton<IApplicationInsightsConfig, TConfig>();
-            services.AddSingleton<ITelemetryClientProxy, TelemetryClientProxy>();
-            services.AddSingleton<ITelemetryDecorator, TelemetryDecorator>();
+            services.AddScoped<IApplicationInsightsConfig, TConfig>();
+            services.AddScoped<ITelemetryClientProxy, TelemetryClientProxy>();
+            services.AddScoped<ITelemetryDecorator, TelemetryDecorator>();
             
-            services.AddSingleton<IAnalyticsSessionFactory, OrleansSessionFactory>();
+            services.AddScoped<IAnalyticsSessionFactory, OrleansSessionFactory>();
             
-            services.AddSingleton<IAnalyticsService, OrleansAnalyticsService>();
-            services.AddSingleton<IOrleansRequestContext, OrleansRequestContext>();
+            services.AddScoped<IAnalyticsService, OrleansAnalyticsService>();
+            services.AddScoped<IOrleansRequestContext, OrleansRequestContext>();
 
             
             return services;

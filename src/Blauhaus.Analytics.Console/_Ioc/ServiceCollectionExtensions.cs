@@ -29,7 +29,7 @@ namespace Blauhaus.Analytics.Console._Ioc
 
         private static void AddTraceListener(TraceListener consoleTraceListener)
         {
-            if (!IsTraceListenerRegistered)
+            if (!IsTraceListenerRegistered && Trace.Listeners.Count == 0)
             {
                 //so that console logging works
                 Trace.Listeners.Add(consoleTraceListener);

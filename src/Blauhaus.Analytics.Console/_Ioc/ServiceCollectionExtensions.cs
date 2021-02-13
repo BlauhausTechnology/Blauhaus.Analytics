@@ -3,12 +3,13 @@ using Blauhaus.Analytics.Abstractions.Service;
 using Blauhaus.Analytics.Console.ConsoleLoggers;
 using Blauhaus.Analytics.Console.Service;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Blauhaus.Analytics.Console._Ioc
 {
     public static class ServiceCollectionExtensions
     {
-        private static bool IsTraceListenerRegistered;
+        private static bool _isTraceListenerRegistered;
         public static IServiceCollection RegisterConsoleLoggerClientService(this IServiceCollection services)
         {
             services.AddScoped<ITraceProxy, TraceProxy>();
@@ -20,20 +21,20 @@ namespace Blauhaus.Analytics.Console._Ioc
         public static IServiceCollection RegisterConsoleLoggerService(this IServiceCollection services, TraceListener consoleTraceListener)
         {
             AddTraceListener(consoleTraceListener);
-            services.AddScoped<ITraceProxy, TraceProxy>();
-            services.AddScoped<IConsoleLogger, ConsoleLogger>();
-            services.AddScoped<IAnalyticsService, ConsoleLoggerService>();
+            services.TryAddScoped<ITraceProxy, TraceProxy>();
+            services.TryAddScoped<IConsoleLogger, ConsoleLogger>();
+            services.TryAddScoped<IAnalyticsService, ConsoleLoggerService>();
 
             return services;
         }
 
         private static void AddTraceListener(TraceListener consoleTraceListener)
         {
-            if (!IsTraceListenerRegistered && Trace.Listeners.Count == 0)
+            if (!_isTraceListenerRegistered && Trace.Listeners.Count == 0)
             {
                 //so that console logging works
                 Trace.Listeners.Add(consoleTraceListener);
-                IsTraceListenerRegistered = true;
+                _isTraceListenerRegistered = true;
             }
         }
     }

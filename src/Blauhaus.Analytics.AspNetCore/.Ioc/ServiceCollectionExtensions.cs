@@ -5,11 +5,11 @@ using Blauhaus.Analytics.Abstractions.Session;
 using Blauhaus.Analytics.AspNetCore.SessionFactories;
 using Blauhaus.Analytics.Common.Service;
 using Blauhaus.Analytics.Common.Telemetry;
-using Blauhaus.Analytics.Console._Ioc;
+using Blauhaus.Analytics.Console.Ioc;
 using Microsoft.ApplicationInsights;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Blauhaus.Analytics.AspNetCore._Ioc
+namespace Blauhaus.Analytics.AspNetCore.Ioc
 {
     public static class ServiceCollectionExtensions
     {

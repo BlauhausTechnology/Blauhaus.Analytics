@@ -5,7 +5,7 @@ using Blauhaus.Analytics.Console.Service;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace Blauhaus.Analytics.Console._Ioc
+namespace Blauhaus.Analytics.Console.Ioc
 {
     public static class ServiceCollectionExtensions
     {

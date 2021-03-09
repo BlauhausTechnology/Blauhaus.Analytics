@@ -3,7 +3,7 @@ using Blauhaus.Analytics.Console.ConsoleLoggers;
 using Blauhaus.Analytics.Console.Service;
 using Blauhaus.Ioc.Abstractions;
 
-namespace Blauhaus.Analytics.Console._Ioc
+namespace Blauhaus.Analytics.Console.Ioc
 {
     public static class IocServiceExtensions
     {

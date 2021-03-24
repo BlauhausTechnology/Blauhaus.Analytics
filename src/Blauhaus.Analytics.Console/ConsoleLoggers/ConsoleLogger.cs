@@ -88,7 +88,8 @@ namespace Blauhaus.Analytics.Console.ConsoleLoggers
             }
 
             _traceProxy.SetColour(ConsoleColours.TraceColours[severityLevel]);
-            _traceProxy.Write($"TRACE: {message}");
+            var prefix = severityLevel == LogSeverity.Debug ? "DEBUG" : "TRACE";
+            _traceProxy.Write($"{prefix}: {message}");
 
             if (properties != null)
             {

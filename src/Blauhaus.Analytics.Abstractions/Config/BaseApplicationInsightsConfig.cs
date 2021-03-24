@@ -13,8 +13,8 @@ namespace Blauhaus.Analytics.Abstractions.Config
 
             MinimumLogToServerSeverity = new Dictionary<IBuildConfig, LogSeverity>
             {
-                {BuildConfig.Debug, LogSeverity.Critical },
-                {BuildConfig.Release, LogSeverity.Information }
+                {BuildConfig.Debug, LogSeverity.Verbose },
+                {BuildConfig.Release, LogSeverity.Verbose }
             };
         }
 

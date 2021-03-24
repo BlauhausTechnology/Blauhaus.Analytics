@@ -9,7 +9,7 @@ namespace Blauhaus.Analytics.Xamarin.SessionFactories
         private readonly IDeviceInfoService _deviceInfoService;
         private readonly IApplicationInfoService _applicationInfoService;
 
-        private AnalyticsSession _session;
+        private AnalyticsSession? _session;
 
         public XamarinSessionFactory(
             IDeviceInfoService deviceInfoService,
@@ -31,7 +31,6 @@ namespace Blauhaus.Analytics.Xamarin.SessionFactories
                 _session.OperatingSystemVersion = _deviceInfoService.OperatingSystemVersion;
                 _session.Manufacturer = _deviceInfoService.Manufacturer;
                 _session.Model = _deviceInfoService.Model;
-
             }
 
             return _session;

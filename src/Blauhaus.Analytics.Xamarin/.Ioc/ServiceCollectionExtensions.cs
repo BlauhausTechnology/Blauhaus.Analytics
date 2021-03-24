@@ -3,12 +3,12 @@ using Blauhaus.Analytics.Abstractions.Service;
 using Blauhaus.Analytics.Abstractions.Session;
 using Blauhaus.Analytics.Common.Service;
 using Blauhaus.Analytics.Common.Telemetry;
-using Blauhaus.Analytics.Console._Ioc;
+using Blauhaus.Analytics.Console.Ioc;
 using Blauhaus.Analytics.Xamarin.SessionFactories;
 using Blauhaus.DeviceServices.Common._Ioc;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Blauhaus.Analytics.Xamarin._Ioc
+namespace Blauhaus.Analytics.Xamarin.Ioc
 {
     public static class ServiceCollectionExtensions
     {

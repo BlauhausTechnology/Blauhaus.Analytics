@@ -11,6 +11,7 @@ namespace Blauhaus.Analytics.Tests.Tests.ConsoleLoggerServiceTests
         protected override ConsoleLoggerService ConstructSut()
         {
             return new ConsoleLoggerService(
+                CurrentBuildConfig,
                 MockConsoleLogger.Object);
         }
 

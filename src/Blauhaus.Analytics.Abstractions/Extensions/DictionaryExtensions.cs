@@ -6,7 +6,7 @@ namespace Blauhaus.Analytics.Abstractions.Extensions
 {
     public static class DictionaryExtensions
     {
-        public static Dictionary<string, string> ToDictionaryOfStrings(this Dictionary<string, object> properties)
+        public static Dictionary<string, string> ToDictionaryOfStrings(this Dictionary<string, object>? properties)
         {
             var stringifiedProperties = new Dictionary<string, string>();
 

@@ -250,6 +250,14 @@ namespace Blauhaus.Analytics.Common.Service
             ConsoleLogger.LogException(exception, properties.ToDictionaryOfStrings());
         }
 
+        public void Debug(string message, Dictionary<string, object>? properties = null)
+        {
+            if (CurrentBuildConfig.Equals(BuildConfig.Debug))
+            {
+                ConsoleLogger.LogTrace(message, LogSeverity.Debug, properties.ToDictionaryOfStrings());
+            }
+        }
+
         public void Trace(object sender, string message, LogSeverity logSeverity = LogSeverity.Verbose, Dictionary<string, object> properties = null, [CallerMemberName] string callerMemberName = "")
         {
             

@@ -6,18 +6,22 @@ using Blauhaus.Analytics.Abstractions.Operation;
 using Blauhaus.Analytics.Abstractions.Service;
 using Blauhaus.Analytics.Abstractions.Session;
 using Blauhaus.Analytics.Console.ConsoleLoggers;
+using Blauhaus.Common.ValueObjects.BuildConfigs;
 
 namespace Blauhaus.Analytics.Console.Service
 {
     public class ConsoleLoggerService: IAnalyticsService
     {
+        private readonly IBuildConfig _currentBuildConfig;
         protected readonly IConsoleLogger ConsoleLogger;
         private IAnalyticsOperation? _currentOperation;
         private IAnalyticsSession? _currentSession;
 
         public ConsoleLoggerService(
+            IBuildConfig currentBuildConfig,
             IConsoleLogger consoleLogger)
         {
+            _currentBuildConfig = currentBuildConfig;
             ConsoleLogger = consoleLogger;
         }
 
@@ -124,6 +128,14 @@ namespace Blauhaus.Analytics.Console.Service
         public void LogException(object sender, Exception exception, Dictionary<string, object>? properties = null, [CallerMemberName] string callerMemberName = "")
         {
             ConsoleLogger.LogException(exception, properties.ToDictionaryOfStrings());
+        }
+
+        public void Debug(string message, Dictionary<string, object>? properties = null)
+        {
+            if (_currentBuildConfig.Equals(BuildConfig.Debug))
+            {
+                ConsoleLogger.LogTrace(message, LogSeverity.Debug, properties.ToDictionaryOfStrings());
+            }
         }
     }
 }

@@ -230,7 +230,7 @@ namespace Blauhaus.Analytics.Common.Service
             return CurrentOperation;
         }
         
-        public void LogEvent(object sender, string eventName, Dictionary<string, object> properties = null, [CallerMemberName] string callerMemberName = "")
+        public virtual void LogEvent(object sender, string eventName, Dictionary<string, object> properties = null, [CallerMemberName] string callerMemberName = "")
         {
             if (properties == null) properties = EmptyProperties;
 
@@ -240,7 +240,7 @@ namespace Blauhaus.Analytics.Common.Service
             ConsoleLogger.LogEvent(eventName, properties.ToDictionaryOfStrings());
         }
 
-        public void LogException(object sender, Exception exception, Dictionary<string, object> properties = null, [CallerMemberName] string callerMemberName = "")
+        public virtual void LogException(object sender, Exception exception, Dictionary<string, object> properties = null, [CallerMemberName] string callerMemberName = "")
         {
             if (properties == null) properties = EmptyProperties;
 
@@ -277,7 +277,7 @@ namespace Blauhaus.Analytics.Common.Service
             });
         }
 
-        protected void LogTrace(string message, LogSeverity logSeverity, Dictionary<string, object> properties, string callingClassName, string callerMemberName)
+        protected virtual void LogTrace(string message, LogSeverity logSeverity, Dictionary<string, object> properties, string callingClassName, string callerMemberName)
         {
             if (Config.MinimumLogToServerSeverity.TryGetValue(CurrentBuildConfig, out var minumumSeverityToLogToServer))
             {

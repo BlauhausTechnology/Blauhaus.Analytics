@@ -5,7 +5,6 @@ using Blauhaus.Analytics.Common.Service;
 using Blauhaus.Analytics.Common.Telemetry;
 using Blauhaus.Analytics.Console.Ioc;
 using Blauhaus.Analytics.Xamarin.SessionFactories;
-using Blauhaus.DeviceServices.Common._Ioc;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Blauhaus.Analytics.Xamarin.Ioc
@@ -17,7 +16,6 @@ namespace Blauhaus.Analytics.Xamarin.Ioc
             where TConfig : class, IApplicationInsightsConfig
         {
             services.RegisterConsoleLoggerClientService();
-            services.AddDeviceServices();
 
             services.AddSingleton<IApplicationInsightsConfig, TConfig>();
             services.AddSingleton<ITelemetryClientProxy, TelemetryClientProxy>();

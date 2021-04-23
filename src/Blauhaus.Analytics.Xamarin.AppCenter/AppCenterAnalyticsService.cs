@@ -18,7 +18,6 @@ namespace Blauhaus.Analytics.Xamarin.AppCenter
     {
 
         private string _userId = string.Empty;
-        private string _accountId = string.Empty;
 
         public AppCenterAnalyticsService(
             IApplicationInsightsConfig config, 
@@ -33,19 +32,19 @@ namespace Blauhaus.Analytics.Xamarin.AppCenter
 
         public override void LogEvent(object sender, string eventName, Dictionary<string, object> properties = null, string callerMemberName = "")
         { 
-            Microsoft.AppCenter.Analytics.Analytics.TrackEvent(eventName, UpdateInformation(properties));
+            Microsoft.AppCenter.Analytics.Analytics.TrackEvent(eventName, UpdateInformation(sender, properties, callerMemberName));
             
             base.LogEvent(sender, eventName, properties, callerMemberName);
         }
 
         public override void LogException(object sender, Exception exception, Dictionary<string, object> properties = null, string callerMemberName = "")
         {
-            Crashes.TrackError(exception, UpdateInformation(properties));
+            Crashes.TrackError(exception, UpdateInformation(sender, properties, callerMemberName));
             
             base.LogException(sender, exception, properties, callerMemberName);
         }
 
-        private Dictionary<string, string> UpdateInformation(Dictionary<string, object> properties)
+        private Dictionary<string, string> UpdateInformation(object sender, Dictionary<string, object> properties, string callerMemberName)
         {
             var props = properties.ToDictionaryOfStrings();
             
@@ -54,12 +53,11 @@ namespace Blauhaus.Analytics.Xamarin.AppCenter
                 _userId = CurrentSession.UserId;
                 Microsoft.AppCenter.AppCenter.SetUserId(CurrentSession.UserId);
             }
-
-            if (CurrentSession.AccountId != null && CurrentSession.AccountId != _accountId)
-            {
-                _accountId = CurrentSession.AccountId;
-                props["AccountId"] = CurrentSession.AccountId;
-            }
+ 
+            props["UserId"] = CurrentSession.AccountId;
+            props["AccountId"] = CurrentSession.AccountId;
+            props["Class"] = sender.GetType().Name;
+            props["Method"] = callerMemberName;
 
             if (CurrentOperation != null)
             {

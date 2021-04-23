@@ -23,7 +23,7 @@ jobs:
         dotnet build ./src/Blauhaus.Analytics.sln --configuration Release
         dotnet pack ./src/Blauhaus.Analytics.Abstractions/Blauhaus.Analytics.Abstractions.csproj -p:PackageVersion=${VERSION_NAME} --no-build --output ./ --configuration Release 
         dotnet pack ./src/Blauhaus.Analytics.Xamarin/Blauhaus.Analytics.Xamarin.csproj -p:PackageVersion=${VERSION_NAME} --no-build --output ./ --configuration Release 
-        dotnet pack ./src/Blauhaus.Analytics.Xamarin/Blauhaus.Analytics.Xamarin.AppCenter.csproj -p:PackageVersion=${VERSION_NAME} --no-build --output ./ --configuration Release 
+        dotnet pack ./src/Blauhaus.Analytics.Xamarin.AppCenter/Blauhaus.Analytics.Xamarin.AppCenter.csproj -p:PackageVersion=${VERSION_NAME} --no-build --output ./ --configuration Release 
         dotnet pack ./src/Blauhaus.Analytics.Console/Blauhaus.Analytics.Console.csproj -p:PackageVersion=${VERSION_NAME} --no-build --output ./ --configuration Release 
         dotnet pack ./src/Blauhaus.Analytics.AspNetCore/Blauhaus.Analytics.AspNetCore.csproj -p:PackageVersion=${VERSION_NAME} --no-build --output ./ --configuration Release 
         dotnet pack ./src/Blauhaus.Analytics.Common/Blauhaus.Analytics.Common.csproj -p:PackageVersion=${VERSION_NAME} --no-build --output ./ --configuration Release 

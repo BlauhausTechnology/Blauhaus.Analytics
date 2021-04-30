@@ -54,6 +54,8 @@ namespace Blauhaus.Analytics.Xamarin.AppCenter
                 Microsoft.AppCenter.AppCenter.SetUserId(CurrentSession.UserId);
             }
  
+            props["SessionId"] = CurrentSession.Id;
+            props["DeviceIdentifier"] = CurrentSession.DeviceId;
             props["UserId"] = CurrentSession.AccountId;
             props["AccountId"] = CurrentSession.AccountId;
             props["Class"] = sender.GetType().Name;

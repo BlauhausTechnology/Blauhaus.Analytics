@@ -28,7 +28,7 @@ namespace Blauhaus.Analytics.Tests.Tests.ConsoleLoggerServiceTests
             Sut.Debug("Trace message", properties);
 
             //Assert 
-            MockConsoleLogger.Mock.Verify(x => x.LogTrace("Trace message", LogSeverity.Debug, It.Is<Dictionary<string, string>>(y => y["Property"] == "\"value\"")));
+            MockConsoleLogger.Mock.Verify(x => x.LogTrace("Trace message", LogSeverity.Debug, It.Is<Dictionary<string, string>>(y => y["Property"] == "value")));
         }
         
         [Test]
@@ -42,7 +42,7 @@ namespace Blauhaus.Analytics.Tests.Tests.ConsoleLoggerServiceTests
             Sut.Debug("Trace message", properties);
 
             //Assert 
-            MockConsoleLogger.Mock.Verify(x => x.LogTrace("Trace message", LogSeverity.Debug, It.Is<Dictionary<string, string>>(y => y["Property"] == "\"value\"")), Times.Never());
+            MockConsoleLogger.Mock.Verify(x => x.LogTrace("Trace message", LogSeverity.Debug, It.Is<Dictionary<string, string>>(y => y["Property"] == "value")), Times.Never());
         }
          
     }

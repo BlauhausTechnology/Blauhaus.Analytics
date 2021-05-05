@@ -29,7 +29,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AnalyticsServiceTests
                 Sut.CurrentOperation, Sut.CurrentSession, It.Is<Dictionary<string, object>>(y => 
                     (string) y["Property"] ==  "value")));
             MockTelemetryClient.Mock.Verify(x => x.TrackException(It.Is<ExceptionTelemetry>(y => y.Exception== exception)));
-            MockConsoleLogger.Mock.Verify(x => x.LogException(exception, It.Is<Dictionary<string, string>>(y => y["Property"] == "\"value\"")));
+            MockConsoleLogger.Mock.Verify(x => x.LogException(exception, It.Is<Dictionary<string, string>>(y => y["Property"] == "value")));
         }
 
     }

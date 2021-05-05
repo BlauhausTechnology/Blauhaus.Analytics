@@ -31,7 +31,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AnalyticsServiceTests
                 Sut.CurrentOperation, Sut.CurrentSession, It.Is<Dictionary<string, object>>(y => 
                     (string) y["Property"] ==  "value")));
             MockTelemetryClient.Mock.Verify(x => x.TrackTrace(It.Is<TraceTelemetry>(y => y.Message == "Decorated")));
-            MockConsoleLogger.Mock.Verify(x => x.LogTrace("Trace message", LogSeverity.Critical, It.Is<Dictionary<string, string>>(y => y["Property"] == "\"value\"")));
+            MockConsoleLogger.Mock.Verify(x => x.LogTrace("Trace message", LogSeverity.Critical, It.Is<Dictionary<string, string>>(y => y["Property"] == "value")));
         }
 
         [TestCase(LogSeverity.Verbose, SeverityLevel.Verbose)]
@@ -91,7 +91,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AnalyticsServiceTests
                 Sut.CurrentOperation, Sut.CurrentSession, It.Is<Dictionary<string, object>>(y => 
                     (string) y["Property"] ==  "value")));
             MockTelemetryClient.Mock.Verify(x => x.TrackTrace(It.Is<TraceTelemetry>(y => y.Message == "Decorated")));
-            MockConsoleLogger.Mock.Verify(x => x.LogTrace("Trace message", LogSeverity.Verbose, It.Is<Dictionary<string, string>>(y => y["Property"] == "\"value\"")));
+            MockConsoleLogger.Mock.Verify(x => x.LogTrace("Trace message", LogSeverity.Verbose, It.Is<Dictionary<string, string>>(y => y["Property"] == "value")));
         }
         private class TestObject{}
 

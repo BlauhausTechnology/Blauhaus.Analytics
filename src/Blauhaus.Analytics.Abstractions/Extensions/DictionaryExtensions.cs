@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using Newtonsoft.Json;
 
@@ -20,15 +21,12 @@ namespace Blauhaus.Analytics.Abstractions.Extensions
                     {
                         stringifiedProperties[property.Key] = stringValue;
                     }
-
-                    if (double.TryParse(property.Value.ToString(), out var numericValue))
-                    {
-                        stringifiedProperties[property.Key] = numericValue.ToString(CultureInfo.InvariantCulture);
-                    }
-
                     else
                     {
-                        stringifiedProperties[property.Key] = JsonConvert.SerializeObject(property.Value, Formatting.Indented);
+                        stringifiedProperties[property.Key] = JsonConvert.SerializeObject(property.Value, Formatting.Indented, new JsonSerializerSettings
+                        {
+                            Culture = CultureInfo.InvariantCulture
+                        });
                     }
                 }
             }

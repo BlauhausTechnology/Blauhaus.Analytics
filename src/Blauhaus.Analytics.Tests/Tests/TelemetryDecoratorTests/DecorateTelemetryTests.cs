@@ -2,7 +2,7 @@
 using Blauhaus.Analytics.Abstractions.Operation;
 using Blauhaus.Analytics.Abstractions.Session;
 using Blauhaus.Analytics.Common.Telemetry;
-using Blauhaus.Analytics.Tests.Tests._Base;
+using Blauhaus.Analytics.Tests.Tests.Base;
 using Blauhaus.Common.ValueObjects.DeviceType;
 using Blauhaus.Common.ValueObjects.RuntimePlatforms;
 using Blauhaus.TestHelpers.MockBuilders;

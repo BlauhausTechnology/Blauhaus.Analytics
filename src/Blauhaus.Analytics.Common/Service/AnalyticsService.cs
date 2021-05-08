@@ -230,7 +230,7 @@ namespace Blauhaus.Analytics.Common.Service
             return CurrentOperation;
         }
         
-        public virtual void LogEvent(object sender, string eventName, Dictionary<string, object> properties = null, [CallerMemberName] string callerMemberName = "")
+        public virtual void LogEvent(object sender, string eventName, Dictionary<string, object>? properties = null, [CallerMemberName] string callerMemberName = "")
         {
             if (properties == null) properties = EmptyProperties;
 
@@ -240,9 +240,10 @@ namespace Blauhaus.Analytics.Common.Service
             ConsoleLogger.LogEvent(eventName, properties.ToDictionaryOfStrings());
         }
 
-        public virtual void LogException(object sender, Exception exception, Dictionary<string, object> properties = null, [CallerMemberName] string callerMemberName = "")
+        public virtual void LogException(object sender, Exception exception, Dictionary<string, object>? properties = null, [CallerMemberName] string callerMemberName = "")
         {
-            if (properties == null) properties = EmptyProperties;
+            properties ??= EmptyProperties;
+            properties["ExceptionType"] = exception.GetType().FullName;
 
             TelemetryClient.TrackException(TelemetryDecorator
                 .DecorateTelemetry(new ExceptionTelemetry(exception), sender.GetType().Name, callerMemberName, CurrentOperation, CurrentSession, properties));
@@ -258,7 +259,7 @@ namespace Blauhaus.Analytics.Common.Service
             }
         }
 
-        public void Trace(object sender, string message, LogSeverity logSeverity = LogSeverity.Verbose, Dictionary<string, object> properties = null, [CallerMemberName] string callerMemberName = "")
+        public void Trace(object sender, string message, LogSeverity logSeverity = LogSeverity.Verbose, Dictionary<string, object>? properties = null, [CallerMemberName] string callerMemberName = "")
         {
             
             if (properties == null) properties = EmptyProperties;
@@ -266,7 +267,7 @@ namespace Blauhaus.Analytics.Common.Service
             LogTrace(message, logSeverity, properties, sender.GetType().Name, callerMemberName);
         }
 
-        public IAnalyticsOperation StartTrace(object sender, string message, LogSeverity logSeverity = LogSeverity.Verbose, Dictionary<string, object> properties = null, [CallerMemberName] string callerMemberName = "")
+        public IAnalyticsOperation StartTrace(object sender, string message, LogSeverity logSeverity = LogSeverity.Verbose, Dictionary<string, object>? properties = null, [CallerMemberName] string callerMemberName = "")
         {
             if (properties == null) properties = new Dictionary<string, object>();
 

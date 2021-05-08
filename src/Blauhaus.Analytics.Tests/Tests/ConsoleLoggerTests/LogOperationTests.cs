@@ -1,6 +1,6 @@
 ﻿using System;
 using Blauhaus.Analytics.Console.ConsoleLoggers;
-using Blauhaus.Analytics.Tests.Tests._Base;
+using Blauhaus.Analytics.Tests.Tests.Base;
 using Blauhaus.Common.ValueObjects.BuildConfigs;
 using Moq;
 using NUnit.Framework;

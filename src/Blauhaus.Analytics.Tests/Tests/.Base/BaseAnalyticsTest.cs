@@ -11,7 +11,7 @@ using Blauhaus.TestHelpers.BaseTests;
 using Blauhaus.TestHelpers.MockBuilders;
 using NUnit.Framework;
 
-namespace Blauhaus.Analytics.Tests.Tests._Base
+namespace Blauhaus.Analytics.Tests.Tests.Base
 {
     public abstract class BaseAnalyticsTest<TSut> : BaseUnitTest<TSut> where TSut : class
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Blauhaus.Analytics.Console.Service;
-using Blauhaus.Analytics.Tests.Tests._Base;
+using Blauhaus.Analytics.Tests.Tests.Base;
 using Moq;
 using NUnit.Framework;
 

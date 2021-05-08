@@ -1,10 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
+      <LangVersion>latest</LangVersion>
+      <Nullable>enable</Nullable>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Tests\.Base\BaseAnalyticsServiceTest.cs" />
+    <Compile Include="Tests\.Base\BaseAnalyticsTest.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Blauhaus.TestHelpers" Version="1.2.10" />

@@ -1,6 +1,6 @@
 ﻿using System;
 using Blauhaus.Analytics.AspNetCore.SessionFactories;
-using Blauhaus.Analytics.Tests.Tests._Base;
+using Blauhaus.Analytics.Tests.Tests.Base;
 using NUnit.Framework;
 
 namespace Blauhaus.Analytics.Tests.Tests.SessionFactoryTests

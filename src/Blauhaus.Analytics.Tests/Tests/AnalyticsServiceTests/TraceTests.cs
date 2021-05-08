@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Blauhaus.Analytics.Abstractions.Extensions;
 using Blauhaus.Analytics.Abstractions.Service;
-using Blauhaus.Analytics.Tests.Tests._Base;
+using Blauhaus.Analytics.Tests.Tests.Base;
 using Blauhaus.Common.ValueObjects.BuildConfigs;
 using Microsoft.ApplicationInsights.DataContracts;
 using Moq;

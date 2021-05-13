@@ -43,7 +43,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AnalyticsServiceTests
                 It.Is<EventTelemetry>(y => y.Name == "Event Name"),
                 It.IsAny<string>(),
                 It.IsAny<string>(),
-                Sut.CurrentOperation, Sut.CurrentSession, It.Is<Dictionary<string, object>>(y => y.Count == 0)));
+                null, Sut.CurrentSession, It.Is<Dictionary<string, object>>(y => y.Count == 0)));
             MockTelemetryClient.Mock.Verify(x => x.TrackEvent(It.Is<EventTelemetry>(y => y.Name == "Decorated")));
             MockConsoleLogger.Mock.Verify(x => x.LogEvent("Event Name", 
                 It.Is<Dictionary<string, string>>(y => y.Count == 0)));

@@ -18,6 +18,7 @@ namespace Blauhaus.Analytics.Xamarin.AppCenter
     {
 
         private string _userId = string.Empty;
+        private bool IsRelease => CurrentBuildConfig.Equals(BuildConfig.Release);
 
         public AppCenterAnalyticsService(
             IApplicationInsightsConfig config, 
@@ -31,15 +32,21 @@ namespace Blauhaus.Analytics.Xamarin.AppCenter
         }
 
         public override void LogEvent(object sender, string eventName, Dictionary<string, object> properties = null, string callerMemberName = "")
-        { 
-            Microsoft.AppCenter.Analytics.Analytics.TrackEvent(eventName, UpdateInformation(sender, properties, callerMemberName));
+        {
+            if (IsRelease)
+            {
+                Microsoft.AppCenter.Analytics.Analytics.TrackEvent(eventName, UpdateInformation(sender, properties, callerMemberName));
+            }
             
             base.LogEvent(sender, eventName, properties, callerMemberName);
         }
 
         public override void LogException(object sender, Exception exception, Dictionary<string, object> properties = null, string callerMemberName = "")
         {
-            Crashes.TrackError(exception, UpdateInformation(sender, properties, callerMemberName));
+            if (IsRelease)
+            {
+                Crashes.TrackError(exception, UpdateInformation(sender, properties, callerMemberName));
+            }
             
             base.LogException(sender, exception, properties, callerMemberName);
         }

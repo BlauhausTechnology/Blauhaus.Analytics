@@ -198,6 +198,9 @@ namespace Blauhaus.Analytics.Common.Service
 
                 ConsoleLogger.LogOperation(pageName, duration);
                 
+                properties["Duration"] = duration;
+                HandleOperationCompleted(sender, properties, callerMember, pageName);
+
                 _currentOperation = null;
             });
 
@@ -224,12 +227,19 @@ namespace Blauhaus.Analytics.Common.Service
                 TelemetryClient.TrackDependency(dependencyTelemetry);
                 ConsoleLogger.LogOperation(operationName, duration);
 
+                properties["Duration"] = duration;
+                HandleOperationCompleted(sender, properties, callerMemberName, operationName);
+
                 _currentOperation = null;
             });
 
             return CurrentOperation;
         }
-        
+
+        protected virtual void HandleOperationCompleted(object sender, Dictionary<string, object>? properties, string callerMemberName, string operationName)
+        {
+        }
+
         public virtual void LogEvent(object sender, string eventName, Dictionary<string, object>? properties = null, [CallerMemberName] string callerMemberName = "")
         {
             if (properties == null) properties = EmptyProperties;

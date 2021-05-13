@@ -51,6 +51,14 @@ namespace Blauhaus.Analytics.Xamarin.AppCenter
             base.LogException(sender, exception, properties, callerMemberName);
         }
 
+        protected override void HandleOperationCompleted(object sender, Dictionary<string, object> properties, string callerMemberName, string operationName)
+        {
+            if (IsRelease)
+            {
+                Microsoft.AppCenter.Analytics.Analytics.TrackEvent(operationName + " Completed", UpdateInformation(sender, properties, callerMemberName));
+            }
+        }
+
         private Dictionary<string, string> UpdateInformation(object sender, Dictionary<string, object> properties, string callerMemberName)
         {
             var props = properties.ToDictionaryOfStrings();

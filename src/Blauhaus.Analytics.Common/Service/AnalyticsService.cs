@@ -303,7 +303,6 @@ namespace Blauhaus.Analytics.Common.Service
         }   
 
 
-
     }
 
     

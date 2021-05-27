@@ -44,7 +44,6 @@ namespace Blauhaus.Analytics.Common.Service
             _sessionFactory = sessionFactory;
         }
 
-        
 
         public IAnalyticsOperation? CurrentOperation
         {

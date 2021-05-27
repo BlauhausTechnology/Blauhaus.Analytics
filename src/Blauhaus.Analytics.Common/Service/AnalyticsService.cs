@@ -19,7 +19,7 @@ namespace Blauhaus.Analytics.Common.Service
     {
         private IAnalyticsSession _currentSession;
         private IAnalyticsOperation? _currentOperation;
-        private static readonly Dictionary<string, object> EmptyProperties = new Dictionary<string, object>();
+        private static Dictionary<string, object> EmptyProperties => new Dictionary<string, object>();
 
         protected readonly IApplicationInsightsConfig Config;
         protected readonly IConsoleLogger ConsoleLogger;

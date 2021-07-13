@@ -14,7 +14,6 @@ namespace Blauhaus.Analytics.Orleans.Session
             _requestContext = requestContext;
         }
         
-        
         public IAnalyticsSession CreateSession()
         {
             
@@ -23,9 +22,11 @@ namespace Blauhaus.Analytics.Orleans.Session
             session.DeviceId = (string)_requestContext.Get(AnalyticsHeaders.Session.DeviceId);
             session.AppVersion = (string)_requestContext.Get(AnalyticsHeaders.Session.AppVersion);
             session.AccountId = (string)_requestContext.Get(AnalyticsHeaders.Session.AccountId);
-            
-            session.SetProperty("OperationId", (string)_requestContext.Get(AnalyticsHeaders.Operation.Id));
-            session.SetProperty("OperationName", (string)_requestContext.Get(AnalyticsHeaders.Operation.Name));
+
+            var currentOperationId = (string) _requestContext.Get(AnalyticsHeaders.Operation.Id);
+            var currentOperationName = (string) _requestContext.Get(AnalyticsHeaders.Operation.Name);
+            session.SetProperty("OperationId", currentOperationId);
+            session.SetProperty("OperationName", currentOperationName);
 
             return session;
         }

@@ -43,7 +43,6 @@ namespace Blauhaus.Analytics.AspNetCore.Ioc
             services.AddScoped<TelemetryClient>();
             services.AddScoped<IAnalyticsService, AnalyticsService>();
 
-
             return services;
         }
     }

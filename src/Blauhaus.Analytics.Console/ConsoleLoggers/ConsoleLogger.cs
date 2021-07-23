@@ -56,8 +56,6 @@ namespace Blauhaus.Analytics.Console.ConsoleLoggers
             _traceProxy.Write($"EXCEPTION: {exception.Message}");
             _traceProxy.Write($"STACKTRACE {exception.StackTrace}");
 
-
-
             if (properties != null)
             {
                 foreach (var property in properties)

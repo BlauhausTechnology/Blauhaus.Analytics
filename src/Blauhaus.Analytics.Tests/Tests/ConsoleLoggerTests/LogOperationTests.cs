@@ -50,7 +50,7 @@ namespace Blauhaus.Analytics.Tests.Tests.ConsoleLoggerTests
 
             //Assert
             MockTraceProxy.Mock.Verify(x => x.SetColour(ConsoleColours.OperationColour));
-            MockTraceProxy.Mock.Verify(x => x.Write("OPERATION: operation gigolo completed in 121 ms"));
+            MockTraceProxy.Mock.Verify(x => x.Write("OPERATION: operation gigolo completed in 1112122121 ms"));
         }
 
 

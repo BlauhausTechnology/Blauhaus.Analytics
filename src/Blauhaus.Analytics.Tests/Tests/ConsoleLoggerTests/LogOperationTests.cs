@@ -19,7 +19,7 @@ namespace Blauhaus.Analytics.Tests.Tests.ConsoleLoggerTests
         public void IF_CurrentBuildConfig_is_null_SHOULD_not_log_event()
         {
             //Arrange
-            CurrentBuildConfig = null;
+            CurrentBuildConfig = null!;
 
             //Act
             Sut.LogOperation("operation gigolo", TimeSpan.FromTicks(11121221212211));

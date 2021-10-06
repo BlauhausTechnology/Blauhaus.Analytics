@@ -1,6 +1,6 @@
 ﻿using System;
 using Blauhaus.Analytics.Console.Service;
-using Blauhaus.Analytics.Tests.Tests._Base;
+using Blauhaus.Analytics.Tests.Tests.Base;
 using Microsoft.ApplicationInsights.DataContracts;
 using Moq;
 using NUnit.Framework;

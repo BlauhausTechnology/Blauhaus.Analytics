@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Blauhaus.Analytics.Abstractions.Operation;
-using Blauhaus.Analytics.Tests.Tests._Base;
+using Blauhaus.Analytics.Tests.Tests.Base;
 using Microsoft.ApplicationInsights.DataContracts;
 using Moq;
 using NUnit.Framework;

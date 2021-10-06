@@ -7,12 +7,12 @@ using Blauhaus.Analytics.Console.Ioc;
 using Blauhaus.Analytics.Xamarin.SessionFactories;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Blauhaus.Analytics.Xamarin.Ioc
+namespace Blauhaus.Analytics.Xamarin.AppCenter.Ioc
 {
     public static class ServiceCollectionExtensions
     {
         
-        public static IServiceCollection AddXamarinAnalyticsService<TConfig>(this IServiceCollection services) 
+        public static IServiceCollection AddXamarinAppCenterAnalyticsService<TConfig>(this IServiceCollection services) 
             where TConfig : class, IApplicationInsightsConfig
         {
             services.RegisterConsoleLoggerClientService();
@@ -22,7 +22,7 @@ namespace Blauhaus.Analytics.Xamarin.Ioc
             services.AddSingleton<ITelemetryDecorator, TelemetryDecorator>();
 
             services.AddSingleton<IAnalyticsSessionFactory, XamarinSessionFactory>();
-            services.AddSingleton<IAnalyticsService, AnalyticsService>();
+            services.AddSingleton<IAnalyticsService, AppCenterAnalyticsService>();
             return services;
         }
 

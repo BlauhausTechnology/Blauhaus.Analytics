@@ -19,7 +19,7 @@ namespace Blauhaus.Analytics.Common.Service
     {
         private IAnalyticsSession _currentSession;
         private IAnalyticsOperation? _currentOperation;
-        private static readonly Dictionary<string, object> EmptyProperties = new Dictionary<string, object>();
+        private static Dictionary<string, object> EmptyProperties => new Dictionary<string, object>();
 
         protected readonly IApplicationInsightsConfig Config;
         protected readonly IConsoleLogger ConsoleLogger;
@@ -44,7 +44,6 @@ namespace Blauhaus.Analytics.Common.Service
             _sessionFactory = sessionFactory;
         }
 
-        
 
         public IAnalyticsOperation? CurrentOperation
         {
@@ -198,6 +197,9 @@ namespace Blauhaus.Analytics.Common.Service
 
                 ConsoleLogger.LogOperation(pageName, duration);
                 
+                properties["Duration"] = duration;
+                HandleOperationCompleted(sender, properties, callerMember, pageName);
+
                 _currentOperation = null;
             });
 
@@ -224,13 +226,20 @@ namespace Blauhaus.Analytics.Common.Service
                 TelemetryClient.TrackDependency(dependencyTelemetry);
                 ConsoleLogger.LogOperation(operationName, duration);
 
+                properties["Duration"] = duration;
+                HandleOperationCompleted(sender, properties, callerMemberName, operationName);
+
                 _currentOperation = null;
             });
 
             return CurrentOperation;
         }
-        
-        public void LogEvent(object sender, string eventName, Dictionary<string, object> properties = null, [CallerMemberName] string callerMemberName = "")
+
+        protected virtual void HandleOperationCompleted(object sender, Dictionary<string, object>? properties, string callerMemberName, string operationName)
+        {
+        }
+
+        public virtual void LogEvent(object sender, string eventName, Dictionary<string, object>? properties = null, [CallerMemberName] string callerMemberName = "")
         {
             if (properties == null) properties = EmptyProperties;
 
@@ -240,9 +249,10 @@ namespace Blauhaus.Analytics.Common.Service
             ConsoleLogger.LogEvent(eventName, properties.ToDictionaryOfStrings());
         }
 
-        public void LogException(object sender, Exception exception, Dictionary<string, object> properties = null, [CallerMemberName] string callerMemberName = "")
+        public virtual void LogException(object sender, Exception exception, Dictionary<string, object>? properties = null, [CallerMemberName] string callerMemberName = "")
         {
-            if (properties == null) properties = EmptyProperties;
+            properties ??= EmptyProperties;
+            properties["ExceptionType"] = exception.GetType().FullName;
 
             TelemetryClient.TrackException(TelemetryDecorator
                 .DecorateTelemetry(new ExceptionTelemetry(exception), sender.GetType().Name, callerMemberName, CurrentOperation, CurrentSession, properties));
@@ -258,7 +268,7 @@ namespace Blauhaus.Analytics.Common.Service
             }
         }
 
-        public void Trace(object sender, string message, LogSeverity logSeverity = LogSeverity.Verbose, Dictionary<string, object> properties = null, [CallerMemberName] string callerMemberName = "")
+        public void Trace(object sender, string message, LogSeverity logSeverity = LogSeverity.Verbose, Dictionary<string, object>? properties = null, [CallerMemberName] string callerMemberName = "")
         {
             
             if (properties == null) properties = EmptyProperties;
@@ -266,7 +276,7 @@ namespace Blauhaus.Analytics.Common.Service
             LogTrace(message, logSeverity, properties, sender.GetType().Name, callerMemberName);
         }
 
-        public IAnalyticsOperation StartTrace(object sender, string message, LogSeverity logSeverity = LogSeverity.Verbose, Dictionary<string, object> properties = null, [CallerMemberName] string callerMemberName = "")
+        public IAnalyticsOperation StartTrace(object sender, string message, LogSeverity logSeverity = LogSeverity.Verbose, Dictionary<string, object>? properties = null, [CallerMemberName] string callerMemberName = "")
         {
             if (properties == null) properties = new Dictionary<string, object>();
 
@@ -277,7 +287,7 @@ namespace Blauhaus.Analytics.Common.Service
             });
         }
 
-        protected void LogTrace(string message, LogSeverity logSeverity, Dictionary<string, object> properties, string callingClassName, string callerMemberName)
+        protected virtual void LogTrace(string message, LogSeverity logSeverity, Dictionary<string, object> properties, string callingClassName, string callerMemberName)
         {
             if (Config.MinimumLogToServerSeverity.TryGetValue(CurrentBuildConfig, out var minumumSeverityToLogToServer))
             {
@@ -290,7 +300,6 @@ namespace Blauhaus.Analytics.Common.Service
 
             ConsoleLogger.LogTrace(message, logSeverity, properties.ToDictionaryOfStrings());
         }   
-
 
 
     }

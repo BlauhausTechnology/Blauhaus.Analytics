@@ -56,8 +56,6 @@ namespace Blauhaus.Analytics.Console.ConsoleLoggers
             _traceProxy.Write($"EXCEPTION: {exception.Message}");
             _traceProxy.Write($"STACKTRACE {exception.StackTrace}");
 
-
-
             if (properties != null)
             {
                 foreach (var property in properties)
@@ -76,7 +74,7 @@ namespace Blauhaus.Analytics.Console.ConsoleLoggers
             }
 
             _traceProxy.SetColour(ConsoleColours.OperationColour);
-            _traceProxy.Write($"OPERATION: {operationName} completed in {Math.Round((double) duration.Milliseconds)} ms");
+            _traceProxy.Write($"OPERATION: {operationName} completed in {Math.Round((double) duration.TotalMilliseconds)} ms");
             _traceProxy.Write(""); //newline after operation completes
         }
 

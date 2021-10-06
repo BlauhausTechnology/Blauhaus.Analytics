@@ -1,6 +1,6 @@
 ﻿using Blauhaus.Analytics.Common.Service;
 
-namespace Blauhaus.Analytics.Tests.Tests._Base
+namespace Blauhaus.Analytics.Tests.Tests.Base
 {
     public abstract class BaseAnalyticsServiceTest : BaseAnalyticsTest<AnalyticsService> 
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 using Blauhaus.Analytics.AspNetCore.SessionFactories;
-using Blauhaus.Analytics.Tests.Tests._Base;
+using Blauhaus.Analytics.Tests.Tests.Base;
 using Blauhaus.TestHelpers.MockBuilders;
 using Microsoft.AspNetCore.Http;
 using NUnit.Framework;

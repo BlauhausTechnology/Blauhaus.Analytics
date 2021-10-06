@@ -1,5 +1,5 @@
 ﻿using System;
-using Blauhaus.Analytics.Tests.Tests._Base;
+using Blauhaus.Analytics.Tests.Tests.Base;
 using Blauhaus.Analytics.Xamarin.SessionFactories;
 using Blauhaus.Common.ValueObjects.DeviceType;
 using Blauhaus.Common.ValueObjects.RuntimePlatforms;

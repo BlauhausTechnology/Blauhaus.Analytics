@@ -12,7 +12,7 @@ namespace Blauhaus.Analytics.Abstractions.Config
 
         Dictionary<IBuildConfig, LogSeverity> MinimumLogToServerSeverity { get; }
 
-
+        public ConsoleOutput ConsoleOutput { get; set; } 
 
     }
 }

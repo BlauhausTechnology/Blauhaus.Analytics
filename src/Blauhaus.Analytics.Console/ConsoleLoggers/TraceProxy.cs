@@ -1,10 +1,17 @@
 ﻿using System;
 using System.Diagnostics;
+using Blauhaus.Analytics.Abstractions.Config;
 
 namespace Blauhaus.Analytics.Console.ConsoleLoggers
 {
     public class TraceProxy : ITraceProxy
     {
+        private readonly IApplicationInsightsConfig _config;
+
+        public TraceProxy(IApplicationInsightsConfig config)
+        {
+            _config = config;
+        }
 
         public void SetColour(ConsoleColor colour)
         {
@@ -13,7 +20,14 @@ namespace Blauhaus.Analytics.Console.ConsoleLoggers
 
         public void Write(string message)
         {
-            Trace.WriteLine(message);
+            if (_config.ConsoleOutput == ConsoleOutput.TraceWriter)
+            {
+                Trace.WriteLine(message);
+            }
+            else
+            {
+                System.Console.Out.WriteLine(message);
+            }
         }
     }
 }

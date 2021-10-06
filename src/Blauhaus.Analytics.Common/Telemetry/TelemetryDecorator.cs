@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using Blauhaus.Analytics.Abstractions.Config;
 using Blauhaus.Analytics.Abstractions.Operation;
 using Blauhaus.Analytics.Abstractions.Session;
@@ -82,7 +83,10 @@ namespace Blauhaus.Analytics.Common.Telemetry
                 {
                     if (!property.Value.GetType().IsValueType && property.Value.GetType() != typeof(string))
                     {
-                        telemetry.Properties[property.Key] = JsonConvert.SerializeObject(property.Value);
+                        telemetry.Properties[property.Key] = JsonConvert.SerializeObject(property.Value, new JsonSerializerSettings
+                        {
+                            Culture = CultureInfo.InvariantCulture
+                        });
                     }
                     else
                     {

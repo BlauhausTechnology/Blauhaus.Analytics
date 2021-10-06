@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Blauhaus.Analytics.Abstractions.Service;
-using Blauhaus.Analytics.Tests.Tests._Base;
+using Blauhaus.Analytics.Tests.Tests.Base;
 using Blauhaus.Common.ValueObjects.BuildConfigs;
 using Moq;
 using NUnit.Framework;
@@ -20,7 +20,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AnalyticsServiceTests
             Sut.Debug("Trace message", properties);
 
             //Assert 
-            MockConsoleLogger.Mock.Verify(x => x.LogTrace("Trace message", LogSeverity.Debug, It.Is<Dictionary<string, string>>(y => y["Property"] == "\"value\"")));
+            MockConsoleLogger.Mock.Verify(x => x.LogTrace("Trace message", LogSeverity.Debug, It.Is<Dictionary<string, string>>(y => y["Property"] == "value")));
         }
         
         [Test]
@@ -34,7 +34,7 @@ namespace Blauhaus.Analytics.Tests.Tests.AnalyticsServiceTests
             Sut.Debug("Trace message", properties);
 
             //Assert 
-            MockConsoleLogger.Mock.Verify(x => x.LogTrace("Trace message", LogSeverity.Debug, It.Is<Dictionary<string, string>>(y => y["Property"] == "\"value\"")), Times.Never());
+            MockConsoleLogger.Mock.Verify(x => x.LogTrace("Trace message", LogSeverity.Debug, It.Is<Dictionary<string, string>>(y => y["Property"] == "value")), Times.Never());
         }
          
     }

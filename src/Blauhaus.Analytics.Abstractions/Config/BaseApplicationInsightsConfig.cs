@@ -16,10 +16,13 @@ namespace Blauhaus.Analytics.Abstractions.Config
                 {BuildConfig.Debug, LogSeverity.Verbose },
                 {BuildConfig.Release, LogSeverity.Verbose }
             };
+            
+            ConsoleOutput = ConsoleOutput.TraceWriter;
         }
 
         public string InstrumentationKey { get; }
         public string RoleName { get; }
         public Dictionary<IBuildConfig, LogSeverity> MinimumLogToServerSeverity { get; }
+        public ConsoleOutput ConsoleOutput { get; set; }
     }
 }

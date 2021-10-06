@@ -1,6 +1,6 @@
 ﻿using System;
 using Blauhaus.Analytics.Console.ConsoleLoggers;
-using Blauhaus.Analytics.Tests.Tests._Base;
+using Blauhaus.Analytics.Tests.Tests.Base;
 using Blauhaus.Common.ValueObjects.BuildConfigs;
 using Moq;
 using NUnit.Framework;
@@ -19,7 +19,7 @@ namespace Blauhaus.Analytics.Tests.Tests.ConsoleLoggerTests
         public void IF_CurrentBuildConfig_is_null_SHOULD_not_log_event()
         {
             //Arrange
-            CurrentBuildConfig = null;
+            CurrentBuildConfig = null!;
 
             //Act
             Sut.LogOperation("operation gigolo", TimeSpan.FromTicks(11121221212211));
@@ -50,7 +50,7 @@ namespace Blauhaus.Analytics.Tests.Tests.ConsoleLoggerTests
 
             //Assert
             MockTraceProxy.Mock.Verify(x => x.SetColour(ConsoleColours.OperationColour));
-            MockTraceProxy.Mock.Verify(x => x.Write("OPERATION: operation gigolo completed in 121 ms"));
+            MockTraceProxy.Mock.Verify(x => x.Write("OPERATION: operation gigolo completed in 1112122121 ms"));
         }
 
 

@@ -8,7 +8,7 @@ namespace Blauhaus.Analytics.Console.ConsoleLoggers
     public class ConsoleLogger : IConsoleLogger
     {
         private readonly ITraceProxy _traceProxy;
-        private readonly IBuildConfig _currentBuildConfig;
+        private readonly IBuildConfig? _currentBuildConfig;
 
         private bool ShouldLog() => _currentBuildConfig != null && _currentBuildConfig.Value != BuildConfig.Release.Value;
 
@@ -74,7 +74,7 @@ namespace Blauhaus.Analytics.Console.ConsoleLoggers
             }
 
             _traceProxy.SetColour(ConsoleColours.OperationColour);
-            _traceProxy.Write($"OPERATION: {operationName} completed in {Math.Round((double) duration.TotalMilliseconds)} ms");
+            _traceProxy.Write($"OPERATION: {operationName} completed in {Math.Round(duration.TotalMilliseconds)} ms");
             _traceProxy.Write(""); //newline after operation completes
         }
 

@@ -30,31 +30,72 @@ namespace Blauhaus.Analytics.TestHelpers.Extensions
 
         public static void VerifyResponseError(this Response result, Error error, AnalyticsServiceMockBuilder mockAnalyticsService, LogSeverity logSeverity = LogSeverity.Error)
         {
-            Assert.That(result.Error.Equals(error));
-            mockAnalyticsService.Mock.Verify(x => x.Trace(It.IsAny<object>(), It.Is<string>(y => y.StartsWith(error.Code)), logSeverity, It.IsAny<Dictionary<string, object>>(), It.IsAny<string>()));
+            if(result.IsSuccess)
+                Assert.Fail($"Expected {error} but got Success");
+            else if(result.Error.Code!=error.Code)
+                Assert.Fail($"Expected {error.Code} but got {result.Error.Code}");
+            else
+            {
+                try
+                {
+                    mockAnalyticsService.Mock.Verify(x => x.Trace(It.IsAny<object>(), It.Is<string>(y => y.StartsWith(error.Code)), logSeverity, It.IsAny<Dictionary<string, object>>(), It.IsAny<string>()));
+                    Assert.Pass();
+                }
+                catch (Exception)
+                {
+                    Assert.Fail($"{error} was returned but not logged to analytics");
+                }
+            }
+
         }
 
         public static void VerifyResponseError<T>(this Response<T> result, Error error, AnalyticsServiceMockBuilder mockAnalyticsService, LogSeverity logSeverity = LogSeverity.Error)
         {
-            Assert.That(result.Error.Equals(error));
-            mockAnalyticsService.Mock.Verify(x => x.Trace(It.IsAny<object>(), It.Is<string>(y => y.StartsWith(error.Code)), logSeverity, It.IsAny<Dictionary<string, object>>(), It.IsAny<string>()));
+            if(result.IsSuccess)
+                Assert.Fail($"Expected {error} but got Success");
+            else if(result.Error.Code!=error.Code)
+                Assert.Fail($"Expected {error.Code} but got {result.Error.Code}");
+            else
+            {
+                try
+                {
+                    mockAnalyticsService.Mock.Verify(x => x.Trace(It.IsAny<object>(), It.Is<string>(y => y.StartsWith(error.Code)), logSeverity, It.IsAny<Dictionary<string, object>>(), It.IsAny<string>()));
+                    Assert.Pass();
+                }
+                catch (Exception)
+                {
+                    Assert.Fail($"{error} was returned but not logged to analytics");
+                }
+            }
         }
 
         public static void VerifyResponseException<T>(this Response<T> result, Error error, string exceptionMessage, AnalyticsServiceMockBuilder mockAnalyticsService)
         {
-            Assert.That(result.Error.Equals(error));
+            if(result.IsSuccess)
+                Assert.Fail($"Expected {error} but got Success");
+            else if(result.Error.Code!=error.Code)
+                Assert.Fail($"Expected {error.Code} but got {result.Error.Code}");
+
             mockAnalyticsService.VerifyLogExceptionWithMessage(exceptionMessage);
         }
 
         public static void VerifyResponseException(this Response result, Error error, string exceptionMessage, AnalyticsServiceMockBuilder mockAnalyticsService)
         {
-            Assert.That(result.Error.Equals(error));
+            if(result.IsSuccess)
+                Assert.Fail($"Expected {error} but got Success");
+            else if(result.Error.Code!=error.Code)
+                Assert.Fail($"Expected {error.Code} but got {result.Error.Code}");
+
             mockAnalyticsService.VerifyLogExceptionWithMessage(exceptionMessage);
         }
 
         public static void VerifyResponseException(this Response result, Error error, Expression<Func<Exception, bool>> predicate, AnalyticsServiceMockBuilder mockAnalyticsService)
         {
-            Assert.That(result.Error.Equals(error));
+            if(result.IsSuccess)
+                Assert.Fail($"Expected {error} but got Success");
+            else if(result.Error.Code!=error.Code)
+                Assert.Fail($"Expected {error.Code} but got {result.Error.Code}");
+
             mockAnalyticsService.VerifyLogExceptionWithMessage(predicate);
         }
     }

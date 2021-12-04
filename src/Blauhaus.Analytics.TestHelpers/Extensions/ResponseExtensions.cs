@@ -39,7 +39,6 @@ namespace Blauhaus.Analytics.TestHelpers.Extensions
                 try
                 {
                     mockAnalyticsService.Mock.Verify(x => x.Trace(It.IsAny<object>(), It.Is<string>(y => y.StartsWith(error.Code)), logSeverity, It.IsAny<Dictionary<string, object>>(), It.IsAny<string>()));
-                    Assert.Pass();
                 }
                 catch (Exception)
                 {
@@ -60,7 +59,6 @@ namespace Blauhaus.Analytics.TestHelpers.Extensions
                 try
                 {
                     mockAnalyticsService.Mock.Verify(x => x.Trace(It.IsAny<object>(), It.Is<string>(y => y.StartsWith(error.Code)), logSeverity, It.IsAny<Dictionary<string, object>>(), It.IsAny<string>()));
-                    Assert.Pass();
                 }
                 catch (Exception)
                 {

@@ -14,6 +14,8 @@ namespace Blauhaus.Analytics.TestHelpers.MockBuilders
          public AnalyticsServiceMockBuilder()
          {
              Mock.Setup(x => x.CurrentSession).Returns(MockCurrentSession.Object);
+             Mock.Setup(x => x.CurrentOperation).Returns(MockCurrentOperation.Object);
+
              Where_StartOperation_returns_operation();
          }
          
@@ -21,6 +23,13 @@ namespace Blauhaus.Analytics.TestHelpers.MockBuilders
 
          private AnalyticsSessionMockBuilder _mockCurrentSession;
          public AnalyticsSessionMockBuilder MockCurrentSession => _mockCurrentSession ??= new AnalyticsSessionMockBuilder();
+
+        #endregion
+
+        #region Session
+
+        private AnalyticsOperationMockBuilder _mockCurrentOperation;
+        public AnalyticsOperationMockBuilder MockCurrentOperation => _mockCurrentOperation ??= new AnalyticsOperationMockBuilder();
 
         #endregion
 
@@ -164,14 +173,13 @@ namespace Blauhaus.Analytics.TestHelpers.MockBuilders
         #region StartOperation
 
         
-        public MockBuilder<IAnalyticsOperation> Where_StartOperation_returns_operation()
+        public AnalyticsOperationMockBuilder Where_StartOperation_returns_operation()
         {
-            var operation = new MockBuilder<IAnalyticsOperation>();
-
             Mock.Setup(x => x.StartOperation(It.IsAny<object>(), It.IsAny<string>(),
-                It.IsAny<Dictionary<string, object>>(), It.IsAny<string>())).Returns(operation.Object);
+                It.IsAny<Dictionary<string, object>>(), It.IsAny<string>()))
+                    .Returns(MockCurrentOperation.Object);
 
-            return operation;
+            return MockCurrentOperation;
         }
 
 

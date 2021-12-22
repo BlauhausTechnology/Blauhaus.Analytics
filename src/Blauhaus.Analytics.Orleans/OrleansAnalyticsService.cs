@@ -32,10 +32,10 @@ namespace Blauhaus.Analytics.Orleans
             _requestContext.Set(AnalyticsHeaders.Operation.Id, operationId);
             
             _requestContext.Set(AnalyticsHeaders.Session.Id, session.Id);
-            _requestContext.Set(AnalyticsHeaders.Session.AccountId, session.AccountId);
-            _requestContext.Set(AnalyticsHeaders.Session.UserId, session.UserId);
-            _requestContext.Set(AnalyticsHeaders.Session.DeviceId, session.DeviceId);
-            _requestContext.Set(AnalyticsHeaders.Session.AppVersion, session.AppVersion);
+            _requestContext.Set(AnalyticsHeaders.Session.AccountId, session.AccountId ?? string.Empty);
+            _requestContext.Set(AnalyticsHeaders.Session.UserId, session.UserId ?? string.Empty);
+            _requestContext.Set(AnalyticsHeaders.Session.DeviceId, session.DeviceId ?? string.Empty);
+            _requestContext.Set(AnalyticsHeaders.Session.AppVersion, session.AppVersion ?? string.Empty);
         }
     }
 }

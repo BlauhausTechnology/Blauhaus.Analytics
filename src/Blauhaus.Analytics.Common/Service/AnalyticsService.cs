@@ -17,7 +17,7 @@ namespace Blauhaus.Analytics.Common.Service
 {
     public class AnalyticsService : IAnalyticsService
     {
-        private IAnalyticsSession _currentSession;
+        private IAnalyticsSession? _currentSession;
         private IAnalyticsOperation? _currentOperation;
         private static Dictionary<string, object> EmptyProperties => new Dictionary<string, object>();
 
@@ -57,15 +57,7 @@ namespace Blauhaus.Analytics.Common.Service
 
         public virtual IAnalyticsSession CurrentSession
         {
-            get
-            {
-                if (_currentSession == null)
-                {
-                    _currentSession = _sessionFactory.CreateSession();
-                }
-
-                return _currentSession;
-            }
+            get => _currentSession ??= _sessionFactory.CreateSession();
             protected set
             {
                 _currentSession = value;
@@ -77,8 +69,8 @@ namespace Blauhaus.Analytics.Common.Service
         {
             get
             {
-                _analyticsOperationHeaders[AnalyticsHeaders.Operation.Name] = CurrentOperation?.Name;
-                _analyticsOperationHeaders[AnalyticsHeaders.Operation.Id] = CurrentOperation?.Id;
+                _analyticsOperationHeaders[AnalyticsHeaders.Operation.Name] = CurrentOperation?.Name ?? string.Empty;
+                _analyticsOperationHeaders[AnalyticsHeaders.Operation.Id] = CurrentOperation?.Id ?? string.Empty;
 
                 if (CurrentSession != null)
                 {
@@ -278,7 +270,7 @@ namespace Blauhaus.Analytics.Common.Service
 
         public IAnalyticsOperation StartTrace(object sender, string message, LogSeverity logSeverity = LogSeverity.Verbose, Dictionary<string, object>? properties = null, [CallerMemberName] string callerMemberName = "")
         {
-            if (properties == null) properties = new Dictionary<string, object>();
+            properties ??= new Dictionary<string, object>();
 
             return new AnalyticsOperation(message, duration =>
             {

@@ -137,5 +137,13 @@ namespace Blauhaus.Analytics.Console.Service
                 ConsoleLogger.LogTrace(message, LogSeverity.Debug, properties.ToDictionaryOfStrings());
             }
         }
+
+        public void Debug(Func<string> messageFactory)
+        {
+            if (_currentBuildConfig.Equals(BuildConfig.Debug))
+            {
+                ConsoleLogger.LogTrace(messageFactory.Invoke(), LogSeverity.Debug, new Dictionary<string, string>());
+            }
+        }
     }
 }

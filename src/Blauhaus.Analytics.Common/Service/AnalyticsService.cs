@@ -260,6 +260,14 @@ namespace Blauhaus.Analytics.Common.Service
             }
         }
 
+        public void Debug(Func<string> messageFactory)
+        {
+            if (CurrentBuildConfig.Equals(BuildConfig.Debug))
+            {
+                ConsoleLogger.LogTrace(messageFactory.Invoke(), LogSeverity.Debug, new Dictionary<string, string>());
+            }
+        }
+
         public void Trace(object sender, string message, LogSeverity logSeverity = LogSeverity.Verbose, Dictionary<string, object>? properties = null, [CallerMemberName] string callerMemberName = "")
         {
             

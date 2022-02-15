@@ -209,14 +209,14 @@ namespace Blauhaus.Analytics.TestHelpers.MockBuilders
          
         #region StartPageViewOperation
         
-        public MockBuilder<IAnalyticsOperation> Where_StartPageViewOperation_returns_operation()
+        public AnalyticsOperationMockBuilder Where_StartPageViewOperation_returns_operation()
         {
-            var operation = new MockBuilder<IAnalyticsOperation>();
-
+            
             Mock.Setup(x => x.StartPageViewOperation(It.IsAny<object>(), It.IsAny<string>(),
-                It.IsAny<Dictionary<string, object>>(), It.IsAny<string>())).Returns(operation.Object);
+                    It.IsAny<Dictionary<string, object>>(), It.IsAny<string>()))
+                .Returns(MockCurrentOperation.Object);
 
-            return operation;
+            return MockCurrentOperation; 
         }
 
 

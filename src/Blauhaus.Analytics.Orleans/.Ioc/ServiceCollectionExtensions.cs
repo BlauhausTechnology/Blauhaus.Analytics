@@ -27,9 +27,9 @@ namespace Blauhaus.Analytics.Orleans.Ioc
             services.AddSingleton<ITelemetryClientProxy, TelemetryClientProxy>();
             services.AddSingleton<ITelemetryDecorator, TelemetryDecorator>();
             
-            services.AddTransient<IAnalyticsSessionFactory, OrleansSessionFactory>();
-            services.AddTransient<IAnalyticsService, OrleansAnalyticsService>();
-            services.AddTransient<IOrleansRequestContext, OrleansRequestContext>();
+            services.AddScoped<IAnalyticsSessionFactory, OrleansSessionFactory>();
+            services.AddScoped<IAnalyticsService, OrleansAnalyticsService>();
+            services.AddScoped<IOrleansRequestContext, OrleansRequestContext>();
 
             
             return services;

@@ -10,6 +10,7 @@ namespace Blauhaus.Analytics.Console.Ioc
     public static class ServiceCollectionExtensions
     {
         private static bool _isTraceListenerRegistered;
+
         public static IServiceCollection RegisterConsoleLoggerClientService(this IServiceCollection services)
         {
             services.AddScoped<ITraceProxy, TraceProxy>();

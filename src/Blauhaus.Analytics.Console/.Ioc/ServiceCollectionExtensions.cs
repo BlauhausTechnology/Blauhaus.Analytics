@@ -28,6 +28,16 @@ namespace Blauhaus.Analytics.Console.Ioc
             return services;
         }
 
+        public static IServiceCollection AddConsoleLoggerService(this IServiceCollection services, TraceListener consoleTraceListener)
+        {
+            AddTraceListener(consoleTraceListener);
+            services.TryAddTransient<ITraceProxy, TraceProxy>();
+            services.TryAddTransient<IConsoleLogger, ConsoleLogger>();
+            services.TryAddTransient<IAnalyticsService, ConsoleLoggerService>();
+
+            return services;
+        }
+
         private static void AddTraceListener(TraceListener consoleTraceListener)
         {
             if (!_isTraceListenerRegistered && Trace.Listeners.Count == 0)

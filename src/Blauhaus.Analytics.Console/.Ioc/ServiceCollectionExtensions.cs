@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Blauhaus.Analytics.Abstractions.Config;
 using Blauhaus.Analytics.Abstractions.Service;
 using Blauhaus.Analytics.Console.ConsoleLoggers;
 using Blauhaus.Analytics.Console.Service;
@@ -25,6 +26,7 @@ namespace Blauhaus.Analytics.Console.Ioc
             services.TryAddScoped<ITraceProxy, TraceProxy>();
             services.TryAddScoped<IConsoleLogger, ConsoleLogger>();
             services.TryAddTransient<IAnalyticsService, ConsoleLoggerService>();
+            services.TryAddTransient<IApplicationInsightsConfig, DefaultApplicationInsightsConfig>();
 
             return services;
         }

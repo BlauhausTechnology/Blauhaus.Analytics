@@ -37,6 +37,7 @@ namespace Blauhaus.Analytics.Console.Ioc
             services.TryAddTransient<ITraceProxy, TraceProxy>();
             services.TryAddTransient<IConsoleLogger, ConsoleLogger>();
             services.TryAddTransient<IAnalyticsService, ConsoleLoggerService>();
+            services.TryAddTransient<IApplicationInsightsConfig, DefaultApplicationInsightsConfig>();
 
             return services;
         }

@@ -23,7 +23,7 @@ namespace Blauhaus.Analytics.Console.Ioc
             AddTraceListener(consoleTraceListener);
             services.TryAddScoped<ITraceProxy, TraceProxy>();
             services.TryAddScoped<IConsoleLogger, ConsoleLogger>();
-            services.TryAddScoped<IAnalyticsService, ConsoleLoggerService>();
+            services.TryAddTransient<IAnalyticsService, ConsoleLoggerService>();
 
             return services;
         }

@@ -30,7 +30,7 @@ public static class LoggerExtensions
     public static IDisposable LogTimer(this ILogger logger, string messageTemplate, params object[] args)
     {
         var newArgs = new object[args.Length+1];
-        for (var i = 0; i < args.Length-1; i++)
+        for (var i = 0; i < args.Length; i++)
         {
             newArgs[i] = args[i];
         }

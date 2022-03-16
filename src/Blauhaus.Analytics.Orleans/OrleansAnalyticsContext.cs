@@ -72,7 +72,7 @@ public class OrleansAnalyticsContext : IAnalyticsContext
         var scope = logger.BeginScope(GetProperties());
         
         var newArgs = new object[args.Length+1];
-        for (var i = 0; i < args.Length-1; i++)
+        for (var i = 0; i < args.Length; i++)
         {
             newArgs[i] = args[i];
         }

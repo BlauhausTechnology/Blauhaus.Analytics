@@ -59,11 +59,14 @@ public class OrleansAnalyticsContext : IAnalyticsContext
         return GetProperties();
     }
 
-    public IDisposable BeginScope<T>(Dictionary<string, object> extraProperties)
+    public IDisposable BeginScope<T>(Dictionary<string, object>? extraProperties)
     {
-        foreach (var extraProperty in extraProperties)
+        if (extraProperties != null)
         {
-            SetValue(extraProperty.Key, extraProperty.Value);
+            foreach (var extraProperty in extraProperties)
+            {
+                SetValue(extraProperty.Key, extraProperty.Value);
+            }
         }
         var logger = _serviceLocator.Resolve<ILogger<T>>();
         return logger.BeginScope(GetProperties());

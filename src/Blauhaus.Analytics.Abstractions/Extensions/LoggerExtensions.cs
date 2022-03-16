@@ -20,4 +20,9 @@ public static class LoggerExtensions
         logger.LogError(error, e);
         return Response.Failure<T>(error);
     } 
+    public static Response LogErrorResponse(this ILogger logger, Error error, Exception? e = null)
+    {
+        logger.LogError(error, e);
+        return Response.Failure(error);
+    } 
 }

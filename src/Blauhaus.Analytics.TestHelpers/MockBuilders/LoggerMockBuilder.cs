@@ -7,6 +7,7 @@ using Blauhaus.TestHelpers.MockBuilders;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
+#pragma warning disable CS8620
 
 namespace Blauhaus.Analytics.TestHelpers.MockBuilders;
 
@@ -37,14 +38,33 @@ public class LoggerMockBuilder<T> : BaseMockBuilder<LoggerMockBuilder<T>, ILogge
 
     public void VerifyLog(string message, LogLevel? logLevel = null, Exception? e = null)
     {
-        Mock.Verify(x => x.Log(It.IsAny<LogLevel>(), It.IsAny<EventId>(), message, It.IsAny<Exception?>(), It.IsAny<Func<string, Exception?, string>>()));
+        Mock.Verify(x => x.Log(
+            It.IsAny<LogLevel>(), 
+            It.IsAny<EventId>(), 
+            It.Is<It.IsAnyType>((o, t) => string.Equals(message, o.ToString(), StringComparison.InvariantCultureIgnoreCase)),
+            It.IsAny<Exception>(), 
+            (Func<It.IsAnyType, Exception, string>)It.IsAny<object>()), Times.AtLeastOnce, 
+            $"Log was not called with message {message}");
+         
         if (logLevel != null)
         {
-            Mock.Verify(x => x.Log(logLevel.Value, It.IsAny<EventId>(), It.IsAny<string>(), It.IsAny<Exception?>(), It.IsAny<Func<string, Exception?, string>>()));
+            Mock.Verify(x => x.Log(
+                logLevel.Value, 
+                It.IsAny<EventId>(), 
+                It.IsAny<It.IsAnyType>(),
+                It.IsAny<Exception>(), 
+                (Func<It.IsAnyType, Exception, string>)It.IsAny<object>()), Times.AtLeastOnce, 
+                $"Log was not called with LogLevel {logLevel}");
         }
         if (e != null)
         {
-            Mock.Verify(x => x.Log(It.IsAny<LogLevel>(), It.IsAny<EventId>(), It.IsAny<string>(), It.Is<Exception?>(ex => ex.Message == e.Message), It.IsAny<Func<string, Exception?, string>>()));
+            Mock.Verify(x => x.Log(
+                It.IsAny<LogLevel>(), 
+                It.IsAny<EventId>(), 
+                It.IsAny<It.IsAnyType>(),
+                It.Is<Exception>(y => y.Message == e.Message), 
+                (Func<It.IsAnyType, Exception, string>)It.IsAny<object>()), Times.AtLeastOnce, 
+                $"Log was not called with an Exception with a message of {e.Message}");
         }
     }
 

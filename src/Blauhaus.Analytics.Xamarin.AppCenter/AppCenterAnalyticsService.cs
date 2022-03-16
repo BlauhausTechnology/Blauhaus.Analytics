@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Blauhaus.Analytics.Abstractions.Config;
 using Blauhaus.Analytics.Abstractions.Extensions;
-using Blauhaus.Analytics.Abstractions.Service;
 using Blauhaus.Analytics.Abstractions.Session;
 using Blauhaus.Analytics.Common.Service;
 using Blauhaus.Analytics.Common.Telemetry;
 using Blauhaus.Analytics.Console.ConsoleLoggers;
 using Blauhaus.Common.ValueObjects.BuildConfigs;
-using Blauhaus.Errors;
 using Microsoft.AppCenter.Crashes;
 
 namespace Blauhaus.Analytics.Xamarin.AppCenter

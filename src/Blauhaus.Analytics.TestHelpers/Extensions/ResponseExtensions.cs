@@ -4,7 +4,6 @@ using System.Linq.Expressions;
 using Blauhaus.Analytics.Abstractions.Service;
 using Blauhaus.Analytics.TestHelpers.MockBuilders;
 using Blauhaus.Errors;
-using Blauhaus.Errors.Extensions;
 using Blauhaus.Responses;
 using Moq;
 using NUnit.Framework;

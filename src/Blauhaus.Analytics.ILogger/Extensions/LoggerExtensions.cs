@@ -1,6 +1,5 @@
 ﻿using Blauhaus.Errors;
 using Microsoft.Extensions.Logging;
-using System.Runtime.CompilerServices;
 using Blauhaus.Responses;
 
 namespace Blauhaus.Analytics.ILogger.Extensions

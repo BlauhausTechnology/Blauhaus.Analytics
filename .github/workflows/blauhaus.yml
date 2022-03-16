@@ -23,7 +23,9 @@ jobs:
         dotnet pack ./src/Blauhaus.Analytics.Console/Blauhaus.Analytics.Console.csproj -p:PackageVersion=${VERSION_NAME} --no-build --output ./ --configuration Release 
         dotnet pack ./src/Blauhaus.Analytics.AspNetCore/Blauhaus.Analytics.AspNetCore.csproj -p:PackageVersion=${VERSION_NAME} --no-build --output ./ --configuration Release 
         dotnet pack ./src/Blauhaus.Analytics.Common/Blauhaus.Analytics.Common.csproj -p:PackageVersion=${VERSION_NAME} --no-build --output ./ --configuration Release 
-        dotnet pack ./src/Blauhaus.Analytics.ILogger/Blauhaus.Analytics.ILogger.csproj -p:PackageVersion=${VERSION_NAME} --no-build --output ./ --configuration Release 
+        dotnet pack ./src/Blauhaus.Analytics.Serilog/Blauhaus.Analytics.Serilog.csproj -p:PackageVersion=${VERSION_NAME} --no-build --output ./ --configuration Release 
+        dotnet pack ./src/Blauhaus.Analytics.Serilog.AspNetCore/Blauhaus.Analytics.Serilog.AspNetCore.csproj -p:PackageVersion=${VERSION_NAME} --no-build --output ./ --configuration Release 
+        dotnet pack ./src/Blauhaus.Analytics.Serilog.Orleans/Blauhaus.Analytics.Serilog.Orleans.csproj -p:PackageVersion=${VERSION_NAME} --no-build --output ./ --configuration Release 
         dotnet pack ./src/Blauhaus.Analytics.TestHelpers/Blauhaus.Analytics.TestHelpers.csproj -p:PackageVersion=${VERSION_NAME} --no-build --output ./ --configuration Release 
         dotnet pack ./src/Blauhaus.Analytics.Orleans/Blauhaus.Analytics.Orleans.csproj -p:PackageVersion=${VERSION_NAME} --no-build --output ./ --configuration Release 
      - name: Deploy NuGet Package
@@ -36,4 +38,6 @@ jobs:
         dotnet nuget push /home/runner/work/Blauhaus.Analytics/Blauhaus.Analytics/Blauhaus.Analytics.Common.${VERSION_NAME}.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
         dotnet nuget push /home/runner/work/Blauhaus.Analytics/Blauhaus.Analytics/Blauhaus.Analytics.TestHelpers.${VERSION_NAME}.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
         dotnet nuget push /home/runner/work/Blauhaus.Analytics/Blauhaus.Analytics/Blauhaus.Analytics.Orleans.${VERSION_NAME}.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
-        dotnet nuget push /home/runner/work/Blauhaus.Analytics/Blauhaus.Analytics/Blauhaus.Analytics.ILogger.${VERSION_NAME}.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
+        dotnet nuget push /home/runner/work/Blauhaus.Analytics/Blauhaus.Analytics/Blauhaus.Analytics.Serilog.${VERSION_NAME}.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
+        dotnet nuget push /home/runner/work/Blauhaus.Analytics/Blauhaus.Analytics/Blauhaus.Analytics.Serilog.AspNetCore.${VERSION_NAME}.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
+        dotnet nuget push /home/runner/work/Blauhaus.Analytics/Blauhaus.Analytics/Blauhaus.Analytics.Serilog.Orleans.${VERSION_NAME}.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json

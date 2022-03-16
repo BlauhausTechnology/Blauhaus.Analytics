@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include=".Ioc\ServiceCollectionExtensions.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Blauhaus.Analytics.Orleans\Blauhaus.Analytics.Orleans.csproj" />
+    <ProjectReference Include="..\Blauhaus.Analytics.Serilog.AspNetCore\Blauhaus.Analytics.Serilog.AspNetCore.csproj" />
+  </ItemGroup>
+
+</Project>

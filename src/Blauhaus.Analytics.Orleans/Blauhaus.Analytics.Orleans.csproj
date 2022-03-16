@@ -15,6 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Blauhaus.Analytics.Abstractions\Blauhaus.Analytics.Abstractions.csproj" />
       <ProjectReference Include="..\Blauhaus.Analytics.Common\Blauhaus.Analytics.Common.csproj" />
     </ItemGroup>
 

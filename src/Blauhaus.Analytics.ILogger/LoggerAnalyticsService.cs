@@ -1,19 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using Blauhaus.Analytics.Abstractions.Config;
 using Blauhaus.Analytics.Abstractions.Http;
 using Blauhaus.Analytics.Abstractions.Operation;
 using Blauhaus.Analytics.Abstractions.Service;
 using Blauhaus.Analytics.Abstractions.Session;
-using Blauhaus.Analytics.Common.Service;
-using Blauhaus.Analytics.Common.Telemetry;
-using Blauhaus.Analytics.Console.ConsoleLoggers;
 using Blauhaus.Common.ValueObjects.BuildConfigs;
 using Microsoft.ApplicationInsights.DataContracts;
-using Microsoft.ApplicationInsights;
 using Microsoft.Extensions.Logging;
-using System.Reflection;
 
 namespace Blauhaus.Analytics.ILogger
 {

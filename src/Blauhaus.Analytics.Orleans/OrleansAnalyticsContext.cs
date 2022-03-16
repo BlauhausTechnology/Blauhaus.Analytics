@@ -18,17 +18,29 @@ public class OrleansAnalyticsContext : IAnalyticsContext
         _serviceLocator = serviceLocator;
     }
 
-    private void SetProperties()
+    private Dictionary<string, object> SetProperties()
     {
-        RequestContext.Set("AnalyticsProperties", GetProperties());
+        var properties = GetProperties();
+        RequestContext.Set("AnalyticsProperties", properties);
+        return properties;
     }
 
-    public void SetValue(string key, object value)
+    public Dictionary<string, object> SetValue(string key, object value)
     {
         GetProperties()[key] = value;
-        SetProperties();
+        return SetProperties();
     }
 
+    public Dictionary<string, object> SetValues(Dictionary<string, object> newProperties)
+    {
+        var properties = GetProperties();
+        foreach (var newProperty in newProperties)
+        {
+            properties[newProperty.Key] = newProperty.Value;
+        }
+        return SetProperties();
+    }
+     
     public bool TryGetValue(string key, out object value)
     {
         var properties = GetProperties();

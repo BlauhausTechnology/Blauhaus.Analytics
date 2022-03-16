@@ -5,7 +5,9 @@ namespace Blauhaus.Analytics.Abstractions;
 
 public interface IAnalyticsContext
 {
-    void SetValue(string key, object value);
+    Dictionary<string, object> SetValue(string key, object value);
+    Dictionary<string, object> SetValues(Dictionary<string, object> newProperties);
+
     bool TryGetValue(string key, out object value);
     Dictionary<string, object> GetAllValues();
 

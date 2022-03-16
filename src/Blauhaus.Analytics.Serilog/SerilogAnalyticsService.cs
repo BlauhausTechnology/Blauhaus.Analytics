@@ -32,7 +32,7 @@ namespace Blauhaus.Analytics.Serilog
 
         public IAnalyticsSession CurrentSession
         {
-            get => /*_currentSession ??=*/ _analyticsSessionFactory.CreateSession();
+            get => _currentSession ??= _analyticsSessionFactory.CreateSession();
             protected set => _currentSession = value;
         } 
 

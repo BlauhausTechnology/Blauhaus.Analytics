@@ -37,7 +37,7 @@ public class AnalyticsContextMockBuilder : BaseMockBuilder<AnalyticsContextMockB
         return this;
     }
 
-    public AnalyticsContextMockBuilder Where_BeginScope_returns<T>(IDisposable? disposable)
+    public AnalyticsContextMockBuilder Where_BeginScope_returns<T>(IDisposable? disposable = null)
     {
         if (disposable != null)
         {
@@ -54,8 +54,12 @@ public class AnalyticsContextMockBuilder : BaseMockBuilder<AnalyticsContextMockB
     {
         Mock.Verify(x => x.BeginTimedScope<T>(message, It.IsAny<object[]>()));
     }
+    public void VerifyBeginTimedScope<T>()
+    {
+        Mock.Verify(x => x.BeginTimedScope<T>(It.IsAny<string>(), It.IsAny<object[]>()));
+    }
 
-    public void VerifySetValues<T>(string name, object value)
+    public void VerifySetValues(string name, object value)
     {
         Mock.Verify(x => x.SetValues(It.Is<Dictionary<string, object>>(y => y.ContainsKey(name))), Times.AtLeastOnce, "SetValues was not called with a property called " + name);
         Mock.Verify(x => x.SetValues(It.Is<Dictionary<string, object>>(y => y[name] == value)), Times.AtLeastOnce, $"SetValues property {name} was mot equal to {value}");

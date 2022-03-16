@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Blauhaus.Analytics.Abstractions.Attributes;
+using System;
 using System.Collections.Generic;
 
 namespace Blauhaus.Analytics.Abstractions;
@@ -12,5 +13,7 @@ public interface IAnalyticsContext
     Dictionary<string, object> GetAllValues();
 
     IDisposable BeginScope<T>();
+
+    [MessageFormatMethod("messageTemplate")]
     IDisposable BeginTimedScope<T>(string messageTemplate, params object[] args);
 }

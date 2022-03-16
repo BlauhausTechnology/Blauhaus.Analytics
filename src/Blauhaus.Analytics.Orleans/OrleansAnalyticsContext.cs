@@ -79,7 +79,7 @@ public class OrleansAnalyticsContext : IAnalyticsContext
         return new LoggerTimer(duration =>
         {
             newArgs[newArgs.Length - 1] = duration;
-            messageTemplate += " Duration: {Duration}";
+            messageTemplate += " in {Duration}";
             logger.Log(LogLevel.Debug, messageTemplate, newArgs);
             scope.Dispose();
         });

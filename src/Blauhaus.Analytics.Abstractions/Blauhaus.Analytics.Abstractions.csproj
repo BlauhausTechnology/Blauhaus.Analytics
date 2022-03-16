@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <Folder Include="Commands\" />
+    <Folder Include="Attributes\" />
     <Folder Include="Operation\" />
   </ItemGroup>
 </Project>

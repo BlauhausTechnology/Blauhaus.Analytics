@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using Blauhaus.Analytics.Abstractions.Attributes;
 using Blauhaus.Errors;
 using Blauhaus.Responses;
 using Microsoft.Extensions.Logging;
@@ -24,7 +25,8 @@ public static class LoggerExtensions
         LogError(logger, error, e);
         return Response.Failure(error);
     }
-
+    
+    [MessageFormatMethod("messageTemplate")]
     public static IDisposable LogTimer(this ILogger logger, string messageTemplate, params object[] args)
     {
         var newArgs = new object[args.Length+1];

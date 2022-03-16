@@ -1,6 +1,5 @@
 ﻿using System;
-using Blauhaus.Analytics.Abstractions.Service;
-using System.Runtime.CompilerServices;
+using System.Diagnostics;
 using Blauhaus.Errors;
 using Blauhaus.Responses;
 using Microsoft.Extensions.Logging;
@@ -24,5 +23,47 @@ public static class LoggerExtensions
     {
         logger.LogError(error, e);
         return Response.Failure(error);
-    } 
+    }
+
+    public static IDisposable LogTimer(this ILogger logger, string message)
+    {
+        return new LoggerTimer(duration =>
+        {
+            logger.Log(LogLevel.Debug, "{Message} executed in {Duration}", message, duration);
+        });
+    }
+
+}
+
+
+
+
+public class LoggerTimer : IDisposable
+{
+    private readonly Action<TimeSpan> _onStopAction;
+
+    private readonly Stopwatch _stopwatch = new Stopwatch();
+    public LoggerTimer(Action<TimeSpan> onStopAction)
+    {
+        Id = Guid.NewGuid();
+        _onStopAction = onStopAction;
+        _stopwatch.Start();
+    }
+
+    public Guid Id { get; set; }
+
+    public void Dispose()
+    {
+        Stop();
+        GC.SuppressFinalize(this);
+    }
+
+    public void Stop()
+    {
+        if (_stopwatch.IsRunning)
+        {
+            _stopwatch.Stop(); 
+            _onStopAction.Invoke(_stopwatch.Elapsed);
+        }
+    }
 }

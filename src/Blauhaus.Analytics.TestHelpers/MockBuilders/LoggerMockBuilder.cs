@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using Blauhaus.Errors;
+using Blauhaus.Responses;
 using Blauhaus.TestHelpers.MockBuilders;
 using Microsoft.Extensions.Logging;
 using Moq;
+using NUnit.Framework;
 
 namespace Blauhaus.Analytics.TestHelpers.MockBuilders;
 
@@ -19,18 +21,32 @@ public class LoggerMockBuilder<T> : BaseMockBuilder<LoggerMockBuilder<T>, ILogge
 
     public Mock<IDisposable> MockScopeDisposable { get; }
 
-    public void VerifyLogError(string message) => Mock.Verify(x => x.Log(LogLevel.Error, message));
-    public void VerifyLogError(Error error) => Mock.Verify(x => x.Log(LogLevel.Error, error.ToString()));
-    public void VerifyLogError(Error error, Exception e) => Mock.Verify(x => x.Log(LogLevel.Error, It.Is<Exception>(y => y.Message == e.Message), error.ToString()));
+    public void VerifyLogError(string message, Exception? e = null) => VerifyLog(message, LogLevel.Error, e);
+    public void VerifyLogError(Error error, Exception? e = null) => VerifyLog(error.ToString(), LogLevel.Error, e);
 
-    public void VerifyLogInformation(string message) => Mock.Verify(x => x.Log(LogLevel.Information, message));
-    public void VerifyLogTrace(string message) => Mock.Verify(x => x.Log(LogLevel.Trace, message));
-    public void VerifyLogWarning(string message) => Mock.Verify(x => x.Log(LogLevel.Warning, message));
-    public void VerifyLogDebug(string message) => Mock.Verify(x => x.Log(LogLevel.Debug, message));
-    public void VerifyLogCritical(string message) => Mock.Verify(x => x.Log(LogLevel.Critical, message));
-    public void VerifyLog(LogLevel logLevel, string message)=> Mock.Verify(x => x.Log(logLevel, message));
-    public void VerifyLog(LogLevel logLevel, string message, Exception e)=> Mock.Verify(x => x.Log(logLevel, e, message));
-    public void VerifyLog(string message)=> Mock.Verify(x => x.Log(It.IsAny<LogLevel>(), message));
+    public void VerifyLogErrorResponse(Error expectedError, Response actualResponse, Exception? e = null)
+    {
+        Assert.That(actualResponse.Error, NUnit.Framework.Is.EqualTo(expectedError));
+        VerifyLog(expectedError.ToString(), LogLevel.Error, e);
+    }
+    public void VerifyLogErrorResponse<TResponse>(Error expectedError, Response<TResponse> actualResponse, Exception? e = null)
+    {
+        Assert.That(actualResponse.Error, NUnit.Framework.Is.EqualTo(expectedError));
+        VerifyLog(expectedError.ToString(), LogLevel.Error, e);
+    }
+
+    public void VerifyLog(string message, LogLevel? logLevel = null, Exception? e = null)
+    {
+        Mock.Verify(x => x.Log(It.IsAny<LogLevel>(), It.IsAny<EventId>(), message, It.IsAny<Exception?>(), It.IsAny<Func<string, Exception?, string>>()));
+        if (logLevel != null)
+        {
+            Mock.Verify(x => x.Log(logLevel.Value, It.IsAny<EventId>(), It.IsAny<string>(), It.IsAny<Exception?>(), It.IsAny<Func<string, Exception?, string>>()));
+        }
+        if (e != null)
+        {
+            Mock.Verify(x => x.Log(It.IsAny<LogLevel>(), It.IsAny<EventId>(), It.IsAny<string>(), It.Is<Exception?>(ex => ex.Message == e.Message), It.IsAny<Func<string, Exception?, string>>()));
+        }
+    }
 
     public LoggerMockBuilder<T> VerifyBeginScope(string name, Expression<Func<object, bool>> predicate)
     {

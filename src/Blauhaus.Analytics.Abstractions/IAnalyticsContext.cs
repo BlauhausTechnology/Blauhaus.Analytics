@@ -11,5 +11,6 @@ public interface IAnalyticsContext
     bool TryGetValue(string key, out object value);
     Dictionary<string, object> GetAllValues();
 
-    IDisposable BeginScope<T>(Dictionary<string, object>? extraProperties = null);
+    IDisposable BeginScope<T>();
+    IDisposable BeginTimedScope<T>(string messageTemplate, params object[] args);
 }

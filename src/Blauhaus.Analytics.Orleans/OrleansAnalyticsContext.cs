@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Blauhaus.Analytics.Abstractions;
+using Blauhaus.Analytics.Abstractions.Extensions;
 using Blauhaus.Ioc.Abstractions;
 using Microsoft.Extensions.Logging;
 using Orleans.Runtime;
@@ -59,17 +60,30 @@ public class OrleansAnalyticsContext : IAnalyticsContext
         return GetProperties();
     }
 
-    public IDisposable BeginScope<T>(Dictionary<string, object>? extraProperties)
+    public IDisposable BeginScope<T>()
     {
-        if (extraProperties != null)
-        {
-            foreach (var extraProperty in extraProperties)
-            {
-                SetValue(extraProperty.Key, extraProperty.Value);
-            }
-        }
         var logger = _serviceLocator.Resolve<ILogger<T>>();
         return logger.BeginScope(GetProperties());
+    }
+
+    public IDisposable BeginTimedScope<T>(string messageTemplate, params object[] args)
+    {
+        var logger = _serviceLocator.Resolve<ILogger<T>>();
+        var scope = logger.BeginScope(GetProperties());
+        
+        var newArgs = new object[args.Length+1];
+        for (var i = 0; i < args.Length-1; i++)
+        {
+            newArgs[i] = args[i];
+        }
+        return new LoggerTimer(duration =>
+        {
+            newArgs[newArgs.Length - 1] = duration;
+            messageTemplate += " Duration: {Duration}";
+            logger.Log(LogLevel.Debug, messageTemplate, newArgs);
+            scope.Dispose();
+        });
+         
     }
 
     private Dictionary<string, object> GetProperties()

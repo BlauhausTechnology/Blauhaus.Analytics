@@ -34,7 +34,6 @@ public static class LoggerExtensions
         }
         return new LoggerTimer(duration =>
         {
-
             newArgs[newArgs.Length - 1] = duration;
             messageTemplate += " Duration: {Duration}";
             logger.Log(LogLevel.Debug, messageTemplate, newArgs);
@@ -50,7 +49,7 @@ public class LoggerTimer : IDisposable
 {
     private readonly Action<TimeSpan> _onStopAction;
 
-    private readonly Stopwatch _stopwatch = new Stopwatch();
+    private readonly Stopwatch _stopwatch = new();
     public LoggerTimer(Action<TimeSpan> onStopAction)
     {
         Id = Guid.NewGuid();

@@ -21,7 +21,7 @@ public class AnalyticsContextMockBuilder : BaseMockBuilder<AnalyticsContextMockB
     }
     public AnalyticsContextMockBuilder Where_TryGetValue_fails(string key)
     {
-        object def = default(object);
+        var def = default(object);
         Mock.Setup(x => x.TryGetValue(key, out def)).Returns(false);
         return this;
     }
@@ -37,15 +37,27 @@ public class AnalyticsContextMockBuilder : BaseMockBuilder<AnalyticsContextMockB
         return this;
     }
 
-    public AnalyticsContextMockBuilder Where_BeginScope_returns<T>()
+    public AnalyticsContextMockBuilder Where_BeginScope_returns<T>(IDisposable? disposable)
     {
-        Mock.Setup(x => x.BeginScope<T>(It.IsAny<Dictionary<string, object>>())).Returns(MockScopeDisposable.Object);
+        if (disposable != null)
+        {
+            Mock.Setup(x => x.BeginScope<T>()).Returns(disposable);
+        }
+        else
+        {
+            Mock.Setup(x => x.BeginScope<T>()).Returns(MockScopeDisposable.Object);
+        }
         return this;
     }
 
-    public void VerifyBeginScope<T>(string name, object value)
+    public void VerifyBeginTimedScope<T>(string message)
     {
-        Mock.Verify(x => x.BeginScope<T>(It.Is<Dictionary<string, object>>(y => y.ContainsKey(name))), Times.AtLeastOnce, "BeginScope was not called with a property called " + name);
-        Mock.Verify(x => x.BeginScope<T>(It.Is<Dictionary<string, object>>(y => y[name] == value)), Times.AtLeastOnce, $"BeginScope property {name} was mot equal to {value}");
+        Mock.Verify(x => x.BeginTimedScope<T>(message, It.IsAny<object[]>()));
+    }
+
+    public void VerifySetValues<T>(string name, object value)
+    {
+        Mock.Verify(x => x.SetValues(It.Is<Dictionary<string, object>>(y => y.ContainsKey(name))), Times.AtLeastOnce, "SetValues was not called with a property called " + name);
+        Mock.Verify(x => x.SetValues(It.Is<Dictionary<string, object>>(y => y[name] == value)), Times.AtLeastOnce, $"SetValues property {name} was mot equal to {value}");
     }
 }

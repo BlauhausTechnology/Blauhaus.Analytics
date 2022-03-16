@@ -25,11 +25,19 @@ public static class LoggerExtensions
         return Response.Failure(error);
     }
 
-    public static IDisposable LogTimer(this ILogger logger, string message)
+    public static IDisposable LogTimer(this ILogger logger, string messageTemplate, params object[] args)
     {
+        var newArgs = new object[args.Length+1];
+        for (var i = 0; i < args.Length-1; i++)
+        {
+            newArgs[i] = args[i];
+        }
         return new LoggerTimer(duration =>
         {
-            logger.Log(LogLevel.Debug, "{Message} executed in {Duration}", message, duration);
+
+            newArgs[newArgs.Length - 1] = duration;
+            messageTemplate += " Duration: {Duration}";
+            logger.Log(LogLevel.Debug, messageTemplate, newArgs);
         });
     }
 

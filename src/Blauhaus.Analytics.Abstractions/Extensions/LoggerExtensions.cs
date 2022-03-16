@@ -10,18 +10,18 @@ public static class LoggerExtensions
 { 
     public static ILogger LogError(this ILogger logger, Error error, Exception? e = null)
     {
-        logger.LogError(error.ToString(), e);
+        logger.LogError(e, error.ToString());
         return logger;
     }
 
     public static Response<T> LogErrorResponse<T>(this ILogger logger, Error error, Exception? e = null)
     {
-        logger.LogError(error, e);
+        LogError(logger, error, e);
         return Response.Failure<T>(error);
     } 
     public static Response LogErrorResponse(this ILogger logger, Error error, Exception? e = null)
     {
-        logger.LogError(error, e);
+        LogError(logger, error, e);
         return Response.Failure(error);
     }
 

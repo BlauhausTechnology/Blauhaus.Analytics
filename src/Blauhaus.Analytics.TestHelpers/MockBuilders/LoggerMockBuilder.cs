@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using Blauhaus.Errors;
 using Blauhaus.Responses;
@@ -7,6 +8,7 @@ using Blauhaus.TestHelpers.MockBuilders;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
+
 #pragma warning disable CS8620
 
 namespace Blauhaus.Analytics.TestHelpers.MockBuilders;
@@ -23,17 +25,17 @@ public class LoggerMockBuilder<T> : BaseMockBuilder<LoggerMockBuilder<T>, ILogge
     public Mock<IDisposable> MockScopeDisposable { get; }
 
     public void VerifyLogError(string message, Exception? e = null) => VerifyLog(message, LogLevel.Error, e);
-    public void VerifyLogError(Error error, Exception? e = null) => VerifyLog(error.ToString(), LogLevel.Error, e);
+    public void VerifyLogError(Error error, Exception? e = null) => VerifyLog(error.Code, LogLevel.Error, e);
 
     public void VerifyLogErrorResponse(Error expectedError, Response actualResponse, Exception? e = null)
     {
         Assert.That(actualResponse.Error, NUnit.Framework.Is.EqualTo(expectedError));
-        VerifyLog(expectedError.ToString(), LogLevel.Error, e);
+        VerifyLog(expectedError.Code, LogLevel.Error, e);
     }
     public void VerifyLogErrorResponse<TResponse>(Error expectedError, Response<TResponse> actualResponse, Exception? e = null)
     {
         Assert.That(actualResponse.Error, NUnit.Framework.Is.EqualTo(expectedError));
-        VerifyLog(expectedError.ToString(), LogLevel.Error, e);
+        VerifyLog(expectedError.Code, LogLevel.Error, e);
     }
 
     public void VerifyLog(string message, LogLevel? logLevel = null, Exception? e = null)
@@ -41,7 +43,7 @@ public class LoggerMockBuilder<T> : BaseMockBuilder<LoggerMockBuilder<T>, ILogge
         Mock.Verify(x => x.Log(
             It.IsAny<LogLevel>(), 
             It.IsAny<EventId>(), 
-            It.Is<It.IsAnyType>((o, t) => string.Equals(message, o.ToString(), StringComparison.InvariantCultureIgnoreCase)),
+            It.Is<It.IsAnyType>((o, t) => o.ToString()!.Contains(message)),
             It.IsAny<Exception>(), 
             (Func<It.IsAnyType, Exception, string>)It.IsAny<object>()), Times.AtLeastOnce, 
             $"Log was not called with message {message}");
@@ -58,13 +60,23 @@ public class LoggerMockBuilder<T> : BaseMockBuilder<LoggerMockBuilder<T>, ILogge
         }
         if (e != null)
         {
-            Mock.Verify(x => x.Log(
-                It.IsAny<LogLevel>(), 
-                It.IsAny<EventId>(), 
-                It.IsAny<It.IsAnyType>(),
-                It.Is<Exception>(y => y.Message == e.Message), 
-                (Func<It.IsAnyType, Exception, string>)It.IsAny<object>()), Times.AtLeastOnce, 
-                $"Log was not called with an Exception with a message of {e.Message}");
+            var invocation = Mock.Invocations.FirstOrDefault(x => x.Arguments[3] is Exception);
+            if (invocation != null)
+            {
+                var ex = (Exception)invocation.Arguments[3];
+                Assert.That(ex.Message, NUnit.Framework.Is.EqualTo(e.Message));
+                return;
+            }
+
+            Assert.Fail("No exceptions where passed to the logger");
+
+            //Mock.Verify(x => x.Log(
+            //    It.IsAny<LogLevel>(), 
+            //    It.IsAny<EventId>(), 
+            //    It.IsAny<It.IsAnyType>(),
+            //    It.Is<Exception>(y => y.Message == e.Message), 
+            //    (Func<It.IsAnyType, Exception, string>)It.IsAny<object>()), Times.AtLeastOnce, 
+            //    $"Log was not called with an Exception with a message of {e.Message}");
         }
     }
 

@@ -1,18 +1,75 @@
-﻿using Blauhaus.Analytics.Abstractions;
+﻿using System;
+using System.Collections.Generic;
+using Blauhaus.Analytics.Abstractions;
+using Blauhaus.Ioc.Abstractions;
+using Microsoft.Extensions.Logging;
 using Orleans.Runtime;
 
 namespace Blauhaus.Analytics.Orleans;
 
 public class OrleansAnalyticsContext : IAnalyticsContext
 {
-    public void Set(string key, object value)
+    private Dictionary<string, object>? _analyticsProperties;
+    
+    private readonly IServiceLocator _serviceLocator;
+
+    public OrleansAnalyticsContext(IServiceLocator serviceLocator)
     {
-        RequestContext.Set(key, value);
+        _serviceLocator = serviceLocator;
     }
 
-    public bool TryGet(string key, out object value)
+    private void SetProperties()
     {
-        value = RequestContext.Get(key);
-        return value != null;
+        RequestContext.Set("AnalyticsProperties", GetProperties());
     }
+
+    public void SetValue(string key, object value)
+    {
+        GetProperties()[key] = value;
+        SetProperties();
+    }
+
+    public bool TryGetValue(string key, out object value)
+    {
+        var properties = GetProperties();
+        if (properties.TryGetValue(key, out var cachedValue))
+        {
+            value = cachedValue;
+            return true;
+        }
+
+        value = null;
+        return false;
+    }
+
+    public Dictionary<string, object> GetAllValues()
+    {
+        return GetProperties();
+    }
+
+    public IDisposable BeginScope<T>(Dictionary<string, object> extraProperties)
+    {
+        foreach (var extraProperty in extraProperties)
+        {
+            SetValue(extraProperty.Key, extraProperty.Value);
+        }
+        var logger = _serviceLocator.Resolve<ILogger<T>>();
+        return logger.BeginScope(GetProperties());
+    }
+
+    private Dictionary<string, object> GetProperties()
+    {
+        if (_analyticsProperties == null)
+        {
+            _analyticsProperties = (Dictionary<string, object>)RequestContext.Get("AnalyticsProperties");
+            if (_analyticsProperties == null)
+            {
+                _analyticsProperties = new Dictionary<string, object>();
+                RequestContext.Set("AnalyticsProperties", _analyticsProperties);
+            }
+        }
+
+        return _analyticsProperties;
+    }
+
 }

@@ -141,8 +141,8 @@ namespace Blauhaus.Analytics.Serilog.Orleans
 
         public IAnalyticsOperation StartOperation(object sender, string operationName, Dictionary<string, object> properties = null, string callingMember = "")
         {
-            _analyticsContext.Set(AnalyticsHeaders.Operation.Name, operationName);
-            _analyticsContext.Set(AnalyticsHeaders.Operation.Id, Guid.NewGuid());
+            _analyticsContext.SetValue(AnalyticsHeaders.Operation.Name, operationName);
+            _analyticsContext.SetValue(AnalyticsHeaders.Operation.Id, Guid.NewGuid());
             
             if (string.IsNullOrWhiteSpace(operationName))
             {
@@ -252,14 +252,14 @@ namespace Blauhaus.Analytics.Serilog.Orleans
 
         protected void HandleNewRequest(AnalyticsSession session, string operationName, string operationId)
         {
-            _analyticsContext.Set(AnalyticsHeaders.Operation.Name, operationName);
-            _analyticsContext.Set(AnalyticsHeaders.Operation.Id, operationId);
+            _analyticsContext.SetValue(AnalyticsHeaders.Operation.Name, operationName);
+            _analyticsContext.SetValue(AnalyticsHeaders.Operation.Id, operationId);
             
-            _analyticsContext.Set(AnalyticsHeaders.Session.Id, session.Id);
-            _analyticsContext.Set(AnalyticsHeaders.Session.AccountId, session.AccountId ?? string.Empty);
-            _analyticsContext.Set(AnalyticsHeaders.Session.UserId, session.UserId ?? string.Empty);
-            _analyticsContext.Set(AnalyticsHeaders.Session.DeviceId, session.DeviceId ?? string.Empty);
-            _analyticsContext.Set(AnalyticsHeaders.Session.AppVersion, session.AppVersion ?? string.Empty);
+            _analyticsContext.SetValue(AnalyticsHeaders.Session.Id, session.Id);
+            _analyticsContext.SetValue(AnalyticsHeaders.Session.AccountId, session.AccountId ?? string.Empty);
+            _analyticsContext.SetValue(AnalyticsHeaders.Session.UserId, session.UserId ?? string.Empty);
+            _analyticsContext.SetValue(AnalyticsHeaders.Session.DeviceId, session.DeviceId ?? string.Empty);
+            _analyticsContext.SetValue(AnalyticsHeaders.Session.AppVersion, session.AppVersion ?? string.Empty);
         }
     }
 }

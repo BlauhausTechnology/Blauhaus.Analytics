@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using Blauhaus.Errors;
 using Blauhaus.TestHelpers.MockBuilders;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -19,6 +20,9 @@ public class LoggerMockBuilder<T> : BaseMockBuilder<LoggerMockBuilder<T>, ILogge
     public Mock<IDisposable> MockScopeDisposable { get; }
 
     public void VerifyLogError(string message) => Mock.Verify(x => x.Log(LogLevel.Error, message));
+    public void VerifyLogError(Error error) => Mock.Verify(x => x.Log(LogLevel.Error, error.ToString()));
+    public void VerifyLogError(Error error, Exception e) => Mock.Verify(x => x.Log(LogLevel.Error, It.Is<Exception>(y => y.Message == e.Message), error.ToString()));
+
     public void VerifyLogInformation(string message) => Mock.Verify(x => x.Log(LogLevel.Information, message));
     public void VerifyLogTrace(string message) => Mock.Verify(x => x.Log(LogLevel.Trace, message));
     public void VerifyLogWarning(string message) => Mock.Verify(x => x.Log(LogLevel.Warning, message));

@@ -1,23 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using Blauhaus.Analytics.Abstractions;
+﻿using Blauhaus.Analytics.Abstractions;
 using Blauhaus.Analytics.Abstractions.Extensions;
 using Blauhaus.Ioc.Abstractions;
 using Microsoft.Extensions.Logging;
 using Orleans.Runtime;
 
-namespace Blauhaus.Analytics.Orleans;
+namespace Blauhaus.Analytics.Serilog.Orleans;
 
 public class OrleansAnalyticsContext : IAnalyticsContext
 {
     private Dictionary<string, object>? _analyticsProperties;
     
-    private readonly IServiceLocator _serviceLocator;
-
-    public OrleansAnalyticsContext(IServiceLocator serviceLocator)
-    {
-        _serviceLocator = serviceLocator;
-    }
 
     private Dictionary<string, object> SetProperties()
     {
@@ -58,32 +50,6 @@ public class OrleansAnalyticsContext : IAnalyticsContext
     public Dictionary<string, object> GetAllValues()
     {
         return GetProperties();
-    }
-
-    public IDisposable BeginScope<T>()
-    {
-        var logger = _serviceLocator.Resolve<ILogger<T>>();
-        return logger.BeginScope(GetProperties());
-    }
-
-    public IDisposable BeginTimedScope<T>(string messageTemplate, params object[] args)
-    {
-        var logger = _serviceLocator.Resolve<ILogger<T>>();
-        var scope = logger.BeginScope(GetProperties());
-        
-        var newArgs = new object[args.Length+1];
-        for (var i = 0; i < args.Length; i++)
-        {
-            newArgs[i] = args[i];
-        }
-        return new LoggerTimer(duration =>
-        {
-            newArgs[newArgs.Length - 1] = duration;
-            messageTemplate += " in {Duration}";
-            logger.Log(LogLevel.Debug, messageTemplate, newArgs);
-            scope.Dispose();
-        });
-         
     }
 
     private Dictionary<string, object> GetProperties()

@@ -12,8 +12,4 @@ public interface IAnalyticsContext
     bool TryGetValue(string key, out object value);
     Dictionary<string, object> GetAllValues();
 
-    IDisposable BeginScope<T>();
-
-    [MessageFormatMethod("messageTemplate")]
-    IDisposable BeginTimedScope<T>(string messageTemplate, params object[] args);
 }

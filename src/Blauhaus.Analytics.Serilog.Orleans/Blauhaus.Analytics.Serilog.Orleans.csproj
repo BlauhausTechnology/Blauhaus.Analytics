@@ -12,7 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Blauhaus.Analytics.Orleans\Blauhaus.Analytics.Orleans.csproj" />
-    <ProjectReference Include="..\Blauhaus.Analytics.Serilog.AspNetCore\Blauhaus.Analytics.Serilog.AspNetCore.csproj" />
+    <ProjectReference Include="..\Blauhaus.Analytics.Serilog\Blauhaus.Analytics.Serilog.csproj" />
   </ItemGroup>
 
 </Project>

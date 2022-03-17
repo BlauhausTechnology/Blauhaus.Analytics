@@ -13,13 +13,20 @@ using NUnit.Framework;
 
 namespace Blauhaus.Analytics.TestHelpers.MockBuilders;
 
-public class LoggerMockBuilder<T> : BaseMockBuilder<LoggerMockBuilder<T>, ILogger<T>>
-{
 
-    public LoggerMockBuilder()
+public class LoggerMockBuilder<T> : BaseLoggerMockBuilder<LoggerMockBuilder<T>, ILogger<T>, T>
+{
+}
+
+public abstract class BaseLoggerMockBuilder<TBuilder, TMock, T> : BaseMockBuilder<TBuilder, TMock>
+    where TBuilder :BaseLoggerMockBuilder<TBuilder, TMock, T>
+    where TMock : class, ILogger<T>
+{
+    protected BaseLoggerMockBuilder()
     {
         MockScopeDisposable = new Mock<IDisposable>();
-        Mock.Setup(x => x.BeginScope(It.IsAny<Dictionary<string, object>>())).Returns(MockScopeDisposable.Object);
+        Mock.Setup(x => x.BeginScope(It.IsAny<Dictionary<string, object>>()))
+            .Returns(MockScopeDisposable.Object);
     }
 
     public Mock<IDisposable> MockScopeDisposable { get; }
@@ -60,7 +67,7 @@ public class LoggerMockBuilder<T> : BaseMockBuilder<LoggerMockBuilder<T>, ILogge
         }
         if (e != null)
         {
-            var invocation = Mock.Invocations.FirstOrDefault(x => x.Arguments[3] is Exception);
+            var invocation = Mock.Invocations.FirstOrDefault(x => x.Arguments.FirstOrDefault(y => y is Exception)!=null);
             if (invocation != null)
             {
                 var ex = (Exception)invocation.Arguments[3];
@@ -68,19 +75,11 @@ public class LoggerMockBuilder<T> : BaseMockBuilder<LoggerMockBuilder<T>, ILogge
                 return;
             }
 
-            Assert.Fail("No exceptions where passed to the logger");
-
-            //Mock.Verify(x => x.Log(
-            //    It.IsAny<LogLevel>(), 
-            //    It.IsAny<EventId>(), 
-            //    It.IsAny<It.IsAnyType>(),
-            //    It.Is<Exception>(y => y.Message == e.Message), 
-            //    (Func<It.IsAnyType, Exception, string>)It.IsAny<object>()), Times.AtLeastOnce, 
-            //    $"Log was not called with an Exception with a message of {e.Message}");
+            Assert.Fail("No exceptions where passed to the logger"); 
         }
     }
 
-    public LoggerMockBuilder<T> VerifyBeginScope(string name, Expression<Func<object, bool>> predicate)
+    public TBuilder VerifyBeginScope(string name, Expression<Func<object, bool>> predicate)
     {
         Mock.Verify(x => x.BeginScope(It.IsAny<Dictionary<string, object>>()), Times.AtLeastOnce, 
             "BeginScope was not called with any Dictionary<string,object?");
@@ -91,7 +90,7 @@ public class LoggerMockBuilder<T> : BaseMockBuilder<LoggerMockBuilder<T>, ILogge
         Mock.Verify(x => x.BeginScope(It.Is<Dictionary<string, object>>(y => predicate.Compile().Invoke(y[name]))), Times.AtLeastOnce,
             $"BeginScope was called with a for {name} that did not match the predicate {predicate.Body}");
 
-        return this;
+        return (TBuilder)this;
     }
 
 }

@@ -5,13 +5,18 @@ using System.Collections.Generic;
 
 namespace Blauhaus.Analytics.Abstractions;
 
-public interface IAnalyticsLogger<out T> : ILogger<T>
+public interface IAnalyticsLogger : ILogger
 {
-    IAnalyticsLogger<T> SetValue(string key, object value);
-    IAnalyticsLogger<T> SetValues(Dictionary<string, object> newProperties);
+    IAnalyticsLogger SetValue(string key, object value);
+    IAnalyticsLogger SetValues(Dictionary<string, object> newProperties);
 
     IDisposable BeginScope();
 
     [MessageFormatMethod("messageTemplate")]
     IDisposable BeginTimedScope(LogLevel logLevel, string messageTemplate, params object[] args);
+}
+
+public interface IAnalyticsLogger<out T> : IAnalyticsLogger
+{
+  
 }

@@ -11,14 +11,23 @@ using System.Linq.Expressions;
 
 namespace Blauhaus.Analytics.TestHelpers.MockBuilders;
 
-
+public class AnalyticsLoggerMockBuilder : BaseAnalyticsLoggerMockBuilder<AnalyticsLoggerMockBuilder, IAnalyticsLogger>
+{
+}
 public class AnalyticsLoggerMockBuilder<T> : BaseAnalyticsLoggerMockBuilder<AnalyticsLoggerMockBuilder<T>, IAnalyticsLogger<T>, T>
 {
 }
 
-public abstract class BaseAnalyticsLoggerMockBuilder<TBuilder, TMock, T> : BaseLoggerMockBuilder<TBuilder, TMock, T>
+public abstract class BaseAnalyticsLoggerMockBuilder<TBuilder, TMock, T> : BaseAnalyticsLoggerMockBuilder<TBuilder, TMock>
     where TBuilder : BaseAnalyticsLoggerMockBuilder<TBuilder, TMock, T>
     where TMock : class, IAnalyticsLogger<T>
+{
+
+}
+
+public abstract class BaseAnalyticsLoggerMockBuilder<TBuilder, TMock> : BaseLoggerMockBuilder<TBuilder, TMock>
+    where TBuilder : BaseAnalyticsLoggerMockBuilder<TBuilder, TMock>
+    where TMock : class, IAnalyticsLogger
 {
     protected BaseAnalyticsLoggerMockBuilder()
     {

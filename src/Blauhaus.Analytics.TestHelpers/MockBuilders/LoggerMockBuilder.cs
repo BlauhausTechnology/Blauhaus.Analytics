@@ -13,14 +13,22 @@ using NUnit.Framework;
 
 namespace Blauhaus.Analytics.TestHelpers.MockBuilders;
 
-
+public class LoggerMockBuilder : BaseLoggerMockBuilder<LoggerMockBuilder, ILogger>
+{
+}
 public class LoggerMockBuilder<T> : BaseLoggerMockBuilder<LoggerMockBuilder<T>, ILogger<T>, T>
 {
 }
 
-public abstract class BaseLoggerMockBuilder<TBuilder, TMock, T> : BaseMockBuilder<TBuilder, TMock>
-    where TBuilder :BaseLoggerMockBuilder<TBuilder, TMock, T>
+public abstract class BaseLoggerMockBuilder<TBuilder, TMock, T> : BaseLoggerMockBuilder<TBuilder, TMock>
+    where TBuilder : BaseLoggerMockBuilder<TBuilder, TMock, T>
     where TMock : class, ILogger<T>
+{
+}
+
+public abstract class BaseLoggerMockBuilder<TBuilder, TMock> : BaseMockBuilder<TBuilder, TMock>
+    where TBuilder :BaseLoggerMockBuilder<TBuilder, TMock>
+    where TMock : class, ILogger
 {
     protected BaseLoggerMockBuilder()
     {

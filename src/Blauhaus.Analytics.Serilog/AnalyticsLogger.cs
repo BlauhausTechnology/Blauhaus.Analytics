@@ -34,13 +34,13 @@ public class AnalyticsLogger<T> : IAnalyticsLogger<T>
         return _logger.BeginScope(state);
     }
 
-    public IAnalyticsLogger<T> SetValue(string key, object value)
+    public IAnalyticsLogger SetValue(string key, object value)
     {
         _analyticsContext.SetValue(key, value);
         return this;
     }
 
-    public IAnalyticsLogger<T> SetValues(Dictionary<string, object> newProperties)
+    public IAnalyticsLogger SetValues(Dictionary<string, object> newProperties)
     {
         _analyticsContext.SetValues(newProperties);
         return this;

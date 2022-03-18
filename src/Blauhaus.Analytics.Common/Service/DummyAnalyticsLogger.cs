@@ -21,7 +21,7 @@ namespace Blauhaus.Analytics.Common.Service
 
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
         {
-            _analyticsService.Trace(this, formatter.Invoke(state, exception));
+            _analyticsService.Trace(this, state!.ToString());
         }
 
         public bool IsEnabled(LogLevel logLevel)

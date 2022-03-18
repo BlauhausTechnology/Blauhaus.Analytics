@@ -11,6 +11,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Serilog.Exceptions" Version="8.1.0" />
+    <PackageReference Include="Serilog.Exceptions.EntityFrameworkCore" Version="8.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Blauhaus.Analytics.Orleans\Blauhaus.Analytics.Orleans.csproj" />
     <ProjectReference Include="..\Blauhaus.Analytics.Serilog\Blauhaus.Analytics.Serilog.csproj" />
   </ItemGroup>

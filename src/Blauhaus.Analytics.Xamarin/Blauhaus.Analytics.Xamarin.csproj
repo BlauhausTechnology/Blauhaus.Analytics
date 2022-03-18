@@ -19,6 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Blauhaus.Analytics.Common\Blauhaus.Analytics.Common.csproj" />
     <ProjectReference Include="..\Blauhaus.Analytics.Console\Blauhaus.Analytics.Console.csproj" />
+    <ProjectReference Include="..\Blauhaus.Analytics.Serilog\Blauhaus.Analytics.Serilog.csproj" />
   </ItemGroup>
 
 </Project>

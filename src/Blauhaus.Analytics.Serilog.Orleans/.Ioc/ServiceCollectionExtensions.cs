@@ -11,7 +11,6 @@ namespace Blauhaus.Analytics.Serilog.Orleans.Ioc
     {
         public static IServiceCollection AddOrleansSerilogAnalyticsService(this IServiceCollection services, Action<LoggerConfiguration> config)
         {
-            services.AddSerilogAnalyticsService<OrleansSerilogAnalyticsService, OrleansSessionFactory>(config);
             
             services.AddScoped<IAnalyticsContext, OrleansAnalyticsContext>();
             services.AddTransient(typeof(IAnalyticsLogger<>), typeof(AnalyticsLogger<>));

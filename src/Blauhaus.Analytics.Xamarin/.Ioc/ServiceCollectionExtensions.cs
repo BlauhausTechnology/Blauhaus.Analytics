@@ -1,4 +1,5 @@
-﻿using Blauhaus.Analytics.Abstractions.Config;
+﻿using Blauhaus.Analytics.Abstractions;
+using Blauhaus.Analytics.Abstractions.Config;
 using Blauhaus.Analytics.Abstractions.Service;
 using Blauhaus.Analytics.Abstractions.Session;
 using Blauhaus.Analytics.Common.Service;
@@ -23,9 +24,14 @@ namespace Blauhaus.Analytics.Xamarin.Ioc
 
             services.AddSingleton<IAnalyticsSessionFactory, XamarinSessionFactory>();
             services.AddSingleton<IAnalyticsService, AnalyticsService>();
+
+            services.AddSingleton<IAnalyticsContext, XamarinAnalyticsContext>();
+
+            services.AddTransient(typeof(IAnalyticsLogger<>), typeof(DummyAnalyticsLogger<>));
             return services;
         }
 
+        
 
     }
 }

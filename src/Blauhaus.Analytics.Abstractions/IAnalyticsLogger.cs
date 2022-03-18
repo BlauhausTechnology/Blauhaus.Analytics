@@ -14,6 +14,7 @@ public interface IAnalyticsLogger : ILogger
 
     [MessageFormatMethod("messageTemplate")]
     IDisposable BeginTimedScope(LogLevel logLevel, string messageTemplate, params object[] args);
+    IDisposable LogTimed(LogLevel logLevel, string messageTemplate, params object[] args);
 }
 
 public interface IAnalyticsLogger<out T> : IAnalyticsLogger, ILogger<T>

@@ -68,4 +68,16 @@ public class AnalyticsLogger<T> : IAnalyticsLogger<T>
             scope.Dispose();
         });
     }
+
+    public IDisposable LogTimed(LogLevel logLevel, string messageTemplate, params object[] args)
+    {
+        var newArgs = new object[args.Length+1];
+
+        return new LoggerTimer(duration =>
+        {
+            newArgs[newArgs.Length - 1] = duration;
+            messageTemplate += " in {Duration}";
+            _logger.Log(logLevel, messageTemplate, newArgs);
+        });
+    }
 }

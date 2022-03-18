@@ -55,5 +55,10 @@ namespace Blauhaus.Analytics.Common.Service
         {
             return new ActionDisposable(() => { });
         }
+
+        public IDisposable LogTimed(LogLevel logLevel, string messageTemplate, params object[] args)
+        {
+            return new ActionDisposable(() => { });
+        }
     }
 }

@@ -34,6 +34,8 @@ public abstract class BaseAnalyticsLoggerMockBuilder<TBuilder, TMock> : BaseLogg
         Mock.Setup(x => x.BeginScope())
             .Returns(MockScopeDisposable.Object);
 
+        Mock.Setup(x => x.LogTimed(It.IsAny<LogLevel>(), It.IsAny<string>(), It.IsAny<object[]>())).Returns(MockScopeDisposable.Object);
+
         Mock.Setup(x => x.SetValues(It.IsAny<Dictionary<string, object>>())).Returns(Mock.Object);
         Mock.Setup(x => x.SetValue(It.IsAny<string>(), It.IsAny<object>())).Returns(Mock.Object);
     }
@@ -112,4 +114,18 @@ public abstract class BaseAnalyticsLoggerMockBuilder<TBuilder, TMock> : BaseLogg
         Assert.Fail( $"SetValues was called with a property named {key} but the value did not match {predicate.Body}");
     }
 
+    public void VerifyLogTimed(string message, LogLevel? logLevel = null)
+    {
+        Mock.Verify(x => x.LogTimed(
+                It.IsAny<LogLevel>(),message), Times.AtLeastOnce, 
+            $"LogTimed was not called with message {message}");
+         
+        if (logLevel != null)
+        {
+            Mock.Verify(x => x.Log(
+                    logLevel.Value, 
+                    It.IsAny<string>()), Times.AtLeastOnce, 
+                $"LogTimed was not called with LogLevel {logLevel}");
+        } 
+    }
 }

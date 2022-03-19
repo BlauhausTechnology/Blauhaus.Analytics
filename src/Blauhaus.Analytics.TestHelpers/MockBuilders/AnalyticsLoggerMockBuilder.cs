@@ -31,10 +31,9 @@ public abstract class BaseAnalyticsLoggerMockBuilder<TBuilder, TMock> : BaseLogg
 {
     protected BaseAnalyticsLoggerMockBuilder()
     {
-        Mock.Setup(x => x.BeginScope())
-            .Returns(MockScopeDisposable.Object);
-
+        Mock.Setup(x => x.BeginScope()).Returns(MockScopeDisposable.Object);
         Mock.Setup(x => x.LogTimed(It.IsAny<LogLevel>(), It.IsAny<string>(), It.IsAny<object[]>())).Returns(MockScopeDisposable.Object);
+        Mock.Setup(x => x.BeginTimedScope(It.IsAny<LogLevel>(), It.IsAny<string>(), It.IsAny<object[]>())).Returns(MockScopeDisposable.Object);
 
         Mock.Setup(x => x.SetValues(It.IsAny<Dictionary<string, object>>())).Returns(Mock.Object);
         Mock.Setup(x => x.SetValue(It.IsAny<string>(), It.IsAny<object>())).Returns(Mock.Object);

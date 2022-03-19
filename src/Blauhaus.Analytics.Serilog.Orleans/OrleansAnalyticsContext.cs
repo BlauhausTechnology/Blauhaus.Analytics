@@ -23,10 +23,10 @@ public class OrleansAnalyticsContext : IAnalyticsContext
     public Dictionary<string, object> SetValue(string key, object value)
     {
         GetProperties()[key] = value;
-        foreach (var property in GetProperties())
-        {
-            LogContext.PushProperty(property.Key, property.Value);
-        }
+        //foreach (var property in GetProperties())
+        //{
+        //    LogContext.PushProperty(property.Key, property.Value);
+        //}
         return SetProperties();
     }
 
@@ -36,11 +36,11 @@ public class OrleansAnalyticsContext : IAnalyticsContext
         foreach (var newProperty in newProperties)
         {
             properties[newProperty.Key] = newProperty.Value;
-}
-        foreach (var property in GetProperties())
-        {
-            LogContext.PushProperty(property.Key, property.Value);
         }
+        //foreach (var property in GetProperties())
+        //{
+        //    LogContext.PushProperty(property.Key, property.Value);
+        //}
         return SetProperties();
     }
      

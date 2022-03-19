@@ -14,8 +14,11 @@ public class ClientAnalyticsContext : IAnalyticsContext
     {
         lock (Locker)
         {
-            LogContext.PushProperty(key, value);
-            _values[key] = value; 
+            _values[key] = value;
+            foreach (var property in _values)
+            {
+                LogContext.PushProperty(property.Key, property.Value);
+            }
             return _values;  
         }
     }
@@ -26,8 +29,11 @@ public class ClientAnalyticsContext : IAnalyticsContext
         {
             foreach (var property in newProperties)
             {
-                LogContext.PushProperty(property.Key, property.Value);
                 _values[property.Key] = property.Value;   
+            }
+            foreach (var property in _values)
+            {
+                LogContext.PushProperty(property.Key, property.Value);
             }
             return _values;  
         }

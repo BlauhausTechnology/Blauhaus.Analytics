@@ -2,6 +2,7 @@
 using Blauhaus.Analytics.Abstractions.Extensions;
 using Blauhaus.Ioc.Abstractions;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
 using Orleans.Runtime;
 using Serilog.Context;
 
@@ -22,7 +23,10 @@ public class OrleansAnalyticsContext : IAnalyticsContext
     public Dictionary<string, object> SetValue(string key, object value)
     {
         GetProperties()[key] = value;
-        LogContext.PushProperty(key, value);
+        foreach (var property in GetProperties())
+        {
+            LogContext.PushProperty(property.Key, property.Value);
+        }
         return SetProperties();
     }
 
@@ -31,8 +35,11 @@ public class OrleansAnalyticsContext : IAnalyticsContext
         var properties = GetProperties();
         foreach (var newProperty in newProperties)
         {
-            LogContext.PushProperty(newProperty.Key, newProperty.Value);
             properties[newProperty.Key] = newProperty.Value;
+}
+        foreach (var property in GetProperties())
+        {
+            LogContext.PushProperty(property.Key, property.Value);
         }
         return SetProperties();
     }

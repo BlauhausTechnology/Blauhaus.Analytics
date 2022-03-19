@@ -11,9 +11,11 @@ namespace Blauhaus.Analytics.Serilog.Orleans.Ioc
 {
     public static class ServiceCollectionExtensions 
     {
-        public static IServiceCollection AddOrleansSerilogAnalyticsService(this IServiceCollection services, Action<LoggerConfiguration> config)
+        public static IServiceCollection AddOrleansSerilogAnalyticsService(this IServiceCollection services, string appName, Action<LoggerConfiguration> config)
         {
-            var configuration = new LoggerConfiguration();
+            var configuration = new LoggerConfiguration()
+                .Enrich.FromLogContext()
+                .Enrich.WithProperty("AppName", appName);
             config.Invoke(configuration);
             Log.Logger = configuration.CreateLogger();
 

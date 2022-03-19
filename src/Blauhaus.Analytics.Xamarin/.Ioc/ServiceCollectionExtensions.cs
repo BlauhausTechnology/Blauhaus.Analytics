@@ -10,6 +10,7 @@ using Blauhaus.Analytics.Xamarin.SessionFactories;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using System;
+using System.Diagnostics;
 
 namespace Blauhaus.Analytics.Xamarin.Ioc
 {
@@ -34,20 +35,26 @@ namespace Blauhaus.Analytics.Xamarin.Ioc
             return services;
         }
 
-        public static IServiceCollection AddXamarinSerilogAnalyticsService(this IServiceCollection services, Action<LoggerConfiguration> config)
+        public static IServiceCollection AddSerilogAnalytics(this IServiceCollection services, string appName, Action<LoggerConfiguration> configureLogger)
         {
-            var configuration = new LoggerConfiguration();
-            config.Invoke(configuration);
-            Log.Logger = configuration.CreateLogger();
+            var loggerConfiguration = new LoggerConfiguration()
+                .Enrich.FromLogContext()
+                .Enrich.WithProperty("AppName", appName);
 
-            services.AddScoped<IAnalyticsContext, XamarinAnalyticsContext>();
-            services.AddTransient(typeof(IAnalyticsLogger<>), typeof(AnalyticsLogger<>));
+            configureLogger(loggerConfiguration);
+            Log.Logger =  loggerConfiguration.CreateLogger();
 
-            services.AddXamarinAnalyticsService<DefaultApplicationInsightsConfig>();
-
+            services.AddConsoleLoggerService(new DefaultTraceListener());
+            services.AddSingleton<IAnalyticsContext, XamarinAnalyticsContext>();
+            services.AddSingleton(typeof(IAnalyticsLogger<>), typeof(AnalyticsLogger<>));
+            services.AddLogging(logging =>
+            {
+                logging.AddSerilog(dispose:true);
+            });
+ 
             return services;
+
         }
-        
 
     }
 }

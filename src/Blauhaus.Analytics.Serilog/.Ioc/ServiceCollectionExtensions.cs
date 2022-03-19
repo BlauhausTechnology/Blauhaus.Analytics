@@ -16,7 +16,7 @@ namespace Blauhaus.Analytics.Serilog.Ioc
             config.Invoke(loggerConfiguration);
             Log.Logger = loggerConfiguration
                 .CreateLogger();
-
+            
             services.AddScoped<IAnalyticsService, TAnalyticsService>();
             services.AddTransient<IAnalyticsSessionFactory, TSessionFactory>();
 

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Blauhaus.Analytics.Abstractions;
+using Serilog.Context;
 
 namespace Blauhaus.Analytics.Serilog;
 
@@ -13,7 +14,8 @@ public class ClientAnalyticsContext : IAnalyticsContext
     {
         lock (Locker)
         {
-            _values[key] = value;
+            LogContext.PushProperty(key, value);
+            _values[key] = value; 
             return _values;  
         }
     }
@@ -22,10 +24,10 @@ public class ClientAnalyticsContext : IAnalyticsContext
     {
         lock (Locker)
         {
-            foreach (var newProperty in newProperties)
+            foreach (var property in newProperties)
             {
-             
-                _values[newProperty.Key] = newProperty.Value;   
+                LogContext.PushProperty(property.Key, property.Value);
+                _values[property.Key] = property.Value;   
             }
             return _values;  
         }

@@ -29,7 +29,7 @@ jobs:
         dotnet pack ./src/Blauhaus.Analytics.TestHelpers/Blauhaus.Analytics.TestHelpers.csproj -p:PackageVersion=${VERSION_NAME} --no-build --output ./ --configuration Release 
         dotnet pack ./src/Blauhaus.Analytics.Orleans/Blauhaus.Analytics.Orleans.csproj -p:PackageVersion=${VERSION_NAME} --no-build --output ./ --configuration Release 
         dotnet pack ./src/Blauhaus.Analytics.Serilog.Maui/Blauhaus.Analytics.Serilog.Maui.csproj -p:PackageVersion=${VERSION_NAME} --no-build --output ./ --configuration Release 
-        dotnet pack ./src/Blauhaus.Analytics.Serilog.ApplicationInsights/Blauhaus.Analytics.Serilog.ApplicationInsights.csproj -p:PackageVersion=${VERSION_NAME} --no-build --output ./ --configuration Release 
+        #dotnet pack ./src/Blauhaus.Analytics.Serilog.ApplicationInsights/Blauhaus.Analytics.Serilog.ApplicationInsights.csproj -p:PackageVersion=${VERSION_NAME} --no-build --output ./ --configuration Release 
      - name: Deploy NuGet Package
        run:  |
         dotnet nuget push /home/runner/work/Blauhaus.Analytics/Blauhaus.Analytics/Blauhaus.Analytics.Abstractions.${VERSION_NAME}.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
@@ -44,4 +44,4 @@ jobs:
         dotnet nuget push /home/runner/work/Blauhaus.Analytics/Blauhaus.Analytics/Blauhaus.Analytics.Serilog.AspNetCore.${VERSION_NAME}.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
         dotnet nuget push /home/runner/work/Blauhaus.Analytics/Blauhaus.Analytics/Blauhaus.Analytics.Serilog.Orleans.${VERSION_NAME}.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
         dotnet nuget push /home/runner/work/Blauhaus.Analytics/Blauhaus.Analytics/Blauhaus.Analytics.Serilog.Maui.${VERSION_NAME}.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
-        dotnet nuget push /home/runner/work/Blauhaus.Analytics/Blauhaus.Analytics/Blauhaus.Analytics.Serilog.ApplicationInsights.${VERSION_NAME}.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
+        #dotnet nuget push /home/runner/work/Blauhaus.Analytics/Blauhaus.Analytics/Blauhaus.Analytics.Serilog.ApplicationInsights.${VERSION_NAME}.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json

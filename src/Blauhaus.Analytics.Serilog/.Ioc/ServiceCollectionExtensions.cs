@@ -1,7 +1,9 @@
 ﻿using System;
 using Blauhaus.Analytics.Abstractions;
+using Blauhaus.Analytics.Abstractions.Config;
 using Blauhaus.Analytics.Abstractions.Service;
 using Blauhaus.Analytics.Abstractions.Session;
+using Blauhaus.Analytics.Common.Telemetry;
 using Blauhaus.Analytics.Console.ConsoleLoggers;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
@@ -19,7 +21,12 @@ namespace Blauhaus.Analytics.Serilog.Ioc
 
             services.AddScoped<IAnalyticsService, TAnalyticsService>();
             services.AddTransient<IAnalyticsSessionFactory, TSessionFactory>();
-            services.AddTransient<IConsoleLogger, ConsoleLogger>();
+
+            services
+                .AddTransient<IConsoleLogger, ConsoleLogger>()
+                .AddSingleton<IApplicationInsightsConfig, DefaultApplicationInsightsConfig>()
+                .AddTransient<ITraceProxy, TraceProxy>()
+                .AddTransient<ITelemetryClientProxy, DefaultTelemetryClient>();
             
             return services;
         }

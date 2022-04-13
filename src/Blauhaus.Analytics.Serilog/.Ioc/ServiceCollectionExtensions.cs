@@ -14,16 +14,13 @@ namespace Blauhaus.Analytics.Serilog.Ioc
         public static IServiceCollection AddSerilogAnalyticsService<TAnalyticsService, TSessionFactory>(this IServiceCollection services, string appName, Action<LoggerConfiguration> config) 
             where TSessionFactory : class, IAnalyticsSessionFactory
             where TAnalyticsService : class, IAnalyticsService
-        {
-            var loggerConfiguration = new LoggerConfiguration();
-            config.Invoke(loggerConfiguration);
-            Log.Logger = loggerConfiguration
-                .CreateLogger();
-
+        { 
             services.AddSerilogAnalytics(appName, config);
+
             services.AddScoped<IAnalyticsService, TAnalyticsService>();
             services.AddTransient<IAnalyticsSessionFactory, TSessionFactory>();
             services.AddTransient<IConsoleLogger, ConsoleLogger>();
+            
             return services;
         }
 
@@ -35,6 +32,7 @@ namespace Blauhaus.Analytics.Serilog.Ioc
                 .Destructure.ToMaximumDepth(5)
                 .Enrich.WithProperty("AppName", appName);
             config.Invoke(configuration);
+
             Log.Logger = configuration.CreateLogger();
 
             services.AddTransient(typeof(IAnalyticsLogger<>), typeof(AnalyticsLogger<>));

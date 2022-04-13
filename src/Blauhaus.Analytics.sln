@@ -36,7 +36,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blauhaus.Analytics.Serilog.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blauhaus.Analytics.Serilog.Maui", "Blauhaus.Analytics.Serilog.Maui\Blauhaus.Analytics.Serilog.Maui.csproj", "{A3B0BEBF-A07D-46B8-B373-1CD77243E92A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blauhaus.Analytics.Serilog.ApplicationInsights", "Blauhaus.Analytics.Serilog.ApplicationInsights\Blauhaus.Analytics.Serilog.ApplicationInsights.csproj", "{4316F176-7C5E-4DFC-8EBE-9017E2AABD3E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blauhaus.Analytics.Serilog.ApplicationInsights", "Blauhaus.Analytics.Serilog.ApplicationInsights\Blauhaus.Analytics.Serilog.ApplicationInsights.csproj", "{4316F176-7C5E-4DFC-8EBE-9017E2AABD3E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

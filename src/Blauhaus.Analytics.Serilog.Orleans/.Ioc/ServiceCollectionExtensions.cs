@@ -16,10 +16,8 @@ namespace Blauhaus.Analytics.Serilog.Orleans.Ioc
     {
         public static IServiceCollection AddOrleansSerilogAnalyticsService(this IServiceCollection services, string appName, Action<LoggerConfiguration> config)
         {
-            services.AddSerilogAnalyticsService<OrleansAnalyticsService, OrleansSessionFactory>(appName, config);
-            services.AddScoped<IAnalyticsContext, OrleansAnalyticsContext>();
-
-            //services.AddOrleansAnalytics<DefaultApplicationInsightsConfig>(new ConsoleTraceListener());
+            services.AddSerilogAnalyticsService<OrleansAnalyticsService, OrleansSessionFactory, OrleansAnalyticsContext>(appName, config);
+            services.AddOrleansAnalytics<DefaultApplicationInsightsConfig>(new ConsoleTraceListener());
 
             return services;
         }

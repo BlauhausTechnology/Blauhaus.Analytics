@@ -3,7 +3,7 @@ using Blauhaus.DeviceServices.Abstractions.DeviceInfo;
 
 namespace Blauhaus.Analytics.Serilog.Maui;
 
-public class MauiAnalyticsContext : ClientAnalyticsContext
+public class MauiAnalyticsContext : InMemoryAnalyticsContext
 {
     public MauiAnalyticsContext(
         IDeviceInfoService deviceInfoService, 

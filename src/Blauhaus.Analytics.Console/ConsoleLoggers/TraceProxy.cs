@@ -6,11 +6,9 @@ namespace Blauhaus.Analytics.Console.ConsoleLoggers
 {
     public class TraceProxy : ITraceProxy
     {
-        private readonly IApplicationInsightsConfig _config;
 
-        public TraceProxy(IApplicationInsightsConfig config)
+        public TraceProxy()
         {
-            _config = config;
         }
 
         public void SetColour(ConsoleColor colour)
@@ -20,14 +18,7 @@ namespace Blauhaus.Analytics.Console.ConsoleLoggers
 
         public void Write(string message)
         {
-            if (_config.ConsoleOutput == ConsoleOutput.TraceWriter)
-            {
-                Trace.WriteLine(message);
-            }
-            else
-            {
-                System.Console.Out.WriteLine(message);
-            }
+            Trace.WriteLine(message);
         }
     }
 }

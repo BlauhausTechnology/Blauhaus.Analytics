@@ -1,9 +1,9 @@
-﻿using Microsoft.ApplicationInsights.DataContracts;
+﻿using System;
+using Microsoft.ApplicationInsights.DataContracts;
 using Serilog.Events;
 using Serilog.Sinks.ApplicationInsights.Sinks.ApplicationInsights.TelemetryConverters;
-using System;
 
-namespace Moonbase.API;
+namespace Blauhaus.Analytics.Serilog.ApplicationInsights;
 
 public class AnalyticsTelemetryConverter : TraceTelemetryConverter
 {

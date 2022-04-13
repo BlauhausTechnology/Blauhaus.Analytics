@@ -6,10 +6,10 @@ namespace Blauhaus.Analytics.Serilog.AspNetCore.Ioc
 {
     public static class ServiceCollectionExtensions 
     {
-        public static IServiceCollection AddAspNetCoreSerilogAnalyticsService(this IServiceCollection services, Action<LoggerConfiguration> config)
+        public static IServiceCollection AddAspNetCoreSerilogAnalyticsService(this IServiceCollection services, string appName, Action<LoggerConfiguration> config)
         {
 
-            services.AddSerilogAnalyticsService<SerilogAnalyticsService, AspNetCoreSessionFactory>(config);
+            services.AddSerilogAnalyticsService<SerilogAnalyticsService, AspNetCoreSessionFactory>(appName, config);
             
 
             return services;

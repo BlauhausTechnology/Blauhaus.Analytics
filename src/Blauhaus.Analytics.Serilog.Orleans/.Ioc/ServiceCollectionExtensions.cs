@@ -2,7 +2,10 @@
 using Blauhaus.Analytics.Abstractions;
 using Blauhaus.Analytics.Abstractions.Config;
 using Blauhaus.Analytics.Console.Ioc;
+using Blauhaus.Analytics.Orleans;
 using Blauhaus.Analytics.Orleans.Ioc;
+using Blauhaus.Analytics.Orleans.Session;
+using Blauhaus.Analytics.Serilog.Ioc;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Serilog.Events;
@@ -13,16 +16,10 @@ namespace Blauhaus.Analytics.Serilog.Orleans.Ioc
     {
         public static IServiceCollection AddOrleansSerilogAnalyticsService(this IServiceCollection services, string appName, Action<LoggerConfiguration> config)
         {
-            var configuration = new LoggerConfiguration()
-                .Enrich.FromLogContext()
-                .Enrich.WithProperty("AppName", appName);
-            config.Invoke(configuration);
-            Log.Logger = configuration.CreateLogger();
-
+            services.AddSerilogAnalyticsService<OrleansAnalyticsService, OrleansSessionFactory>(appName, config);
             services.AddScoped<IAnalyticsContext, OrleansAnalyticsContext>();
-            services.AddTransient(typeof(IAnalyticsLogger<>), typeof(AnalyticsLogger<>));
 
-            services.AddOrleansAnalytics<DefaultApplicationInsightsConfig>(new ConsoleTraceListener());
+            //services.AddOrleansAnalytics<DefaultApplicationInsightsConfig>(new ConsoleTraceListener());
 
             return services;
         }

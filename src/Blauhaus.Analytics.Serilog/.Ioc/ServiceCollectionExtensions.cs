@@ -26,6 +26,7 @@ namespace Blauhaus.Analytics.Serilog.Ioc
                 .AddTransient<IConsoleLogger, ConsoleLogger>()
                 .AddSingleton<IApplicationInsightsConfig, DefaultApplicationInsightsConfig>()
                 .AddTransient<ITraceProxy, TraceProxy>()
+                .AddTransient<ITelemetryDecorator, DefaultTelemetryDecorator>()
                 .AddTransient<ITelemetryClientProxy, DefaultTelemetryClient>();
             
             return services;

@@ -7,7 +7,7 @@ namespace Blauhaus.Analytics.Abstractions.Operation
     {
         private readonly Action<TimeSpan> _onStopAction;
 
-        private readonly Stopwatch _stopwatch = new Stopwatch();
+        private readonly Stopwatch _stopwatch = new();
 
         public AnalyticsOperation(string operationName, string operationId, Action<TimeSpan> onStopAction)
         {

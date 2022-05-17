@@ -54,6 +54,7 @@ namespace Blauhaus.Analytics.Serilog.Ioc
             Log.Logger = configuration.CreateLogger();
 
             services.AddTransient(typeof(IAnalyticsLogger<>), typeof(AnalyticsLogger<>));
+            
             return services;
         }
     }

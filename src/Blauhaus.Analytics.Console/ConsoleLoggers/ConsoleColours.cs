@@ -6,7 +6,7 @@ namespace Blauhaus.Analytics.Console.ConsoleLoggers
 {
     public static class ConsoleColours
     {
-        public static Dictionary<LogSeverity, ConsoleColor> TraceColours { get; } = new Dictionary<LogSeverity, ConsoleColor>
+        public static Dictionary<LogSeverity, ConsoleColor> TraceColours { get; } = new()
         {
             {LogSeverity.Debug, ConsoleColor.DarkCyan },
             {LogSeverity.Verbose, ConsoleColor.Cyan },

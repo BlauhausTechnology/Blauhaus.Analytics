@@ -48,7 +48,7 @@ namespace Blauhaus.Analytics.ILogger
             }
         } 
 
-        private readonly Dictionary<string, string> _analyticsOperationHeaders = new Dictionary<string, string>();
+        private readonly Dictionary<string, string> _analyticsOperationHeaders = new();
         private IAnalyticsOperation _currentOperation;
         private IAnalyticsSession _currentSession;
 

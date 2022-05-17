@@ -7,7 +7,7 @@ namespace Blauhaus.Analytics.Abstractions.Session
 {
     public class AnalyticsSession : IAnalyticsSession
     {
-        private readonly Dictionary<string, string> _properties = new Dictionary<string, string>();
+        private readonly Dictionary<string, string> _properties = new();
 
         private AnalyticsSession(string id)
         {
@@ -19,11 +19,11 @@ namespace Blauhaus.Analytics.Abstractions.Session
         public string? AccountId { get; set; }
         public string? DeviceId { get; set; }
         public string? AppVersion { get; set; }
-        public IDeviceType DeviceType { get; set; }
-        public IRuntimePlatform Platform { get; set; }
-        public string OperatingSystemVersion { get; set; }
-        public string Manufacturer { get; set; }
-        public string Model { get; set; }
+        public IDeviceType DeviceType { get; set; } = null!;
+        public IRuntimePlatform Platform { get; set; } = null!;
+        public string OperatingSystemVersion { get; set; } = null!;
+        public string Manufacturer { get; set; } = null!;
+        public string Model { get; set; } = null!;
         public IReadOnlyDictionary<string, string> Properties => _properties;
         public void SetProperty(string key, string value)
         {
@@ -37,8 +37,8 @@ namespace Blauhaus.Analytics.Abstractions.Session
                 : string.Empty;
         }
 
-        public static AnalyticsSession Empty => new AnalyticsSession(string.Empty);
-        public static AnalyticsSession New => new AnalyticsSession(Guid.NewGuid().ToString());
-        public static AnalyticsSession FromExisting(string sessionId) => new AnalyticsSession(sessionId);
+        public static AnalyticsSession Empty => new(string.Empty);
+        public static AnalyticsSession New => new(Guid.NewGuid().ToString());
+        public static AnalyticsSession FromExisting(string sessionId) => new(sessionId);
     }
 }

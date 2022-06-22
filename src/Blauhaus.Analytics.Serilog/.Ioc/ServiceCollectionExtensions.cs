@@ -13,21 +13,6 @@ namespace Blauhaus.Analytics.Serilog.Ioc
 {
     public static class ServiceCollectionExtensions 
     {
-        //public static IServiceCollection AddSerilogAnalyticsService(this IServiceCollection services, string appName, Action<LoggerConfiguration> config) 
-        //{ 
-        //    services.AddSerilogAnalytics(appName, config);
-
-        //    services
-        //        .AddTransient<IConsoleLogger, ConsoleLogger>()
-        //        .AddSingleton<IApplicationInsightsConfig, DefaultApplicationInsightsConfig>()
-        //        .AddTransient<ITraceProxy, TraceProxy>()
-        //        .AddTransient<ITelemetryDecorator, DefaultTelemetryDecorator>()
-        //        .AddTransient<ITelemetryClientProxy, DefaultTelemetryClient>();
-            
-        //    return services;
-        //}
-
-
         public static IServiceCollection AddSerilogAnalyticsService<TAnalyticsService, TSessionFactory, TContext>(this IServiceCollection services, string appName, Action<LoggerConfiguration> config) 
             where TSessionFactory : class, IAnalyticsSessionFactory
             where TAnalyticsService : class, IAnalyticsService

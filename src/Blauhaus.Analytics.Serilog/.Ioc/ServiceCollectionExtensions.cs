@@ -6,6 +6,7 @@ using Blauhaus.Analytics.Abstractions.Session;
 using Blauhaus.Analytics.Common.Telemetry;
 using Blauhaus.Analytics.Console.ConsoleLoggers;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Serilog;
 using Serilog.Exceptions;
 
@@ -38,6 +39,7 @@ namespace Blauhaus.Analytics.Serilog.Ioc
 
             Log.Logger = configuration.CreateLogger();
 
+            services.TryAddSingleton<IAnalyticsContext, InMemoryAnalyticsContext>();
             services.AddTransient(typeof(IAnalyticsLogger<>), typeof(AnalyticsLogger<>));
             
             return services;

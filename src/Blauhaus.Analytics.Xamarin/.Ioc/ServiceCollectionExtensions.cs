@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using System;
 using System.Diagnostics;
+using Blauhaus.Analytics.Serilog.Ioc;
 
 namespace Blauhaus.Analytics.Xamarin.Ioc
 {
@@ -35,24 +36,27 @@ namespace Blauhaus.Analytics.Xamarin.Ioc
             return services;
         }
 
-        public static IServiceCollection AddSerilogAnalytics(this IServiceCollection services, string appName, Action<LoggerConfiguration> configureLogger)
+        public static IServiceCollection AddXamarinSerilogAnalytics(this IServiceCollection services, string appName, Action<LoggerConfiguration> configureLogger)
         {
-            var loggerConfiguration = new LoggerConfiguration()
-                .Enrich.FromLogContext()
-                .Enrich.WithProperty("AppName", appName);
 
-            configureLogger(loggerConfiguration);
-            Log.Logger =  loggerConfiguration.CreateLogger();
-
-            services.AddConsoleLoggerService(new DefaultTraceListener());
-            services.AddSingleton<IAnalyticsContext, XamarinAnalyticsContext>();
-            services.AddSingleton(typeof(IAnalyticsLogger<>), typeof(AnalyticsLogger<>));
-            services.AddLogging(logging =>
-            {
-                logging.AddSerilog(dispose:true);
-            });
+            return services.AddSerilogAnalytics<XamarinAnalyticsContext>(appName, configureLogger);
+            
+            // var loggerConfiguration = new LoggerConfiguration()
+            //     .Enrich.FromLogContext()
+            //     .Enrich.WithProperty("AppName", appName);
+            //
+            // configureLogger(loggerConfiguration);
+            // Log.Logger =  loggerConfiguration.CreateLogger();
+            //
+            // services.AddConsoleLoggerService(new DefaultTraceListener());
+            // services.AddSingleton<IAnalyticsContext, XamarinAnalyticsContext>();
+            // services.AddSingleton(typeof(IAnalyticsLogger<>), typeof(AnalyticsLogger<>));
+            // services.AddLogging(logging =>
+            // {
+            //     logging.AddSerilog(dispose:true);
+            // });
  
-            return services;
+            // return services;
 
         }
 

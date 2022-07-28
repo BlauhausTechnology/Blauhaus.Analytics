@@ -1,4 +1,5 @@
 ﻿using Blauhaus.Analytics.Abstractions;
+using Blauhaus.Analytics.Serilog.Ioc;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
@@ -6,11 +7,9 @@ namespace Blauhaus.Analytics.Serilog.Maui.Ioc;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddMauiSerilogAnalyticsService(this IServiceCollection services, Action<LoggerConfiguration> config)
+    public static IServiceCollection AddMauiSerilogAnalytics(this IServiceCollection services, string appName, Action<LoggerConfiguration> config)
     {
-        services.AddScoped<IAnalyticsContext, MauiAnalyticsContext>();
-        services.AddTransient(typeof(IAnalyticsLogger<>), typeof(AnalyticsLogger<>));
-
+        services.AddSerilogAnalytics<MauiAnalyticsContext>(appName, config); 
         return services;
     }
 }

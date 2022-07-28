@@ -27,9 +27,10 @@ namespace Blauhaus.Analytics.Serilog.Ioc
             
             return services;
         }
-
-        public static IServiceCollection AddSerilogAnalytics(this IServiceCollection services, string appName, Action<LoggerConfiguration> config)
-        {
+        
+        public static IServiceCollection AddSerilogAnalytics<TContext>(this IServiceCollection services, string appName, Action<LoggerConfiguration> config) 
+            where TContext : class, IAnalyticsContext
+        { 
             var configuration = new LoggerConfiguration()
                 .Enrich.FromLogContext()
                 .Enrich.WithExceptionDetails()
@@ -38,11 +39,17 @@ namespace Blauhaus.Analytics.Serilog.Ioc
             config.Invoke(configuration);
 
             Log.Logger = configuration.CreateLogger();
-
-            services.TryAddSingleton<IAnalyticsContext, InMemoryAnalyticsContext>();
+            
             services.AddTransient(typeof(IAnalyticsLogger<>), typeof(AnalyticsLogger<>));
+            services.TryAddSingleton<IAnalyticsContext, TContext>(); 
+            services.AddLogging(logging => { logging.AddSerilog(dispose:true); });
             
             return services;
+        }
+
+        public static IServiceCollection AddSerilogAnalytics(this IServiceCollection services, string appName, Action<LoggerConfiguration> config)
+        {
+            return services.AddSerilogAnalytics<InMemoryAnalyticsContext>(appName, config);
         }
     }
 }

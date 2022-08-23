@@ -44,6 +44,9 @@ public static class AnalyticsLoggerExtensions
         {
             if (message.Contains("401") || message.Contains("403"))
                 return AuthError.NotAuthorized;
+
+            if (message.Contains("404"))
+                return Error.NotFound();
             
             if(message.Contains("500"))
                 return Error.Unexpected();

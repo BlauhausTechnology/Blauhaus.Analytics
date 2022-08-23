@@ -26,9 +26,9 @@ public static class AnalyticsLoggerExtensions
 
     private static IAnalyticsLogger SetValues(this IAnalyticsLogger logger, string? url, object? payload, string? responseString)
     {
-        if (url is not null) logger.SetValue("Url", url);
+        if (url is not null && url != string.Empty) logger.SetValue("Url", url);
         if (payload is not null) logger.SetValue("Payload", JsonSerializer.Serialize(payload));
-        if (responseString is not null) logger.SetValue("Response", responseString);
+        if (responseString is not null && responseString != string.Empty) logger.SetValue("Response", responseString);
         return logger;
     }
     private static Error ExctractNetworkError(this Exception exception)

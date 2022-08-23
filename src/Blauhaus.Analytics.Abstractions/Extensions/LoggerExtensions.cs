@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using Blauhaus.Analytics.Abstractions.Attributes;
 using Blauhaus.Errors;
 using Blauhaus.Responses;
@@ -8,7 +9,20 @@ using Microsoft.Extensions.Logging;
 namespace Blauhaus.Analytics.Abstractions.Extensions;
 
 public static class LoggerExtensions
-{ 
+{
+    public static Response LogNetworkError(this ILogger logger, Exception exception)
+    {
+        var error = Error.Unexpected("Unable to complete network request");
+
+        if (exception is TaskCanceledException cancelledException)
+        {
+            error = cancelledException.Message.StartsWith("The request was canceled due to the configured HttpClient.Timeout") 
+                ? Error.Timeout 
+                : Error.Cancelled;
+        }
+        return logger.LogErrorResponse(error, exception);
+    } 
+    
     public static ILogger LogError(this ILogger logger, Error error, Exception? e = null)
     {
         logger.LogError(e, error.ToString());

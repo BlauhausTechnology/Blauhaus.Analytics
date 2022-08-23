@@ -11,8 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Serilog.Exceptions" Version="8.3.0" />
-    <PackageReference Include="Serilog.Exceptions.EntityFrameworkCore" Version="8.3.0" />
+    <PackageReference Include="Serilog.Exceptions" Version="8.4.0" />
+    <PackageReference Include="Serilog.Exceptions.EntityFrameworkCore" Version="8.4.0" />
   </ItemGroup>
 
   <ItemGroup>

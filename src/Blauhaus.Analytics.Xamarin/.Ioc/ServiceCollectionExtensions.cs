@@ -39,26 +39,7 @@ namespace Blauhaus.Analytics.Xamarin.Ioc
 
         public static IServiceCollection AddXamarinSerilogAnalytics(this IServiceCollection services, string appName, Action<LoggerConfiguration> configureLogger)
         {
-
             return services.AddSerilogAnalytics<XamarinAnalyticsContext>(appName, configureLogger);
-            
-            // var loggerConfiguration = new LoggerConfiguration()
-            //     .Enrich.FromLogContext()
-            //     .Enrich.WithProperty("AppName", appName);
-            //
-            // configureLogger(loggerConfiguration);
-            // Log.Logger =  loggerConfiguration.CreateLogger();
-            //
-            // services.AddConsoleLoggerService(new DefaultTraceListener());
-            // services.AddSingleton<IAnalyticsContext, XamarinAnalyticsContext>();
-            // services.AddSingleton(typeof(IAnalyticsLogger<>), typeof(AnalyticsLogger<>));
-            // services.AddLogging(logging =>
-            // {
-            //     logging.AddSerilog(dispose:true);
-            // });
- 
-            // return services;
-
         }
 
     }

@@ -32,13 +32,12 @@ namespace Blauhaus.Analytics.Serilog.Ioc
         
         public static IServiceCollection AddSerilogAnalytics<TContext>(this IServiceCollection services, string appName,  Action<LoggerConfiguration> config) 
             where TContext : class, IAnalyticsContext
-        { 
+        {
             var logging = new LoggerConfiguration()
                 .Enrich.FromLogContext()
                 .Enrich.WithExceptionDetails()
                 .Destructure.ToMaximumDepth(5)
-                .Enrich.WithProperty("AppName", appName)
-                .WriteTo.Debug();
+                .Enrich.WithProperty("AppName", appName);
             config.Invoke(logging);
  
             Log.Logger = logging.CreateLogger();

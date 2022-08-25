@@ -12,6 +12,7 @@ using Serilog;
 using System;
 using System.Diagnostics;
 using Blauhaus.Analytics.Serilog.Ioc;
+using Microsoft.Extensions.Configuration;
 
 namespace Blauhaus.Analytics.Xamarin.Ioc
 {
@@ -36,10 +37,10 @@ namespace Blauhaus.Analytics.Xamarin.Ioc
             return services;
         }
 
-        public static IServiceCollection AddXamarinSerilogAnalytics(this IServiceCollection services, string appName, Action<LoggerConfiguration> configureLogger)
+        public static IServiceCollection AddXamarinSerilogAnalytics(this IServiceCollection services, string appName, IConfiguration? configuration, Action<LoggerConfiguration> configureLogger)
         {
 
-            return services.AddSerilogAnalytics<XamarinAnalyticsContext>(appName, configureLogger);
+            return services.AddSerilogAnalytics<XamarinAnalyticsContext>(appName, configuration, configureLogger);
             
             // var loggerConfiguration = new LoggerConfiguration()
             //     .Enrich.FromLogContext()

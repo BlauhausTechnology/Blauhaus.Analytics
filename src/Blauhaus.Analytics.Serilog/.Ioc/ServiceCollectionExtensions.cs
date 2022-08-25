@@ -47,7 +47,6 @@ namespace Blauhaus.Analytics.Serilog.Ioc
             services.TryAddSingleton<IAnalyticsContext, TContext>(); 
             services.AddLogging(x =>
             {
-                x.ClearProviders();
                 x.AddSerilog(dispose:true);
             });
             

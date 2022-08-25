@@ -9,6 +9,7 @@ using Blauhaus.Analytics.Serilog.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Exceptions;
 
@@ -44,7 +45,11 @@ namespace Blauhaus.Analytics.Serilog.Ioc
             
             services.AddTransient(typeof(IAnalyticsLogger<>), typeof(AnalyticsLogger<>));
             services.TryAddSingleton<IAnalyticsContext, TContext>(); 
-            services.AddLogging(x => { x.AddSerilog(dispose:true); });
+            services.AddLogging(x =>
+            {
+                x.ClearProviders();
+                x.AddSerilog(dispose:true);
+            });
             
             return services;
         }

@@ -17,18 +17,18 @@ namespace Blauhaus.Analytics.Serilog.Orleans.Ioc
 {
     public static class ServiceCollectionExtensions 
     {
-        public static IServiceCollection AddOrleansSerilogAnalyticsService(this IServiceCollection services, string appName, IConfiguration? configuration, Action<LoggerConfiguration> config)
+        public static IServiceCollection AddOrleansSerilogAnalyticsService(this IServiceCollection services, string appName, Action<LoggerConfiguration> config)
         {
-            services.AddSerilogAnalyticsService<OrleansAnalyticsService, OrleansSessionFactory, OrleansAnalyticsContext>(appName, configuration, config);
+            services.AddSerilogAnalyticsService<OrleansAnalyticsService, OrleansSessionFactory, OrleansAnalyticsContext>(appName, config);
             services.AddOrleansAnalytics<DefaultApplicationInsightsConfig>(new ConsoleTraceListener());
 
             return services;
             
         }
         
-        public static IServiceCollection AddOrleansSerilogAnalytics(this IServiceCollection services, string appName, IConfiguration? configuration, Action<LoggerConfiguration> config)
+        public static IServiceCollection AddOrleansSerilogAnalytics(this IServiceCollection services, string appName, Action<LoggerConfiguration> config)
         {
-            services.AddSerilogAnalytics(appName, configuration, config);
+            services.AddSerilogAnalytics(appName, config);
             services.AddTransient<IAnalyticsContext, OrleansAnalyticsContext>();
             services.AddSingleton<IIncomingGrainCallFilter, AnalyticsGrainFilter>();
             

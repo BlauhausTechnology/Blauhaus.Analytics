@@ -8,9 +8,9 @@ namespace Blauhaus.Analytics.Serilog.Maui.Ioc;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddMauiSerilogAnalytics(this IServiceCollection services, string appName, IConfiguration? configuration, Action<LoggerConfiguration> logging)
+    public static IServiceCollection AddMauiSerilogAnalytics(this IServiceCollection services, string appName,  Action<LoggerConfiguration> logging)
     {
-        services.AddSerilogAnalytics<MauiAnalyticsContext>(appName, configuration, logging); 
+        services.AddSerilogAnalytics<MauiAnalyticsContext>(appName, logging); 
         return services;
     }
 }

@@ -35,7 +35,8 @@ namespace Blauhaus.Analytics.Serilog.Ioc
                 .Enrich.FromLogContext()
                 .Enrich.WithExceptionDetails()
                 .Destructure.ToMaximumDepth(5)
-                .Enrich.WithProperty("AppName", appName);
+                .Enrich.WithProperty("AppName", appName)
+                .WriteTo.Debug();
             config.Invoke(configuration);
 
             Log.Logger = configuration.CreateLogger();

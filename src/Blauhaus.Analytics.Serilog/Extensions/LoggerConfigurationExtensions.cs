@@ -12,7 +12,7 @@ public static class LoggerConfigurationExtensions
         sourceContexts ??= new Dictionary<string, LogEventLevel>();
             
         var loggingSection = configuration.GetSection("Logging");
-        var logLevel = loggingSection.GetValue<LogEventLevel>("level");
+        var logLevel = loggingSection.GetValue<LogEventLevel>("level"); 
         logging.MinimumLevel.Is(logLevel);
 
         foreach (var child in loggingSection.GetChildren())

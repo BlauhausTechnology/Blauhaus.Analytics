@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Blauhaus.DeviceServices.Abstractions" Version="1.1.12" />
+    <PackageReference Include="Blauhaus.DeviceServices.Abstractions" Version="1.1.19" />
     <PackageReference Include="Microsoft.ApplicationInsights" Version="2.21.0" />
   </ItemGroup>
 

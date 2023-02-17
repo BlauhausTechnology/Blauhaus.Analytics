@@ -10,4 +10,8 @@
     <PackageReference Include="Serilog.Sinks.ApplicationInsights" Version="4.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Blauhaus.Analytics.Serilog\Blauhaus.Analytics.Serilog.csproj" />
+  </ItemGroup>
+
 </Project>

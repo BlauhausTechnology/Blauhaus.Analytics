@@ -4,7 +4,7 @@ using Serilog.Context;
 
 namespace Blauhaus.Analytics.Serilog;
 
-public class InMemoryAnalyticsContext : IAnalyticsContext
+public class SerilogAnalyticsContext : IAnalyticsContext
 {
 
     private static readonly object Locker = new();

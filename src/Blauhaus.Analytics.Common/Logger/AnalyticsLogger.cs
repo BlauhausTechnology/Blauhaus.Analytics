@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using Blauhaus.Analytics.Abstractions;
 using Blauhaus.Analytics.Abstractions.Extensions;
-using Blauhaus.Ioc.Abstractions;
 using Microsoft.Extensions.Logging;
 
-namespace Blauhaus.Analytics.Serilog;
+namespace Blauhaus.Analytics.Common.Logger;
 
 public class AnalyticsLogger<T> : IAnalyticsLogger<T>
 {

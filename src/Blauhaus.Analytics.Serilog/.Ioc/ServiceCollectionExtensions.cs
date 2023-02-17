@@ -3,6 +3,7 @@ using Blauhaus.Analytics.Abstractions;
 using Blauhaus.Analytics.Abstractions.Config;
 using Blauhaus.Analytics.Abstractions.Service;
 using Blauhaus.Analytics.Abstractions.Session;
+using Blauhaus.Analytics.Common.Logger;
 using Blauhaus.Analytics.Common.Telemetry;
 using Blauhaus.Analytics.Console.ConsoleLoggers;
 using Blauhaus.Analytics.Serilog.Extensions;
@@ -55,7 +56,7 @@ namespace Blauhaus.Analytics.Serilog.Ioc
 
         public static IServiceCollection AddSerilogAnalytics(this IServiceCollection services, string appName,  Action<LoggerConfiguration> config)
         {
-            return services.AddSerilogAnalytics<InMemoryAnalyticsContext>(appName, config);
+            return services.AddSerilogAnalytics<SerilogAnalyticsContext>(appName, config);
         }
     }
 }

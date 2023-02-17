@@ -6,7 +6,7 @@ using Blauhaus.DeviceServices.Abstractions.Application;
 using Blauhaus.DeviceServices.Abstractions.DeviceInfo;
 
 namespace Blauhaus.Analytics.Xamarin;
-public class XamarinAnalyticsContext : InMemoryAnalyticsContext
+public class XamarinAnalyticsContext : SerilogAnalyticsContext
 {
     public XamarinAnalyticsContext(IDeviceInfoService deviceInfoService, IApplicationInfoService applicationInfoService)
     {

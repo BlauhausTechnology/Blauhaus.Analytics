@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Blauhaus.Analytics.Abstractions.Attributes;
 using Blauhaus.Errors;
@@ -11,20 +12,23 @@ namespace Blauhaus.Analytics.Abstractions.Extensions;
 public static class LoggerExtensions
 {
 
-    public static ILogger LogError(this ILogger logger, Error error, Exception? e = null)
+    public static ILogger LogError(this ILogger logger, Error error, Exception? e = null, 
+        [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0)
     {
-        logger.LogError(e, error.ToString());
+        logger.LogError(e, "{Code} : {Description} in {Caller} on line {LineNumber}", error.Code, error.Description, memberName, sourceLineNumber);
         return logger;
     }
 
-    public static Response<T> LogErrorResponse<T>(this ILogger logger, Error error, Exception? e = null)
+    public static Response<T> LogErrorResponse<T>(this ILogger logger, Error error, Exception? e = null,
+        [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0)
     {
-        LogError(logger, error, e);
+        LogError(logger, error, e, memberName, sourceLineNumber);
         return Response.Failure<T>(error);
     } 
-    public static Response LogErrorResponse(this ILogger logger, Error error, Exception? e = null)
+    public static Response LogErrorResponse(this ILogger logger, Error error, Exception? e = null,
+        [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0)
     {
-        LogError(logger, error, e);
+        LogError(logger, error, e, memberName, sourceLineNumber);
         return Response.Failure(error);
     }
     

@@ -15,7 +15,7 @@ public static class LoggerExtensions
     public static ILogger LogError(this ILogger logger, Error error, Exception? e = null, 
         [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0)
     {
-        logger.LogError(e, "{Code} : {Description} in {Caller} on line {LineNumber}", error.Code, error.Description, memberName, sourceLineNumber);
+        logger.LogError(e, " *** {Code} *** {Description} in {Caller} on line {LineNumber}", error.Code, error.Description, memberName, sourceLineNumber);
         return logger;
     }
 

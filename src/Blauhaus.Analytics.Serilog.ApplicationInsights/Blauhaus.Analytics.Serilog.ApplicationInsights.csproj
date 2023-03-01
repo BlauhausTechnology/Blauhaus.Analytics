@@ -14,4 +14,8 @@
     <ProjectReference Include="..\Blauhaus.Analytics.Serilog\Blauhaus.Analytics.Serilog.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Include=".Ioc\ServiceCollectionExtensions.cs" />
+  </ItemGroup>
+
 </Project>

@@ -186,9 +186,16 @@ namespace Blauhaus.Analytics.Serilog
          
         public void Trace(object sender, string message, LogSeverity logSeverity = LogSeverity.Verbose, Dictionary<string, object> properties = null, string callingMember = "")
         {
-            
-            GetLogger(sender, properties)
-                .Write(logSeverity.ToLogEventLevel(),message);
+            var logger = GetLogger(sender, properties);
+            if (logSeverity == LogSeverity.Information)
+            {
+                logger.Information(message);
+            }
+            else if (logSeverity == LogSeverity.Warning)
+            {
+                logger.Warning(message);
+            }
+            logger.Verbose(message);
         }
 
         public void LogEvent(object sender, string eventName, Dictionary<string, object> properties = null, string callingMember = "")
@@ -240,16 +247,16 @@ namespace Blauhaus.Analytics.Serilog
                     logger = logger.ForContext("AccountId", currentSession.AccountId);
 
                 if(!string.IsNullOrEmpty(currentSession.AppVersion))
-                    logger = logger.ForContext("UserId", currentSession.AppVersion);
+                    logger = logger.ForContext("AppVersion", currentSession.AppVersion);
 
                 if(currentSession.DeviceType!=null && !string.IsNullOrEmpty(currentSession.DeviceType.Value))
-                    logger = logger.ForContext("UserId", currentSession.DeviceType.Value);
+                    logger = logger.ForContext("DeviceType", currentSession.DeviceType.Value);
 
                 if(currentSession.Platform!=null && !string.IsNullOrEmpty(currentSession.Platform.Value))
-                    logger = logger.ForContext("UserId", currentSession.Platform.Value);
+                    logger = logger.ForContext("Platform", currentSession.Platform.Value);
 
                 if(!string.IsNullOrEmpty(currentSession.OperatingSystemVersion))
-                    logger = logger.ForContext("UserId", currentSession.OperatingSystemVersion);
+                    logger = logger.ForContext("OperatingSystemVersion", currentSession.OperatingSystemVersion);
             }
 
             if (properties != null)

@@ -15,6 +15,6 @@ public class AnalyticsTelemetryConverter : TraceTelemetryConverter
         base.ForwardPropertiesToTelemetryProperties(logEvent, telemetryProperties, formatProvider,
             includeLogLevel: true,
             includeRenderedMessage: true,
-            includeMessageTemplate: false);
+            includeMessageTemplate: true);
     }
 }

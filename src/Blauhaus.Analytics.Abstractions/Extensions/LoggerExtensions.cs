@@ -42,8 +42,8 @@ public static class LoggerExtensions
         }
         return new LoggerTimer(duration =>
         {
-            newArgs[newArgs.Length - 1] = duration;
-            messageTemplate += " Duration: {Duration}";
+            newArgs[newArgs.Length - 1] = Math.Round(duration.TotalMilliseconds,2);
+            messageTemplate += " in {Duration}ms";
             logger.Log(LogLevel.Debug, messageTemplate, newArgs);
         });
     }

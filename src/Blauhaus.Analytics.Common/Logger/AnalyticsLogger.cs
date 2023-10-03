@@ -61,8 +61,8 @@ public class AnalyticsLogger<T> : IAnalyticsLogger<T>
         }
         return new LoggerTimer(duration =>
         {
-            newArgs[newArgs.Length - 1] = duration;
-            messageTemplate += " in {Duration}";
+            newArgs[newArgs.Length - 1] = Math.Round(duration.TotalMilliseconds,2);
+            messageTemplate += " in {Duration}ms";
             _logger.Log(logLevel, messageTemplate, newArgs);
             scope.Dispose();
         });
@@ -71,11 +71,15 @@ public class AnalyticsLogger<T> : IAnalyticsLogger<T>
     public IDisposable LogTimed(LogLevel logLevel, string messageTemplate, params object[] args)
     {
         var newArgs = new object[args.Length+1];
+        for (var i = 0; i < args.Length; i++)
+        {
+            newArgs[i] = args[i];
+        }
 
         return new LoggerTimer(duration =>
         {
-            newArgs[newArgs.Length - 1] = duration;
-            messageTemplate += " in {Duration}";
+            newArgs[newArgs.Length - 1] = Math.Round(duration.TotalMilliseconds,2);
+            messageTemplate += " in {Duration}ms";
             _logger.Log(logLevel, messageTemplate, newArgs);
         });
     }

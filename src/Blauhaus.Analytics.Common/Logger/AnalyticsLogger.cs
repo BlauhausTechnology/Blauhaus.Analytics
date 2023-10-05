@@ -6,14 +6,24 @@ using Microsoft.Extensions.Logging;
 
 namespace Blauhaus.Analytics.Common.Logger;
 
-public class AnalyticsLogger<T> : IAnalyticsLogger<T>
+public class AnalyticsLogger<T> : AnalyticsLogger, IAnalyticsLogger<T>
 {
-    private readonly ILogger<T> _logger;
+    public AnalyticsLogger(
+        ILoggerProvider loggerProvider, 
+        IAnalyticsContext analyticsContext) 
+            : base(typeof(T).Name, loggerProvider, analyticsContext)
+    {
+    }
+}
+
+public class AnalyticsLogger : IAnalyticsLogger
+{
+    private readonly ILogger _logger;
     private readonly IAnalyticsContext _analyticsContext;
 
-    public AnalyticsLogger(ILogger<T> logger, IAnalyticsContext analyticsContext)
+    public AnalyticsLogger(string categoryName, ILoggerProvider loggerProvider, IAnalyticsContext analyticsContext)
     {
-        _logger = logger;
+        _logger = loggerProvider.CreateLogger(categoryName);
         _analyticsContext = analyticsContext;
     }
 

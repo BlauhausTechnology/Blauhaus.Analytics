@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Blauhaus.DeviceServices.Abstractions" Version="1.4.0" />
     <PackageReference Include="Blauhaus.TestHelpers" Version="1.4.4" />
     <PackageReference Include="nunit" Version="4.2.2" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.6.0">
@@ -28,6 +29,5 @@
     <ProjectReference Include="..\Blauhaus.Analytics.AspNetCore\Blauhaus.Analytics.AspNetCore.csproj" />
     <ProjectReference Include="..\Blauhaus.Analytics.Common\Blauhaus.Analytics.Common.csproj" />
     <ProjectReference Include="..\Blauhaus.Analytics.Console\Blauhaus.Analytics.Console.csproj" />
-    <ProjectReference Include="..\Blauhaus.Analytics.Xamarin\Blauhaus.Analytics.Xamarin.csproj" />
   </ItemGroup>
 </Project>

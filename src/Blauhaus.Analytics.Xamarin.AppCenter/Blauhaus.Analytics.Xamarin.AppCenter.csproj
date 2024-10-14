@@ -15,8 +15,4 @@
     <PackageReference Include="Microsoft.AppCenter.Crashes" Version="5.0.5" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Blauhaus.Analytics.Xamarin\Blauhaus.Analytics.Xamarin.csproj" />
-  </ItemGroup>
-
 </Project>

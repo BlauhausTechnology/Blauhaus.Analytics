@@ -2,7 +2,6 @@
 using Blauhaus.TestHelpers.MockBuilders;
 using Microsoft.Extensions.Logging;
 using Moq;
-using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
